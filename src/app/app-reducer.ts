@@ -5,7 +5,7 @@ const initState = {
     isLoading: false
 }
 
-export const loadingReducer = (state: initStateType = initState, action: LoadingActionType): initStateType => {
+export const appReducer = (state: initStateType = initState, action: LoadingActionType): initStateType => {
     switch (action.type) {
         case "CHANGE_LOADING": {
             return {...state, isLoading: action.isLoading}
