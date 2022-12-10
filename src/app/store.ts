@@ -1,15 +1,19 @@
 import { appReducer } from './app-reducer'
-import { combineReducers, legacy_createStore } from 'redux'
+import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 'redux'
+import thunk, { ThunkDispatch } from 'redux-thunk'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 const reducers = combineReducers({
-    loading: appReducer,
+  app: appReducer,
 })
 
-const store = legacy_createStore(reducers)
+const store = legacy_createStore(reducers, applyMiddleware(thunk))
 
 export default store
 
 export type AppStoreType = ReturnType<typeof reducers>
+export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStoreType, unknown, AnyAction>>()
+export const useAppSelector: TypedUseSelectorHook<AppStoreType> = useSelector
 
 // @ts-ignore
 window.store = store // for dev // для того чтобы автотесты видели состояние данных
