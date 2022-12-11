@@ -1,15 +1,13 @@
-export type initStateType = {
-    isLoading: boolean
-}
-const initState = {
-    isLoading: false
+const initialState: InitialStateType = {
+    status: 'idle',
+    error: null,
+    isInitialized: false
 }
 
-export const appReducer = (state: initStateType = initState, action: LoadingActionType): initStateType => {
+export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "CHANGE_LOADING": {
-            return {...state, isLoading: action.isLoading}
-        }
+        case 'APP/SET-ERROR':
+            return {...state, error: action.error}
         default:
             return state
     }
@@ -19,7 +17,13 @@ type LoadingActionType = {
     type: 'CHANGE_LOADING'
     isLoading: boolean
 }
-
+export type InitialStateType = {
+    // происходит ли сейчас взаимодействие с сервером
+    status: RequestStatusType
+    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
+    error: string | null
+    isInitialized: boolean
+}
 export const loadingAC = (isLoading: boolean): LoadingActionType => ({
     type: 'CHANGE_LOADING',
     isLoading
@@ -31,3 +35,7 @@ export const setInitialized = (isInitialized:boolean)=>({type: 'APP/INITIALIZED'
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type setInitializedType = ReturnType<typeof setInitialized>
+type ActionsType =
+    | SetAppErrorActionType
+    | SetAppStatusActionType
+    | setInitializedType

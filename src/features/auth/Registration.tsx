@@ -3,8 +3,9 @@ import style  from './Registration.module.css'
 import {Button, Link, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {Grid} from "@material-ui/core";
-import {useAppDispatch} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 import {RegistrationTC} from "./auth-reducer";
+import {Navigate} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -14,7 +15,7 @@ type FormikErrorType = {
 }
 export function Registration () {
     const dispatch = useAppDispatch()
-
+    const id_registration = useAppSelector((state)=>state.auth.addedUser._id)
 
     const formik = useFormik({
         initialValues: {
@@ -44,6 +45,9 @@ export function Registration () {
             dispatch(RegistrationTC(values.email,values.password))
         },
     })
+     if(id_registration){
+         return <Navigate to={'/login'}/>
+     }
 
     return (
         <Grid container justifyContent={'center'} className={style.container}>
