@@ -50,8 +50,8 @@ export function Registration () {
      }
 
     return (
-        <Grid container justifyContent={'center'} className={style.container}>
-            <Grid item justifyContent={'center'} className={style.registration}>
+        <Grid container  className={style.container}>
+            <Grid item  className={style.registration}>
             <h1 className={style.sing_up}>Sing up</h1>
             <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -59,7 +59,7 @@ export function Registration () {
                 required
                 id="standard-required"
                 label="Email"
-                defaultValue=""
+
                 variant="standard"
                 {...formik.getFieldProps('email')}
                 onBlur={formik.handleBlur}/>
@@ -71,7 +71,7 @@ export function Registration () {
                 required
                 id="standard-required"
                 label="Password"
-                defaultValue=""
+
                 variant="standard"
                 type="password"
                 {...formik.getFieldProps('password')}
@@ -84,7 +84,7 @@ export function Registration () {
                 required
                 id="standard-required"
                 label="Confirm password"
-                defaultValue=""
+
                 variant="standard"
                 type="password"
                 {...formik.getFieldProps('confirm_password')}
