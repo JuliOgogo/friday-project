@@ -1,0 +1,57 @@
+.container{
+    height: 100%;
+    width: 80%;
+    display: flex;
+
+    margin-top: 60px;
+
+}
+.registration{
+    background: #FFFFFF;
+    border: 1px solid  red;
+    position: absolute;
+    width: 413px;
+    height: 528px;
+    left: 434px;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+}
+.sing_up{
+    text-align: center;
+}
+.input_registration{
+    margin-top: 41px;
+    width: 347px;
+    height: 48px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+}
+.input_registration_password{
+    margin-top: 24px;
+}
+.button_sing_up{
+    padding-top: 41px;
+    width: 347px;
+    height: 36px;
+}
+.style.already{
+    width: 186px;
+    height: 24px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    /* identical to box height, or 171% */
+
+    text-align: center;
+
+    color: #000000;
+
+    opacity: 0.5;
+}

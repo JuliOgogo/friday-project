@@ -1,7 +1,7 @@
 import React from 'react'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import { Login } from './pages/Login';
-import {Registration} from "./pages/Registration";
+import {Registration} from "../auth/Registration";
 import {Profile} from "./pages/Profile";
 import Error404 from './pages/Error404'
 import {PasswordRecovery} from "./pages/PasswordRecovery";
@@ -20,6 +20,7 @@ function Pages() {
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/passwordRecovery'} element={<PasswordRecovery/>}/>
                 <Route path={'/newPassword'} element={<NewPassword/>}/>
+
                 <Route path={'/404'} element={<Error404/>}/>
 
                 <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
