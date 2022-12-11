@@ -10,7 +10,6 @@ import {TestStand} from "./pages/TestStand";
 
 function Pages() {
     return (
-        <div>
             <Routes>
                 <Route path={'/'} element={<Navigate to={'/test'}/>}/>
 
@@ -25,7 +24,6 @@ function Pages() {
 
                 <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
             </Routes>
-        </div>
     )
 }
 

@@ -2,20 +2,17 @@
     height: 100%;
     width: 80%;
     display: flex;
-
     margin-top: 60px;
-
 }
 .registration{
+    width: 528px;
+    height: 500px;
     background: #FFFFFF;
-    border: 1px solid  red;
-    position: absolute;
-    width: 413px;
-    height: 528px;
-    left: 434px;
-    top: 120px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 23px;
 }
 .sing_up{
     text-align: center;

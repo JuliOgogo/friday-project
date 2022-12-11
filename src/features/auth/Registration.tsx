@@ -1,18 +1,21 @@
 import React from "react";
 import style  from './Registration.module.css'
 import {Button, Link, TextField} from "@mui/material";
-
 import {useFormik} from "formik";
+import {Grid} from "@material-ui/core";
+import {useAppDispatch} from "../../app/store";
+import {RegistrationTC} from "./auth-reducer";
 
-
-type RegistrationPropsType = {}
 
 type FormikErrorType = {
     email?: string
     password?: string
-    confirm_password?: boolean
+    confirm_password?: string
 }
 export function Registration () {
+    const dispatch = useAppDispatch()
+
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -28,19 +31,23 @@ export function Registration () {
             }
             if(!values.password){
                 errors.password= 'Required'
-            }else if ( values.password.length < 3 ){
-                errors.password = "bad Password"
+            }else if ( values.password.length < 7 ){
+                errors.password = "Password must be more than 7 characters..."
+            }
+            if(values.password !== values.confirm_password){
+                errors.confirm_password = 'Passwords do not match.'
             }
             return errors;
         },
         onSubmit: values => {
             alert(JSON.stringify(values));
+            dispatch(RegistrationTC(values.email,values.password))
         },
     })
 
     return (
-        <div className={style.container}>
-        <div className={style.registration}>
+        <Grid container justifyContent={'center'} className={style.container}>
+            <Grid item justifyContent={'center'} className={style.registration}>
             <h1 className={style.sing_up}>Sing up</h1>
             <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -52,6 +59,7 @@ export function Registration () {
                 variant="standard"
                 {...formik.getFieldProps('email')}
                 onBlur={formik.handleBlur}/>
+                { formik.errors.email ? <div style={{color:'red'}}> {formik.errors.email}</div>: null}
 
             <br/>
             <TextField
@@ -65,6 +73,7 @@ export function Registration () {
                 {...formik.getFieldProps('password')}
                 onBlur={formik.handleBlur}
             />
+                { formik.errors.password ? <div style={{color:'red'}}> {formik.errors.password}</div>: null}
             <br/>
             <TextField
                 className={style.input_registration}
@@ -77,12 +86,14 @@ export function Registration () {
                 {...formik.getFieldProps('confirm_password')}
                 onBlur={formik.handleBlur}
             />
-            <Button variant="contained"
+                { formik.errors.confirm_password ? <div style={{color:'red'}}> {formik.errors.confirm_password}</div>: null}
+                <br/>
+            <Button variant="contained" type={'submit'}
                     className={style.button_sing_up}>Sing Up</Button>
             </form>
             <p className={style.already}> Already have an account?</p>
             <Link href="#">Link</Link>
-        </div>
-        </div>
+            </Grid>
+        </Grid>
     )
 }
