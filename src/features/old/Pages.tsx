@@ -1,6 +1,6 @@
 import React from 'react'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import { Login } from './pages/Login';
+import { Login } from '../auth/login/Login';
 import {Registration} from "./pages/Registration";
 import {Profile} from "./pages/Profile";
 import Error404 from './pages/Error404'
