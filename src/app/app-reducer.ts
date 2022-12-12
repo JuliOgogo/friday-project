@@ -1,26 +1,29 @@
-export type initStateType = {
-    isLoading: boolean
-}
-const initState = {
-    isLoading: false
+const initialState = {
+    isLoading: false,
+    status: "loading" as RequestStatusType,
+    error: null as null | string
 }
 
-export const appReducer = (state: initStateType = initState, action: LoadingActionType): initStateType => {
+export const appReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
-        case "CHANGE_LOADING": {
-            return {...state, isLoading: action.isLoading}
-        }
+        case "APP/SET-STATUS":
+            return {...state, status: action.status}
+        case "APP/SET-ERROR":
+            return {...state, error: action.value}
         default:
             return state
     }
 }
 
-type LoadingActionType = {
-    type: 'CHANGE_LOADING'
-    isLoading: boolean
-}
+///----------- actions creators -----------\\\
+export const setAppStatusAC = (status: RequestStatusType) => ({type: "APP/SET-STATUS", status} as const)
+export const setAppErrorAC = (value: string | null) => ({type: "APP/SET-ERROR", value} as const)
 
-export const loadingAC = (isLoading: boolean): LoadingActionType => ({
-    type: 'CHANGE_LOADING',
-    isLoading
-})
+///----------- types -----------\\\
+export type initialStateType = typeof initialState
+export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
+export type SetAppStatusType = ReturnType<typeof setAppStatusAC>
+export type SetAppErrorType = ReturnType<typeof setAppErrorAC>
+type ActionsType = SetAppStatusType | SetAppErrorType
+
+

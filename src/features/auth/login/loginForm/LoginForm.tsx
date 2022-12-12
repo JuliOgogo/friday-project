@@ -1,13 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import style from "./LoginForm.module.css"
-import {Form, useFormik} from "formik";
-import {Button, Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
+import {useFormik} from "formik";
+import {Button, Checkbox, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../../../app/store";
+import {loginTC} from "../../auth-reducer";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+
 
 export const LoginForm = () => {
-    //const dispatch = useAppDispatch
-    //const isLoggedIn
+    const dispatch = useAppDispatch()
+    const [showPassword, setShowPassword] = useState(false);
+
+    const onClickShowPassword = (): void => {
+        setShowPassword(!showPassword);
+    };
     const formik = useFormik(
         {
             initialValues: {
@@ -15,7 +22,7 @@ export const LoginForm = () => {
                 password: "",
                 rememberMe: false,
             },
-            validate: (values: LoginFormDataType) => {
+            validate: (values: LoginDataType) => {
                 const errors: FormikErrorType = {}
                 if (!values.email) {
                     errors.email = "Required"
@@ -29,42 +36,50 @@ export const LoginForm = () => {
                 }
                 return errors
             },
-            onSubmit: (values: LoginFormDataType) => {
-                //dispatch(loginTC(values))
-                //formik.resetForm()
+            onSubmit: (values: LoginDataType) => {
+                dispatch(loginTC(values))
+                formik.resetForm()
             },
         }
     )
 //console.log(formik.values)
-//     console.log(formik.errors)
+//console.log(formik.errors)
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormGroup>
-                <TextField {...formik.getFieldProps("email")}
-                           label="Email"
+                <TextField label="Email"
                            size={"small"}
                            margin={"normal"}
-                           variant={"standard"}/>
+                           variant={"standard"}
+                           {...formik.getFieldProps("email")}/>
                 {formik.errors.email &&
                     <div className={style.error}>
                         {formik.touched.email && formik.errors.email}
                     </div>}
-                <TextField {...formik.getFieldProps("password")}
-                           label="Password"
+                <TextField label="Password"
                            type={"password"}
                            size={"small"}
                            margin={"normal"}
-                           variant={"standard"}/>
+                           variant={"standard"}
+                           {...formik.getFieldProps("password")}/>
+                {/*{*/}
+                {/*    <InputAdornment position="end">*/}
+                {/*        <IconButton*/}
+                {/*            aria-label="toggle password visibility"*/}
+                {/*            onClick={onClickShowPassword}*/}
+                {/*        >*/}
+                {/*            {showPassword ? <VisibilityOff /> : <Visibility />}*/}
+                {/*        </IconButton>*/}
+                {/*    </InputAdornment>*/}
+                {/*}*/}
                 {formik.touched.password && formik.errors.password &&
                     <div className={style.error}>
                         {formik.errors.password}
                     </div>}
                 <div className={style.checkbox}>
                     <FormControlLabel label={"Remember me"}
-                                      control={<Checkbox
-                                          name={"rememberMe"}
-                                          onChange={formik.handleChange}
-                                          checked={formik.values.rememberMe}/>}/>
+                                      control={<Checkbox checked={formik.values.rememberMe}
+                                                         {...formik.getFieldProps("rememberMe")}/>}/>
                 </div>
                 <div className={style.linkPassword}>
                     <NavLink to={"/passwordRecovery"}>Forgot password?</NavLink>
@@ -79,7 +94,6 @@ export const LoginForm = () => {
                     }}>Sign In</Button>
 
                 <div className={style.textRegister}>Dont have an account?</div>
-
                 <div className={style.linkRegister}>
                     <NavLink to={"/registration"}>Sign Up</NavLink>
                 </div>
@@ -90,7 +104,7 @@ export const LoginForm = () => {
 
 
 ///----------- types -----------\\\
-export type LoginFormDataType = {
+export type LoginDataType = {
     email: string,
     password: string,
     rememberMe: boolean
