@@ -18,8 +18,8 @@ function Pages() {
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/registration'} element={<Registration/>}/>
                 <Route path={'/profile'} element={<Profile/>}/>
-                <Route path={'/passwordRecovery'} element={<ForgotPassword/>}/>
-                <Route path={'/newPassword'} element={<NewPassword/>}/>
+                <Route path={'/forgot-password'} element={<ForgotPassword/>}/>
+                <Route path={'/new-password'} element={<NewPassword/>}/>
                 <Route path={'/404'} element={<Error404/>}/>
 
                 <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
