@@ -7,16 +7,16 @@ import {authMeTC} from "../features/auth/auth-reducer";
 import {ErrorSnackbar} from "../common/ErrorSnackbar/ErroSnackbar";
 
 function App() {
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(authMeTC())
-    }, [dispatch])
-    let isInitialized = useAppSelector(state => state.app.isInitialized)
-
-    if (!isInitialized) {
-        return (<Preloader/>)
-    }
+    // useEffect(() => {
+    //     dispatch(authMeTC())
+    // }, [dispatch])
+    // let isInitialized = useAppSelector(state => state.app.isInitialized)
+    //
+    // if (!isInitialized) {
+    //     return (<Preloader/>)
+    // }
     return (
         <div className="App">
             <ErrorSnackbar/>

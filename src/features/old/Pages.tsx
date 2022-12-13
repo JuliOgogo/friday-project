@@ -7,7 +7,7 @@ import { PasswordRecovery } from './pages/PasswordRecovery'
 import { NewPassword } from './pages/NewPassword'
 import { TestStand } from './pages/TestStand'
 import { Login } from '../auth/login/Login'
-import { Registration } from '../auth/Registration'
+import { Registration } from '../auth/registration/Registration'
 
 function Pages() {
   return (
