@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined'
 import { Button, TextField } from '@mui/material'
 
 type EditableSpanPropsType = {
@@ -24,7 +25,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
   }
 
   return editMode ? (
-    <div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <TextField
         variant="standard"
         label={'Nickname'}
@@ -36,6 +37,9 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
       <Button variant="contained">Save</Button>
     </div>
   ) : (
-    <span onDoubleClick={activateEditMode}>{props.value}</span>
+    <label onDoubleClick={activateEditMode}>
+      <span>{props.value}</span>
+      <BorderColorOutlinedIcon color="action" sx={{ marginLeft: '5px', fontSize: '20px' }} />
+    </label>
   )
 })
