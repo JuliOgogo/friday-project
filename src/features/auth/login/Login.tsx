@@ -9,9 +9,10 @@ import style from './Login.module.css'
 import { LoginForm } from './loginForm/LoginForm'
 
 export const Login = () => {
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector(state => state.auth.LoginParams._id)
 
-  if (isLoggedIn) return <Navigate to={'/profile'} />
+  console.log(isLoggedIn)
+  if (isLoggedIn) return <Navigate to={'/404'} />
 
   return (
     <Paper elevation={3} className={style.loginContainer}>
