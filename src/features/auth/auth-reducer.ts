@@ -32,15 +32,17 @@ export const authReducer = (
   action: ActionsType
 ): InitialStateType => {
   switch (action.type) {
-    case 'auth/AUTH_ME': {
+    case 'auth/AUTH_ME':
       return { ...state, ...action.payload }
-    }
-    case 'auth/LOGIN':
-      return { ...state, LoginParams: action.payload }
-    case 'auth/SET-ERROR':
-      return { ...state, error: action.error }
     case 'auth/REGISTRATION':
       return { ...state, isRegistration: action.isRegistration }
+    case 'auth/LOGIN':
+      return { ...state, LoginParams: action.payload }
+    case 'auth/LOGOUT':
+      return { ...state, LoginParams: {} as AuthResponseType }
+    case 'auth/SET-ERROR':
+      return { ...state, error: action.error }
+
     default:
       return state
   }
@@ -53,27 +55,27 @@ export const authMeAC = (payload: AuthResponseType) => {
     payload,
   } as const
 }
-export const setLoginDataAC = (payload: AuthResponseType) =>
-  ({ type: 'auth/LOGIN', payload } as const)
-export const setAuthError = (error: string | null) => ({ type: 'auth/SET-ERROR', error } as const)
 export const registration = (isRegistration: boolean) =>
   ({ type: 'auth/REGISTRATION', isRegistration } as const)
-export type SetAuthErrorType = ReturnType<typeof setAuthError>
-export type RegistrationType = ReturnType<typeof registration>
+export const setLoginDataAC = (payload: AuthResponseType) =>
+  ({ type: 'auth/LOGIN', payload } as const)
+export const setLogoutDataAC = () => ({ type: 'auth/LOGOUT' } as const)
+export const setAuthError = (error: string | null) => ({ type: 'auth/SET-ERROR', error } as const)
 
 ///----------- thunks creators -----------\\\
-export const authMeTC = (): RootThunkType => async (dispatch: Dispatch<ActionsType>) => {
+/*export const authMeTC = (): RootThunkType => async (dispatch: Dispatch<ActionsType>) => {
   setAppStatusAC('loading')
   try {
     const responce = await authAPI.me()
 
     dispatch(authMeAC(responce.data))
   } catch (e) {
+    return
   } finally {
     setAppStatusAC('idle')
     dispatch(setAppIsInitializedAC(true))
   }
-}
+}*/
 
 export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<ActionsType>) => {
   dispatch(setAppStatusAC('loading'))
@@ -129,9 +131,12 @@ export const registrationTC = (email: string, password: string) => {
 }
 ///----------- types -----------\\\
 // type InitialStateType = typeof initialState
+export type SetAuthErrorType = ReturnType<typeof setAuthError>
+export type RegistrationType = ReturnType<typeof registration>
 type ActionsType =
   | ReturnType<typeof authMeAC>
   | ReturnType<typeof setLoginDataAC>
+  | ReturnType<typeof setLogoutDataAC>
   | SetAppStatusType
   | SetAppErrorType
   | SetIsInitializedAppType

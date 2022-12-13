@@ -4,9 +4,13 @@ import './App.css'
 import { AppBar, Container } from '@material-ui/core'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import { Preloader } from '../common/components/preloader/Preloader'
+import { Login } from '../features/auth/login/Login'
+import { Registration } from '../features/auth/Registration'
 import { Profile } from '../features/profile/Profile'
 
 import itIncubatorLogo from './itIncubatorLogo.svg'
+import { useAppSelector } from './store'
 
 function App() {
   // const dispatch = useAppDispatch()
@@ -17,7 +21,7 @@ function App() {
 
   let isInitialized = useAppSelector(state => state.app.isInitialized)
 
-  if (!isInitialized) {
+  if (isInitialized) {
     return <Preloader />
   }
 
@@ -34,6 +38,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to={'/profile'} />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path={'/login'} element={<Login />} />
+          <Route path={'/registration'} element={<Registration />} />
           <Route
             path="/404"
             element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}

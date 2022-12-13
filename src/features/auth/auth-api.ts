@@ -26,12 +26,11 @@ export const authAPI = {
   },
 }
 
+///----------- types -----------\\\
 export type LogoutResponseType = {
   info: string
   error: string
 }
-
-///----------- types -----------\\\
 type RegistrationResponseType = {
   addedUser: addedUserType
   error?: Error | AxiosError

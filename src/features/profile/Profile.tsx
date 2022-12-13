@@ -13,8 +13,8 @@ type ProfilePropsType = {}
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
   const [value, setValue] = useState('Ivan')
 
-  // const nickName = useAppSelector(state => state.auth.)
-  // const email = useAppSelector(state => state.auth.)
+  const nickName = useAppSelector(state => state.auth.LoginParams.name)
+  const email = useAppSelector(state => state.auth.LoginParams.email)
 
   return (
     <div>
@@ -28,10 +28,10 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
         <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96 }} />
 
         <div className={s.editableSpan}>
-          <EditableSpan value={value} onChange={setValue} />
+          <EditableSpan value={nickName} onChange={setValue} />
         </div>
 
-        <div className={s.email}>j&johnson@gmail.com</div>
+        <div className={s.email}>{email}</div>
 
         <Button variant="outlined">Log out</Button>
       </div>

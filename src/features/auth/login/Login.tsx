@@ -11,8 +11,7 @@ import { LoginForm } from './loginForm/LoginForm'
 export const Login = () => {
   const isLoggedIn = useAppSelector(state => state.auth.LoginParams._id)
 
-  console.log(isLoggedIn)
-  if (isLoggedIn) return <Navigate to={'/404'} />
+  if (isLoggedIn) return <Navigate to={'/profile'} />
 
   return (
     <Paper elevation={3} className={style.loginContainer}>
