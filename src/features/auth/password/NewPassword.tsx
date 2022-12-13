@@ -6,8 +6,6 @@ import {useAppDispatch} from "../../../app/store";
 import style from "./Password.module.css"
 import { newPasswordTC } from "../auth-reducer";
 
-type NewPasswordRecoveryPropsType = {}
-
 export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
     const dispatch = useAppDispatch()
 
@@ -62,3 +60,6 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
         </form>
     )
 }
+
+// types
+type NewPasswordRecoveryPropsType = {}

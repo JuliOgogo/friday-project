@@ -36,7 +36,9 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
         },
     })
 
-    if (check) return <CheckEmail userEmail={email}/>
+    if (check) {
+        return <CheckEmail userEmail={email} />
+    }
 
     return (
         <form onSubmit={formik.handleSubmit} className={style.container}>
