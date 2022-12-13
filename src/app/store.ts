@@ -2,7 +2,7 @@ import { appReducer } from './app-reducer'
 import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 'redux'
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import {PasswordActionsType, passwordReducer} from "../features/old/pages/password/password-reducer";
+import {PasswordActionsType, passwordReducer} from "../features/auth/password/password-reducer";
 
 const reducers = combineReducers({
   app: appReducer,

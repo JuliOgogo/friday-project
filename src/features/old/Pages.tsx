@@ -4,8 +4,8 @@ import { Login } from './pages/Login';
 import {Registration} from "./pages/Registration";
 import {Profile} from "./pages/Profile";
 import Error404 from './pages/Error404'
-import {PasswordRecovery} from "./pages/password/PasswordRecovery";
-import {NewPassword} from "./pages/password/NewPassword";
+import {PasswordRecovery} from "../auth/password/PasswordRecovery";
+import {NewPassword} from "../auth/password/NewPassword";
 import {TestStand} from "./pages/TestStand";
 
 function Pages() {

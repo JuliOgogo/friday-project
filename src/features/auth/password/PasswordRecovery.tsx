@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, FormGroup, TextField} from "@mui/material";
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../../../app/store";
+import {useAppDispatch, useAppSelector} from "../../../app/store";
 import {forgotTC} from "./password-reducer";
 import {CheckEmail} from "./CheckEmail";
 import style from "./Password.module.css";

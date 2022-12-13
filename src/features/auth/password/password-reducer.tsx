@@ -1,5 +1,5 @@
-import {authAPI} from "../../../auth/auth-api";
-import {AppThunk} from "../../../../app/store";
+import {authAPI} from "../auth-api";
+import {AppThunk} from "../../../app/store";
 
 
 const initialState = {
