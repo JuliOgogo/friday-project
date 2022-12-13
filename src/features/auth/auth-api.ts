@@ -27,11 +27,11 @@ export const authAPI = {
 };
 
 ///----------- types -----------\\\
-
 type RegistrationResponseType = {
   addedUser: AddedUserType;
   error?: Error | AxiosError;
 };
+// return instance.get("ping") //проверка пингуется или нет
 type AddedUserType = {
   _id: string;
   email: string;
