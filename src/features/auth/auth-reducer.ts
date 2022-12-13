@@ -18,7 +18,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         case 'auth/AUTH_ME': {
             return {...state, ...action.payload}
         }
-        case "AUTH/LOGIN":
+        case "auth/LOGIN":
             return {...state, ...action.payload}
         default:
             return state
@@ -33,7 +33,7 @@ export const authMeAC = (payload: AuthResponseType) => {
     } as const
 }
 export const setLoginDataAC = (payload: AuthResponseType) =>
-    ({type: "AUTH/LOGIN", payload} as const)
+    ({type: "auth/LOGIN", payload} as const)
 
 ///----------- thunks creators -----------\\\
 export const authMeTC = (): RootThunkType => async (dispatch: Dispatch<ActionsType>) => {
