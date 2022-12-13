@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 
 import { useAppDispatch } from '../../../../app/store'
 import { LoginDataType } from '../../auth-api'
-import { loginTC } from '../../auth-reducer'
+import { loginTC, setLoginTC } from '../../auth-reducer'
 
 import style from './LoginForm.module.css'
 
@@ -36,7 +36,7 @@ export const LoginForm = () => {
       return errors
     },
     onSubmit: (values: LoginDataType) => {
-      dispatch(loginTC(values))
+      dispatch(setLoginTC(values))
       formik.resetForm()
     },
   })
