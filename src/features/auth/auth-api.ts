@@ -18,6 +18,9 @@ export const authAPI = {
       email, form: 'test-front-admin <ai73a@yandex.by>', message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/login#/password/new-password/$token$'>link</a> </div>`
     })
   },
+  newPassword(payload: newPasswordParamsType) {
+    return instance.post<newPasswordParamsType, AxiosResponse<forgotResponseType>>('/auth/set-new-password', payload)
+  },
 }
 
 
@@ -30,4 +33,8 @@ type forgotParamsType = {
   email: string
   from: string
   message: string
+}
+type newPasswordParamsType = {
+  password: string
+  resetPasswordToken: string
 }
