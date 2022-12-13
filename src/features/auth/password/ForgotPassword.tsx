@@ -2,14 +2,14 @@ import React from "react";
 import {Button, FormGroup, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {forgotTC} from "./password-reducer";
+import { forgotTC } from "../auth-reducer";
 import {CheckEmail} from "./CheckEmail";
 import style from "./Password.module.css";
 
-export const PasswordRecovery: React.FC<PasswordRecoveryPropsType> = ({}) => {
+export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
     const dispatch = useAppDispatch()
-    const email = useAppSelector(state => state.password.email)
-    const check = useAppSelector(state => state.password.check)
+    const email = useAppSelector(state => state.auth.email)
+    const check = useAppSelector(state => state.auth.check)
 
     type FormikErrorType = {
         email?: string

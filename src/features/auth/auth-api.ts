@@ -7,12 +7,6 @@ export const instance = axios.create({
 })
 
 export const authAPI = {
-  login(payload: any) {
-    return instance.post('/auth/login', payload)
-  },
-  me() {
-    return instance.get('/auth/me')
-  },
   forgot(email: string) {
     return instance.post<forgotParamsType, AxiosResponse<forgotResponseType>>('/auth/forgot', {
       email, form: 'test-front-admin <ai73a@yandex.by>', message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/login#/password/new-password/$token$'>link</a> </div>`
@@ -22,7 +16,6 @@ export const authAPI = {
     return instance.post<newPasswordParamsType, AxiosResponse<forgotResponseType>>('/auth/set-new-password', payload)
   },
 }
-
 
 // types
 type forgotResponseType = {

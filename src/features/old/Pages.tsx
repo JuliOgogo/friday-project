@@ -4,7 +4,7 @@ import { Login } from './pages/Login';
 import {Registration} from "./pages/Registration";
 import {Profile} from "./pages/Profile";
 import Error404 from './pages/Error404'
-import {PasswordRecovery} from "../auth/password/PasswordRecovery";
+import {ForgotPassword} from "../auth/password/ForgotPassword";
 import {NewPassword} from "../auth/password/NewPassword";
 import {TestStand} from "./pages/TestStand";
 
@@ -18,7 +18,7 @@ function Pages() {
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/registration'} element={<Registration/>}/>
                 <Route path={'/profile'} element={<Profile/>}/>
-                <Route path={'/passwordRecovery'} element={<PasswordRecovery/>}/>
+                <Route path={'/passwordRecovery'} element={<ForgotPassword/>}/>
                 <Route path={'/newPassword'} element={<NewPassword/>}/>
                 <Route path={'/404'} element={<Error404/>}/>
 

@@ -3,8 +3,8 @@ import {Button, FormGroup, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {useParams} from "react-router-dom";
 import {useAppDispatch} from "../../../app/store";
-import {newPasswordTC} from "./password-reducer";
 import style from "./Password.module.css"
+import { newPasswordTC } from "../auth-reducer";
 
 type NewPasswordRecoveryPropsType = {}
 
