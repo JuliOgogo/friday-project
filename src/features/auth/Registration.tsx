@@ -17,6 +17,8 @@ export function Registration () {
     const dispatch = useAppDispatch()
     const id_registration = useAppSelector((state)=>state.auth.isRegistration)
 
+
+
     const formik = useFormik({
         initialValues: {
             email: '',
