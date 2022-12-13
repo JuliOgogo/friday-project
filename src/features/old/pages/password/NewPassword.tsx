@@ -1,10 +1,17 @@
 import React from "react";
 import {Button, FormGroup, TextField} from "@mui/material";
 import {useFormik} from "formik";
+import {useParams} from "react-router-dom";
+import {useAppDispatch} from "../../../../app/store";
+import {newPasswordTC} from "./password-reducer";
 
 type NewPasswordRecoveryPropsType = {}
 
 export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
+    const dispatch = useAppDispatch()
+
+    const {resetToken} = useParams<{resetToken: string}>()
+
     type FormikErrorType = {
         password?: string
     }
@@ -26,6 +33,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
         onSubmit: values => {
             alert(JSON.stringify(values))
             formik.resetForm()
+            resetToken && dispatch(newPasswordTC(values.password, resetToken))
         },
     })
 
