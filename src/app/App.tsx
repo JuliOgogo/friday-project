@@ -16,11 +16,12 @@ function App() {
   // const dispatch = useAppDispatch()
 
   /*useEffect(() => {
-        dispatch(authMeTC())
-    }, [dispatch])*/
+            dispatch(authMeTC())
+        }, [dispatch])*/
 
   let isInitialized = useAppSelector(state => state.app.isInitialized)
 
+  // ИСПРАВИТЬ ! КОГДА РАЗБЕРЕМСЯ С ЛОГИКОЙ
   if (isInitialized) {
     return <Preloader />
   }
@@ -36,10 +37,10 @@ function App() {
 
       <Container fixed style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Routes>
-          <Route path="/" element={<Navigate to={'/profile'} />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path={'/login'} element={<Login />} />
+          <Route path="/" element={<Navigate to={'/login'} />} />
           <Route path={'/registration'} element={<Registration />} />
+          <Route path={'/login'} element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/404"
             element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}

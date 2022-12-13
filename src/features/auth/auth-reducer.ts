@@ -3,12 +3,11 @@ import { Dispatch } from 'redux'
 
 import {
   SetAppErrorType,
-  setAppIsInitializedAC,
   setAppStatusAC,
   SetAppStatusType,
   SetIsInitializedAppType,
 } from '../../app/app-reducer'
-import { RootThunkType, AppThunkDispatch } from '../../app/store'
+import { AppThunkDispatch } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
 import { authAPI, AuthResponseType, LoginDataType } from './auth-api'
@@ -17,14 +16,6 @@ const initialState = {
   error: '',
   isRegistration: false,
   LoginParams: {} as AuthResponseType,
-}
-
-export type InitialStateType = {
-  // происходит ли сейчас взаимодействие с сервером
-  // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-  error: string | null
-  isRegistration: boolean
-  LoginParams: AuthResponseType
 }
 
 export const authReducer = (
@@ -76,7 +67,6 @@ export const setAuthError = (error: string | null) => ({ type: 'auth/SET-ERROR',
     dispatch(setAppIsInitializedAC(true))
   }
 }*/
-
 export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<ActionsType>) => {
   dispatch(setAppStatusAC('loading'))
   try {
@@ -94,6 +84,27 @@ export const setLoginTC = (data: LoginDataType) => async (dispatch: AppThunkDisp
     let res = await authAPI.login(data)
 
     dispatch(setLoginDataAC(res.data))
+  } catch (e) {
+    const err = e as Error | AxiosError
+
+    if (axios.isAxiosError(err)) {
+      const error = err.response?.data
+        ? (err.response.data as { error: string }).error
+        : err.message
+
+      dispatch(setAuthError(error))
+    } else {
+      dispatch(setAuthError(`Native error ${err.message}`))
+    }
+  }
+}
+export const setLogoutTC = () => async (dispatch: AppThunkDispatch) => {
+  try {
+    let res = await authAPI.logout()
+
+    if (res.data.info === 'logOut success —ฅ/ᐠ.̫ .ᐟ\\ฅ—') {
+      dispatch(setLogoutDataAC())
+    }
   } catch (e) {
     const err = e as Error | AxiosError
 
@@ -129,8 +140,16 @@ export const registrationTC = (email: string, password: string) => {
     }
   }
 }
+
 ///----------- types -----------\\\
 // type InitialStateType = typeof initialState
+export type InitialStateType = {
+  // происходит ли сейчас взаимодействие с сервером
+  // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
+  error: string | null
+  isRegistration: boolean
+  LoginParams: AuthResponseType
+}
 export type SetAuthErrorType = ReturnType<typeof setAuthError>
 export type RegistrationType = ReturnType<typeof registration>
 type ActionsType =
