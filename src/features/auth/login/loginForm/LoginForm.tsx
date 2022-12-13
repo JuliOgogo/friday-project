@@ -1,20 +1,16 @@
-import React, {useState} from "react";
+import React from "react";
 import style from "./LoginForm.module.css"
 import {useFormik} from "formik";
-import {Button, Checkbox, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, FormGroup, TextField} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../../../app/store";
 import {loginTC} from "../../auth-reducer";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {LoginDataType} from "../../auth-api";
 
 
 export const LoginForm = () => {
     const dispatch = useAppDispatch()
-    const [showPassword, setShowPassword] = useState(false);
 
-    const onClickShowPassword = (): void => {
-        setShowPassword(!showPassword);
-    };
     const formik = useFormik(
         {
             initialValues: {
@@ -44,6 +40,8 @@ export const LoginForm = () => {
     )
 //console.log(formik.values)
 //console.log(formik.errors)
+
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormGroup>
@@ -62,16 +60,6 @@ export const LoginForm = () => {
                            margin={"normal"}
                            variant={"standard"}
                            {...formik.getFieldProps("password")}/>
-                {/*{*/}
-                {/*    <InputAdornment position="end">*/}
-                {/*        <IconButton*/}
-                {/*            aria-label="toggle password visibility"*/}
-                {/*            onClick={onClickShowPassword}*/}
-                {/*        >*/}
-                {/*            {showPassword ? <VisibilityOff /> : <Visibility />}*/}
-                {/*        </IconButton>*/}
-                {/*    </InputAdornment>*/}
-                {/*}*/}
                 {formik.touched.password && formik.errors.password &&
                     <div className={style.error}>
                         {formik.errors.password}
@@ -92,7 +80,6 @@ export const LoginForm = () => {
                         fontFamily: "Montserrat, sans-serif",
                         fontWeight: "300"
                     }}>Sign In</Button>
-
                 <div className={style.textRegister}>Dont have an account?</div>
                 <div className={style.linkRegister}>
                     <NavLink to={"/registration"}>Sign Up</NavLink>
@@ -102,13 +89,7 @@ export const LoginForm = () => {
     );
 };
 
-
 ///----------- types -----------\\\
-export type LoginDataType = {
-    email: string,
-    password: string,
-    rememberMe: boolean
-}
 type FormikErrorType = {
     email?: string,
     password?: string,

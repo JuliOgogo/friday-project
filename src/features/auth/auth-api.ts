@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {LoginDataType} from "./login/loginForm/LoginForm";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -8,18 +7,24 @@ export const instance = axios.create({
 })
 
 export const authAPI = {
-    login(data: LoginDataType) {
-        // return instance.post<ResponseType>('auth/login', data)
-        return instance.get("ping")
-    },
     me() {
-        return instance.get<ResponseType>('/auth/me')
+        return instance.get<ResponseType>('auth/me', {})
+        //return instance.get("ping")
     },
+    login(data: LoginDataType) {
+        return instance.post<ResponseType>('auth/login', data)
+        // return instance.get("ping") //проверка пингуется или нет
+    },
+
 }
 
-
 ///----------- types -----------\\\
-export type UserType = {
+export type LoginDataType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
+}
+export type AuthResponseType = {
     _id: string;
     email: string;
     rememberMe: boolean;
@@ -32,6 +37,6 @@ export type UserType = {
     __v: number;
     avatar: string | null;
 }
-export type ResponseType = UserType & {
+export type ResponseType = AuthResponseType & {
     error?: string;
 };

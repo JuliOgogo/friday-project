@@ -1,7 +1,12 @@
-import {LoginDataType} from "./login/loginForm/LoginForm";
 import {Dispatch} from "redux";
-import {authAPI} from "./auth-api";
-import {SetAppErrorType, setAppStatusAC, SetAppStatusType} from "../../app/app-reducer";
+import {authAPI, AuthResponseType, LoginDataType} from "./auth-api";
+import {
+    SetAppErrorType, setAppIsInitializedAC,
+    setAppStatusAC,
+    SetAppStatusType, SetIsInitializedAppType
+} from "../../app/app-reducer";
+import {errorUtils} from "../../common/utils/error-utils";
+import {RootThunkType} from "../../app/store";
 
 const initialState = {
     isLoggedIn: false,
@@ -10,7 +15,10 @@ const initialState = {
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "LOGIN":
+        case 'auth/AUTH_ME': {
+            return {...state, ...action.payload}
+        }
+        case "AUTH/LOGIN":
             return {...state, isLoggedIn: action.value}
         default:
             return state
@@ -18,23 +26,46 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 ///----------- actions creators -----------\\\
-export const isLoggedInAC = (value: boolean) =>
-    ({type: "LOGIN", value} as const)
+export const authMeAC = (payload: AuthResponseType) => {
+    return {
+        type: 'auth/AUTH_ME',
+        payload
+    } as const
+}
+export const setLoginDataAC = (value: boolean) =>
+    ({type: "AUTH/LOGIN", value} as const)
 
 ///----------- thunks creators -----------\\\
+export const authMeTC = (): RootThunkType => async (dispatch: Dispatch<ActionsType>) => {
+    setAppStatusAC('loading')
+    try {
+        const responce = await authAPI.me()
+        dispatch(authMeAC(responce.data))
+    } catch (e) {
+    } finally {
+        setAppStatusAC('idle')
+        dispatch(setAppIsInitializedAC(true))
+    }
+}
+
 export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setAppStatusAC("loading"))
     try {
         const responce = await authAPI.login(data)
         if (responce.data)
-            dispatch(isLoggedInAC(true))
+            dispatch(setLoginDataAC(true))
     } catch (e: any) {
-        const error = e.response
-            ? e.response.data.error
-            : (e.message + ', more details in the console')
-        //console.log('Error: ', {...e})
+        errorUtils(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC("idle"))
     }
 }
 
 ///----------- types -----------\\\
 type InitialStateType = typeof initialState
-type ActionsType = ReturnType<typeof isLoggedInAC> | SetAppStatusType | SetAppErrorType
+type ActionsType =
+    ReturnType<typeof authMeAC>
+    | ReturnType<typeof setLoginDataAC>
+    | SetAppStatusType
+    | SetAppErrorType
+    | SetIsInitializedAppType
