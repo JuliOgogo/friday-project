@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../../../app/store";
 import {forgotTC} from "./password-reducer";
 import {CheckEmail} from "./CheckEmail";
+import style from "./Password.module.css";
 
 export const PasswordRecovery: React.FC<PasswordRecoveryPropsType> = ({}) => {
     const dispatch = useAppDispatch()
@@ -38,8 +39,8 @@ export const PasswordRecovery: React.FC<PasswordRecoveryPropsType> = ({}) => {
     if (check) return <CheckEmail userEmail={email}/>
 
     return (
-        <form onSubmit={formik.handleSubmit} >
-            <FormGroup >
+        <form onSubmit={formik.handleSubmit} className={style.container}>
+            <FormGroup className={style.password}>
                 <h3>Forgot your password?</h3>
                 <TextField label="Email"
                            margin="normal"
@@ -50,13 +51,12 @@ export const PasswordRecovery: React.FC<PasswordRecoveryPropsType> = ({}) => {
                     ? <div style={{color: 'red'}}>{formik.errors.email}</div>
                     : null}
 
-                <p>Enter your email address and we will send you further instructions</p>
+                <p className={style.textBox}>Enter your email address and we will send you further instructions</p>
 
-                <Button type={'submit'} variant={'contained'} color={'primary'}>
+                <Button className={style.button} type={'submit'} variant={'contained'} color={'primary'}>
                     Send Instructions
                 </Button>
-
-                <p>Did you remember your password?</p>
+                <p className={style.textBox}>Did you remember your password?</p>
                 <a href={'/login'}>Try to logging in</a>
             </FormGroup>
         </form>

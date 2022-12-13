@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from "@mui/material/Button";
-import style from "./Password.module.css"
-import eIcon from "../../../assets/images/check-icon.jpg"
+import style from "./Password.module.css";
+import eIcon from "../../../assets/images/check-icon.jpg";
 
 export const CheckEmail: React.FC<CheckEmailProps> = ({userEmail, ...restProps}) => {
 

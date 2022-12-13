@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import {useParams} from "react-router-dom";
 import {useAppDispatch} from "../../../../app/store";
 import {newPasswordTC} from "./password-reducer";
+import style from "./Password.module.css"
 
 type NewPasswordRecoveryPropsType = {}
 
@@ -38,8 +39,8 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
     })
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <FormGroup >
+        <form onSubmit={formik.handleSubmit} className={style.container}>
+            <FormGroup className={style.password}>
                 <h3>Create new password</h3>
 
                 <TextField type="password"
@@ -52,9 +53,9 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
                     ? <div style={{color: 'red'}}>{formik.errors.password}</div>
                     : null}
 
-                <p>Create new password and we will send you further instructions to email</p>
+                <p className={style.textBox}>Create new password and we will send you further instructions to email</p>
 
-                <Button type={'submit'} variant={'contained'} color={'primary'}>
+                <Button className={style.button} type={'submit'} variant={'contained'} color={'primary'}>
                     Create new password
                 </Button>
             </FormGroup>
