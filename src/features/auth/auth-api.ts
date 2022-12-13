@@ -21,6 +21,14 @@ export const authAPI = {
       password,
     })
   },
+  logout() {
+    return instance.delete<LogoutResponseType>('/auth/login')
+  },
+}
+
+export type LogoutResponseType = {
+  info: string
+  error: string
 }
 
 ///----------- types -----------\\\
