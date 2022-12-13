@@ -44,3 +44,10 @@
   font-weight: 500;
   line-height: 24px;
 }
+
+.back {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+}
