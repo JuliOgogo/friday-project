@@ -1,10 +1,10 @@
 import React from "react";
 import style  from './Registration.module.css'
-import {Button, Link, TextField} from "@mui/material";
+import {Button,  Link, TextField} from "@mui/material";
 import {useFormik} from "formik";
-import {Grid} from "@material-ui/core";
+
 import {useAppDispatch, useAppSelector} from "../../app/store";
-import {RegistrationTC} from "./auth-reducer";
+import {registrationTC} from "./auth-reducer";
 import {Navigate} from "react-router-dom";
 
 
@@ -15,7 +15,7 @@ type FormikErrorType = {
 }
 export function Registration () {
     const dispatch = useAppDispatch()
-    const id_registration = useAppSelector((state)=>state.auth.addedUser._id)
+    const id_registration = useAppSelector((state)=>state.auth.isRegistration)
 
     const formik = useFormik({
         initialValues: {
@@ -42,7 +42,7 @@ export function Registration () {
         },
         onSubmit: values => {
             alert(JSON.stringify(values));
-            dispatch(RegistrationTC(values.email,values.password))
+            dispatch(registrationTC(values.email,values.password))
         },
     })
      if(id_registration){
@@ -50,54 +50,53 @@ export function Registration () {
      }
 
     return (
-        <Grid container  className={style.container}>
-            <Grid item  className={style.registration}>
-            <h1 className={style.sing_up}>Sing up</h1>
-            <form onSubmit={formik.handleSubmit}>
-            <TextField
-                className={style.input_registration}
-                required
-                id="standard-required"
-                label="Email"
+        <div  className={style.container}>
+            <div   className={style.registration}>
+            <form onSubmit={formik.handleSubmit}  >
+                <div className={style.from_registration}>
+                        <h1>Sing up</h1>
+                    <TextField
+                        className={style.input_registration}
+                        required
+                        id="standard-required"
+                        margin="normal"
+                        label="Email"
+                        variant="standard"
+                        {...formik.getFieldProps('email')}
+                        onBlur={formik.handleBlur}/>
+                    { formik.errors.email ? <div style={{color:'red'}}> {formik.errors.email}</div>: null}
 
-                variant="standard"
-                {...formik.getFieldProps('email')}
-                onBlur={formik.handleBlur}/>
-                { formik.errors.email ? <div style={{color:'red'}}> {formik.errors.email}</div>: null}
+                    <TextField
+                        className={style.input_registration}
+                        id="standard-required"
+                        label="Password"
+                        variant="standard"
+                        type="password"
+                        {...formik.getFieldProps('password')}
+                        onBlur={formik.handleBlur}/>
+                    { formik.errors.password ? <div style={{color:'red'}}> {formik.errors.password}</div>: null}
 
-            <br/>
-            <TextField
-                className={style.input_registration}
-                required
-                id="standard-required"
-                label="Password"
+                    <TextField
+                        className={style.input_registration}
+                        required
+                        id="standard-required"
+                        margin="normal"
+                        label="Confirm password"
+                        variant="standard"
+                        type="password"
+                        {...formik.getFieldProps('confirm_password')}
+                        onBlur={formik.handleBlur}
+                    />
+                    { formik.errors.confirm_password ? <div style={{color:'red'}}> {formik.errors.confirm_password}</div>: null}
 
-                variant="standard"
-                type="password"
-                {...formik.getFieldProps('password')}
-                onBlur={formik.handleBlur}
-            />
-                { formik.errors.password ? <div style={{color:'red'}}> {formik.errors.password}</div>: null}
-            <br/>
-            <TextField
-                className={style.input_registration}
-                required
-                id="standard-required"
-                label="Confirm password"
-
-                variant="standard"
-                type="password"
-                {...formik.getFieldProps('confirm_password')}
-                onBlur={formik.handleBlur}
-            />
-                { formik.errors.confirm_password ? <div style={{color:'red'}}> {formik.errors.confirm_password}</div>: null}
-                <br/>
-            <Button variant="contained" type={'submit'}
-                    className={style.button_sing_up}>Sing Up</Button>
+                    <Button className={style.button_sing_up}
+                            variant="contained" type={'submit'}
+                            >Sing Up</Button>
+                    <p className={style.already}> Already have an account?</p>
+                    <Link href="#">Link</Link>
+                </div>
             </form>
-            <p className={style.already}> Already have an account?</p>
-            <Link href="#">Link</Link>
-            </Grid>
-        </Grid>
+            </div>
+        </div>
     )
 }

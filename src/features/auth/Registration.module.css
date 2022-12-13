@@ -3,52 +3,34 @@
     width: 80%;
     display: flex;
     margin-top: 60px;
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
 }
 .registration{
     width: 528px;
     height: 500px;
     background: #FFFFFF;
+    margin: 20px;
+    padding: 23px;
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 10%), -1px -1px 2px rgb(0 0 0 / 10%);
+    border-radius: 2px;
+
+}
+.from_registration{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
-    padding: 23px;
-}
-.sing_up{
-    text-align: center;
+
 }
 .input_registration{
-    margin-top: 41px;
-    width: 347px;
-    height: 48px;
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
+    width:100%;
+    margin-bottom: 24px;
 }
-.input_registration_password{
-    margin-top: 24px;
-}
+
 .button_sing_up{
-    padding-top: 41px;
-    width: 347px;
-    height: 36px;
-}
-.style.already{
-    width: 186px;
-    height: 24px;
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 24px;
-    /* identical to box height, or 171% */
-
-    text-align: center;
-
-    color: #000000;
-
-    opacity: 0.5;
+    width: 100%;
+    background: #366EFF;
+    box-shadow: 0 4px 18px rgba(54, 110, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
 }
