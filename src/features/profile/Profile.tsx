@@ -1,26 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Avatar } from '@material-ui/core'
+import { Avatar, Button } from '@mui/material'
 
-import SuperButton from '../../common/components/c2-SuperButton/SuperButton'
-import SuperEditableSpan from '../../common/components/c4-SuperEditableSpan/SuperEditableSpan'
-
+import { EditableSpan } from './EditableSpan'
 import s from './Profile.module.css'
 
 type ProfilePropsType = {}
 
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
+  const [value, setValue] = useState('Ivan')
+
   return (
     <div className={s.profile}>
       <div className={s.text}>Personal Information</div>
 
-      <Avatar alt="avatar" src="#" />
+      <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96 }} />
 
-      <SuperEditableSpan value={'Ivan'} />
+      <EditableSpan value={value} onChange={setValue} />
 
       <div className={s.email}>j&johnson@gmail.com</div>
 
-      <SuperButton>Log out</SuperButton>
+      <Button variant="outlined">Log out</Button>
     </div>
   )
 }
