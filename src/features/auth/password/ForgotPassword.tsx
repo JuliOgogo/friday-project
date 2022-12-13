@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../../app/store";
 import { forgotTC } from "../auth-reducer";
 import {CheckEmail} from "./CheckEmail";
 import style from "./Password.module.css";
+import { login } from "../../../common/routes/pathRoutesList";
 
 export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
     const dispatch = useAppDispatch()
@@ -59,7 +60,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
                     Send Instructions
                 </Button>
                 <p className={style.textBox}>Did you remember your password?</p>
-                <a href={'/login'}>Try to logging in</a>
+                <a href={`#${login}`}>Try to logging in</a>
             </FormGroup>
         </form>
     )

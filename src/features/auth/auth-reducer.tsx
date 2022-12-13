@@ -5,7 +5,7 @@ import {AxiosError} from "axios";
 
 const initialState = {
   email: '',
-  check: true
+  check: false
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
