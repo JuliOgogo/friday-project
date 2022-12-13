@@ -15,6 +15,7 @@ const store = legacy_createStore(reducers, applyMiddleware(thunk))
 export default store
 
 export type AppStoreType = ReturnType<typeof reducers>
+export type AppThunkDispatch = ThunkDispatch<AppStoreType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStoreType, unknown, AnyAction>>()
 export const useAppSelector: TypedUseSelectorHook<AppStoreType> = useSelector
 export type RootActionsType = AnyAction

@@ -4,7 +4,7 @@ import {Test} from '../features/old/Test'
 import {useAppDispatch, useAppSelector} from "./store";
 import {Preloader} from "../common/components/preloader/Preloader";
 import {authMeTC} from "../features/auth/auth-reducer";
-
+import {ErrorSnackbar} from "../common/ErrorSnackbar/ErroSnackbar";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -19,9 +19,8 @@ function App() {
     }
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <Test/>
-            <div></div>
-            <div></div>
         </div>
     )
 }

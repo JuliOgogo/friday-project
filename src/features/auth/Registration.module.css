@@ -1,0 +1,36 @@
+.container{
+    height: 100%;
+    width: 80%;
+    display: flex;
+    margin-top: 60px;
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
+}
+.registration{
+    width: 528px;
+    height: 500px;
+    background: #FFFFFF;
+    margin: 20px;
+    padding: 23px;
+    box-shadow: 1px 1px 2px rgb(0 0 0 / 10%), -1px -1px 2px rgb(0 0 0 / 10%);
+    border-radius: 2px;
+
+}
+.from_registration{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.input_registration{
+    width:100%;
+    margin-bottom: 24px;
+}
+
+.button_sing_up{
+    width: 100%;
+    background: #366EFF;
+    box-shadow: 0 4px 18px rgba(54, 110, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+}

@@ -1,9 +1,8 @@
-import axios from 'axios'
-
+import axios, {AxiosError, AxiosResponse} from 'axios'
 export const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-    // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
-    withCredentials: true,
+  baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+  // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
+  withCredentials: true,
 })
 
 export const authAPI = {
@@ -15,10 +14,22 @@ export const authAPI = {
         return instance.post<ResponseType>('/auth/login', data)
         // return instance.get("ping") //проверка пингуется или нет
     },
+  registration(email:string,password:string){
+    return instance.post<AxiosResponse<RegistrationResponseType>>('/auth/register',{email,password})
+  }
 
 }
 
 ///----------- types -----------\\\
+type RegistrationResponseType = {
+  addedUser: addedUserType
+  error?: Error | AxiosError
+}
+type addedUserType={
+  _id: string,
+  email: string,
+  created: Date,
+}
 export type LoginDataType = {
     email: string,
     password: string,

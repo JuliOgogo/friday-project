@@ -7,10 +7,21 @@ import {
 } from "../../app/app-reducer";
 import {errorUtils} from "../../common/utils/error-utils";
 import {RootThunkType} from "../../app/store";
+import axios, { AxiosError } from 'axios';
+import {AppThunkDispatch} from "../../app/store";
 
 const initialState = {
-    isLoggedIn: false,
-    error: ""
+    error: "",
+    isRegistration: false,
+    LoginParams: {}
+}
+
+export type InitialStateType = {
+    // происходит ли сейчас взаимодействие с сервером
+    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
+    error: string | null
+    isRegistration: boolean,
+    LoginParams: AuthResponseType | {}
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -20,6 +31,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         }
         case "auth/LOGIN":
             return {...state, ...action.payload}
+        case 'auth/SET-ERROR':
+            return {...state, error: action.error}
+        case "auth/REGISTRATION":
+            return {...state, isRegistration: action.isRegistration}
         default:
             return state
     }
@@ -34,6 +49,10 @@ export const authMeAC = (payload: AuthResponseType) => {
 }
 export const setLoginDataAC = (payload: AuthResponseType) =>
     ({type: "auth/LOGIN", payload} as const)
+export const setAuthError = (error: string | null) => ({type: 'auth/SET-ERROR', error} as const)
+export const registration = (isRegistration: boolean) => ({type: 'auth/REGISTRATION', isRegistration} as const)
+export type SetAuthErrorType = ReturnType<typeof setAuthError>
+export type RegistrationType = ReturnType<typeof registration>
 
 ///----------- thunks creators -----------\\\
 export const authMeTC = (): RootThunkType => async (dispatch: Dispatch<ActionsType>) => {
@@ -60,12 +79,46 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<Action
         dispatch(setAppStatusAC("idle"))
     }
 }
+export const setLoginTC=(email:string,password: string,rememberMe: boolean) =>  async(dispatch: AppThunkDispatch)=>{
+    try {
+        let res = await authAPI.login({email,password,rememberMe})
+        console.log(res.data)
 
+    }catch (e){
+        const err = e as Error | AxiosError
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data ? (err.response.data as { error: string }).error : err.message
+            dispatch(setAuthError(error))
+        } else {
+            dispatch(setAuthError(`Native error ${err.message}`))
+        }
+    }
+}
+export const registrationTC=(email: string,password: string)=> {
+    return async (dispatch: AppThunkDispatch) => {
+        try {
+            await authAPI.registration(email, password)
+            dispatch(registration(true))
+        } catch (e) {
+            //errorUtils(e, dispatch)
+            const err = e as Error | AxiosError
+            if (axios.isAxiosError(err)) {
+                const error = err.response?.data ? (err.response.data as { error: string }).error : err.message
+                dispatch(setAuthError(error))
+            } else {
+                dispatch(setAuthError(`Native error ${err.message}`))
+            }
+
+        }
+    };
+}
 ///----------- types -----------\\\
-type InitialStateType = typeof initialState
+// type InitialStateType = typeof initialState
 type ActionsType =
     ReturnType<typeof authMeAC>
     | ReturnType<typeof setLoginDataAC>
     | SetAppStatusType
     | SetAppErrorType
     | SetIsInitializedAppType
+    | SetAuthErrorType
+    | RegistrationType
