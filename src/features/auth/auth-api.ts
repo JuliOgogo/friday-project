@@ -8,11 +8,11 @@ export const instance = axios.create({
 
 export const authAPI = {
     me() {
-        return instance.get<ResponseType>('auth/me', {})
+        return instance.get<ResponseType>('/auth/me', {})
         //return instance.get("ping")
     },
     login(data: LoginDataType) {
-        return instance.post<ResponseType>('auth/login', data)
+        return instance.post<ResponseType>('/auth/login', data)
         // return instance.get("ping") //проверка пингуется или нет
     },
 
