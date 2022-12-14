@@ -12,6 +12,7 @@ import s from './Profile.module.css'
 
 type ProfilePropsType = {}
 
+// comment
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
   const [value, setValue] = useState('Ivan') // заменить на диспатч экшна в редьюсер
 
