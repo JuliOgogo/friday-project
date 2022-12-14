@@ -47,6 +47,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
                 <h3>Forgot your password?</h3>
                 <TextField label="Email"
                            margin="normal"
+                           variant="standard"
                            {...formik.getFieldProps('email')}
                            onBlur={formik.handleBlur}
                 />

@@ -24,7 +24,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
             if (!values.password) {
                 errors.password = 'Required field'
             } else if (values.password.length < 8) {
-                errors.password = 'Invalid password length! It should be more then 7 symbols!'
+                errors.password = 'Invalid password length! Password must be more than 7 characters...'
             }
 
             return errors
@@ -44,6 +44,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
                 <TextField type="password"
                            label="Password"
                            margin="normal"
+                           variant="standard"
                            {...formik.getFieldProps('password')}
                            onBlur={formik.handleBlur}
                 />

@@ -40,6 +40,14 @@ export const forgotTC = (email: string): AppThunk => async dispatch => {
     console.log(res.data.info)
   } catch (e){
     const err = e as Error | AxiosError
+    // if (axios.isAxiosError(err)) {
+    //     const error = err.response?.data
+    //         ? (err.response.data as { error: string }).error
+    //         : err.message
+    //
+    //     dispatch(setAuthError(error))
+    // } else {
+    //     dispatch(setAuthError(`Native error ${err.message}`))}
   }
 }
 export const newPasswordTC = (password: string, resetToken: string): AppThunk => async dispatch => {
@@ -49,6 +57,14 @@ export const newPasswordTC = (password: string, resetToken: string): AppThunk =>
     console.log(res.data.info);
   } catch (e){
     const err = e as Error | AxiosError
+    // if (axios.isAxiosError(err)) {
+    //     const error = err.response?.data
+    //         ? (err.response.data as { error: string }).error
+    //         : err.message
+    //
+    //     dispatch(setAuthError(error))
+    // } else {
+    //     dispatch(setAuthError(`Native error ${err.message}`))}
   }
 }
 
