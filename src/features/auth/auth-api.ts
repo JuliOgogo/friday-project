@@ -11,6 +11,7 @@ export const authAPI = {
     return instance.get<ResponseType>("/auth/me", {});
     //return instance.get("ping")
   },
+  // for commit
   registration(email: string, password: string) {
     return instance.post<RegistrationResponseType>("/auth/register", {
       email,
