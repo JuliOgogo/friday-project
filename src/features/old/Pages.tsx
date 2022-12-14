@@ -1,13 +1,12 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-
+import { Login } from './pages/Login'
+import { Registration } from './pages/Registration'
 import { Profile } from './pages/Profile'
 import Error404 from './pages/Error404'
-import { PasswordRecovery } from './pages/PasswordRecovery'
-import { NewPassword } from './pages/NewPassword'
+import { ForgotPassword } from '../auth/password/ForgotPassword'
+import { NewPassword } from '../auth/password/NewPassword'
 import { TestStand } from './pages/TestStand'
-import { Login } from '../auth/login/Login'
-import { Registration } from '../auth/Registration'
 
 function Pages() {
   return (
@@ -18,8 +17,8 @@ function Pages() {
       <Route path={'/login'} element={<Login />} />
       <Route path={'/registration'} element={<Registration />} />
       <Route path={'/profile'} element={<Profile />} />
-      <Route path={'/passwordRecovery'} element={<PasswordRecovery />} />
-      <Route path={'/newPassword'} element={<NewPassword />} />
+      <Route path={'/forgot-password'} element={<ForgotPassword />} />
+      <Route path={'/new-password'} element={<NewPassword />} />
       <Route path={'/404'} element={<Error404 />} />
 
       <Route path={'/*'} element={<Navigate to={'/404'} />} />

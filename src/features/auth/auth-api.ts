@@ -11,18 +11,31 @@ export const authAPI = {
     return instance.get<ResponseType>('/auth/me', {})
     //return instance.get("ping")
   },
-  login(data: LoginDataType) {
-    return instance.post<LoginDataType, AxiosResponse<AuthResponseType>>('/auth/login', data)
-    // return instance.get("ping") //проверка пингуется или нет
-  },
   registration(email: string, password: string) {
     return instance.post<AxiosResponse<RegistrationResponseType>>('/auth/register', {
       email,
       password,
     })
   },
+  login(data: LoginDataType) {
+    return instance.post<LoginDataType, AxiosResponse<AuthResponseType>>('/auth/login', data)
+    // return instance.get("ping") //проверка пингуется или нет
+  },
   logout() {
     return instance.delete<LogoutResponseType>('/auth/me')
+  },
+  forgot(email: string) {
+    return instance.post<forgotParamsType, AxiosResponse<forgotResponseType>>('/auth/forgot', {
+      email,
+      form: 'test-front-admin <ai73a@yandex.by>',
+      message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/login#/password/new-password/$token$'>link</a> </div>`,
+    })
+  },
+  newPassword(payload: newPasswordParamsType) {
+    return instance.post<newPasswordParamsType, AxiosResponse<forgotResponseType>>(
+      '/auth/set-new-password',
+      payload
+    )
   },
 }
 
@@ -60,4 +73,17 @@ export type AuthResponseType = {
 }
 export type ResponseType = AuthResponseType & {
   error?: string
+}
+type forgotResponseType = {
+  info: string
+  error: string
+}
+type forgotParamsType = {
+  email: string
+  from: string
+  message: string
+}
+type newPasswordParamsType = {
+  password: string
+  resetPasswordToken: string
 }
