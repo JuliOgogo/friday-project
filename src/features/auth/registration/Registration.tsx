@@ -5,9 +5,9 @@ import { Button, Link, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
+import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { registrationTC } from './auth-reducer'
+import { registrationTC } from '../auth-reducer'
 import style from './Registration.module.css'
 
 type FormikErrorType = {
@@ -107,7 +107,7 @@ export function Registration() {
               Sing Up
             </Button>
             <p className={style.already}> Already have an account?</p>
-            <Link href="#">Link</Link>
+            <Link href="src/features/auth/registration/Registration#">Link</Link>
           </div>
         </form>
       </div>

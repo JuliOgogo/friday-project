@@ -1,28 +1,31 @@
-import React from 'react';
-import Button from "@mui/material/Button";
-import style from "./Password.module.css";
-import eIcon from "../../../assets/images/check-icon.jpg";
-import { login } from "../../../common/routes/pathRoutesList";
+import React from 'react'
 
-export const CheckEmail: React.FC<CheckEmailProps> = ({userEmail}) => {
+import Button from '@mui/material/Button'
 
-    return (
-        <div className={style.container}>
-            <div className={style.password}>
-                <h3>Check Email</h3>
+import eIcon from '../../../assets/images/check-icon.jpg'
+import { login } from '../../../common/routes/pathRoutesList'
 
-                <img className={style.image} src={eIcon} alt={'email'}/>
+import style from './Password.module.css'
 
-                <p className={style.textBox}>{`We’ve sent an Email with instructions to ${userEmail}`}</p>
+export const CheckEmail: React.FC<CheckEmailProps> = ({ userEmail }) => {
+  return (
+    <div className={style.container}>
+      <div className={style.password}>
+        <h3>Check Email</h3>
 
-                <Button className={style.button} href={`#${login}`} variant={'contained'} color={'primary'}>Back to login</Button>
+        <img className={style.image} src={eIcon} alt={'email'} />
 
-            </div>
-        </div>
-    );
-};
+        <p className={style.textBox}>{`We’ve sent an Email with instructions to ${userEmail}`}</p>
+
+        <Button className={style.button} href={`#${login}`} variant={'contained'} color={'primary'}>
+          Back to login
+        </Button>
+      </div>
+    </div>
+  )
+}
 
 // types
 type CheckEmailProps = {
-    userEmail: string
+  userEmail: string
 }

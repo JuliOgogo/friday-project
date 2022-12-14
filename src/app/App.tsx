@@ -2,22 +2,19 @@ import React from 'react'
 
 import './App.css'
 import { AppBar, Container } from '@material-ui/core'
-import { Navigate, Route, Routes } from 'react-router-dom'
 
+import itIncubatorLogo from '../assets/images/itIncubatorLogo.svg'
 import { Preloader } from '../common/components/preloader/Preloader'
-import { Login } from '../features/auth/login/Login'
-import { Registration } from '../features/auth/Registration'
-import { Profile } from '../features/profile/Profile'
 
-import itIncubatorLogo from './itIncubatorLogo.svg'
+import Pages from './Pages/Pages'
 import { useAppSelector } from './store'
 
 function App() {
   // const dispatch = useAppDispatch()
 
   /*useEffect(() => {
-            dispatch(authMeTC())
-        }, [dispatch])*/
+                dispatch(authMeTC())
+            }, [dispatch])*/
 
   let isInitialized = useAppSelector(state => state.app.isInitialized)
 
@@ -30,23 +27,13 @@ function App() {
     <div className="App">
       <AppBar position="static" color={'inherit'}>
         <div style={{ padding: '10px 100px' }}>
-          <img src={itIncubatorLogo} />
+          <img alt={'logo'} src={itIncubatorLogo} />
         </div>
         {/*<div> здесь должна быть либо кнопка 'Sign In', либо значок профиля в зависимости от состояния нашего приложения </div>*/}
       </AppBar>
 
       <Container fixed style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Routes>
-          <Route path="/" element={<Navigate to={'/login'} />} />
-          <Route path={'/registration'} element={<Registration />} />
-          <Route path={'/login'} element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/404"
-            element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
-          />
-          <Route path="*" element={<Navigate to={'/404'} />} />
-        </Routes>
+        <Pages />
       </Container>
     </div>
   )

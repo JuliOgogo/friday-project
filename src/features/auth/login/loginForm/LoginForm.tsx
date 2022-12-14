@@ -5,8 +5,9 @@ import { useFormik } from 'formik'
 import { NavLink } from 'react-router-dom'
 
 import { useAppDispatch } from '../../../../app/store'
+import { forgotPassword } from '../../../../common/routes/pathRoutesList'
 import { LoginDataType } from '../../auth-api'
-import { loginTC, setLoginTC } from '../../auth-reducer'
+import { setLoginTC } from '../../auth-reducer'
 
 import style from './LoginForm.module.css'
 
@@ -79,7 +80,7 @@ export const LoginForm = () => {
           />
         </div>
         <div className={style.linkPassword}>
-          <NavLink to={'/passwordRecovery'}>Forgot password?</NavLink>
+          <NavLink to={forgotPassword}>Forgot password?</NavLink>
         </div>
         <Button
           type={'submit'}
