@@ -21,7 +21,7 @@ import { Profile } from '../../features/profile/Profile'
 function Pages() {
   return (
     <Routes>
-      <Route path={startPage} element={<Navigate to={'/login'} />} />
+      <Route path={startPage} element={<Navigate to={login} />} />
       <Route path={registration} element={<Registration />} />
       <Route path={login} element={<Login />} />
       <Route path={profile} element={<Profile />} />
@@ -31,7 +31,7 @@ function Pages() {
         path={page404}
         element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
       />
-      <Route path={wrongPath} element={<Navigate to={'/404'} />} />
+      <Route path={wrongPath} element={<Navigate to={page404} />} />
     </Routes>
   )
 }

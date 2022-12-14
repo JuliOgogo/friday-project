@@ -1,13 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
-import {
-  SetAppErrorType,
-  setAppStatusAC,
-  SetAppStatusType,
-  SetIsInitializedAppType,
-} from '../../app/app-reducer'
+import { SetAppErrorType, SetAppStatusType, SetIsInitializedAppType } from '../../app/app-reducer'
 import { AppThunkType } from '../../app/store'
-import { errorUtils } from '../../common/utils/error-utils'
 
 import { authAPI, AuthResponseType, LoginDataType } from './auth-api'
 
@@ -31,7 +25,8 @@ export const authReducer = (
     case auth_LOGIN:
       return { ...state, LoginParams: action.payload }
     case auth_LOGOUT:
-      return { ...state, LoginParams: {} as AuthResponseType }
+      //todo переделать объект
+      return initialState
     case auth_SET_ERROR:
       return { ...state, error: action.error }
     case auth_FORGOT_PASSWORD:
@@ -79,20 +74,6 @@ const checkEmailAC = (check: boolean) => ({ type: auth_CHECK_EMAIL, check } as c
     dispatch(setAppIsInitializedAC(true))
   }
 }*/
-export const loginTC =
-  (data: LoginDataType): AppThunkType =>
-  async dispatch => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-      const responce = await authAPI.login(data)
-
-      if (responce.data) dispatch(setLoginDataAC(responce.data))
-    } catch (e: any) {
-      errorUtils(e, dispatch)
-    } finally {
-      dispatch(setAppStatusAC('idle'))
-    }
-  }
 export const setLoginTC =
   (data: LoginDataType): AppThunkType =>
   async dispatch => {
@@ -156,7 +137,6 @@ export const registrationTC =
       }
     }
   }
-
 export const forgotTC =
   (email: string): AppThunkType =>
   async dispatch => {

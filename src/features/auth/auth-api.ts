@@ -65,7 +65,7 @@ export type AuthResponseType = {
   isAdmin: boolean
   name: string
   verified: boolean
-  publicCardPacksCount: number
+  publicCardPacksCount: number | null
   created: string
   updated: string
   __v: number
