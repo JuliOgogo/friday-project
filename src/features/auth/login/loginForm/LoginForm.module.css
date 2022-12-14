@@ -1,25 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800;900&display=swap');
 
 .error {
-    font-family: 'Montserrat', sans-serif!important;
-    font-weight: 600!important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
     color: #B31232;
 }
 
 .checkbox {
-    font-family: 'Montserrat', sans-serif!important;
-    font-weight: 600!important;
+    padding-top: 33px;
+
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
     text-align: left;
 }
 
+.buttonSubmit {
+    cursor: pointer;
+
+    padding: 10px;
+
+    font-family: Montserrat, sans-serif;
+    font-weight: 300;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+
+    background-color: rgb(25, 118, 210);
+    border: none;
+    border-radius: 30px;
+}
+
+.buttonSubmit:hover {
+    background-color: rgb(11, 104, 192);
+    box-shadow: rgb(0 0 0 / 20%) 0 3px 1px -2px, rgb(0 0 0 / 14%) 0 2px 2px 0, rgb(0 0 0 / 12%) 0 1px 5px 0;
+}
+
 .linkPassword {
+    display: inline-block;
+
+    width: 100%;
+    margin: 30px 0 50px;
+
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     color: black;
-    width: 100%;
-    display: inline-block;
     text-align: right;
-    margin: 30px 0 50px;
 }
 
 .linkPassword a {
@@ -31,18 +55,19 @@
 }
 
 .textRegister {
-    font-family: 'Montserrat', sans-serif;
-    color: gray;
-    font-weight: 600;
     margin-top: 20px;
     margin-bottom: 25px;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: gray;
 }
 
 .linkRegister {
     font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
     line-height: 17px;
 }
 

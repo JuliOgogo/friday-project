@@ -1,6 +1,17 @@
 import React from 'react'
 
-import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+  TextField,
+} from '@mui/material'
 import { useFormik } from 'formik'
 import { NavLink } from 'react-router-dom'
 
@@ -13,6 +24,14 @@ import style from './LoginForm.module.css'
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch()
+
+  const [showPassword, setShowPassword] = React.useState(false)
+
+  const handleClickShowPassword = () => setShowPassword(show => !show)
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +49,7 @@ export const LoginForm = () => {
       }
       if (!values.password) {
         errors.password = 'Required'
-      } else if (values.password.length < 6) {
+      } else if (values.password.length < 7) {
         errors.password = 'Password length must be longer 6 symbols ⚠'
       }
 
@@ -41,8 +60,6 @@ export const LoginForm = () => {
       formik.resetForm()
     },
   })
-  //console.log(formik.values)
-  //console.log(formik.errors)
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -57,17 +74,28 @@ export const LoginForm = () => {
         {formik.errors.email && (
           <div className={style.error}>{formik.touched.email && formik.errors.email}</div>
         )}
-        <TextField
-          label="Password"
-          type={'password'}
-          size={'small'}
-          margin={'normal'}
-          variant={'standard'}
-          {...formik.getFieldProps('password')}
-        />
-        {formik.touched.password && formik.errors.password && (
-          <div className={style.error}>{formik.errors.password}</div>
-        )}
+        <FormControl variant="standard">
+          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+          <Input
+            id="standard-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            {...formik.getFieldProps('password')}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className={style.error}>{formik.errors.password}</div>
+          )}
+        </FormControl>
         <div className={style.checkbox}>
           <FormControlLabel
             label={'Remember me'}
@@ -82,17 +110,9 @@ export const LoginForm = () => {
         <div className={style.linkPassword}>
           <NavLink to={forgotPassword}>Forgot password?</NavLink>
         </div>
-        <Button
-          type={'submit'}
-          variant="contained"
-          sx={{
-            borderRadius: '50px',
-            fontFamily: 'Montserrat, sans-serif',
-            fontWeight: '300',
-          }}
-        >
+        <button className={style.buttonSubmit} type={'submit'}>
           Sign In
-        </Button>
+        </button>
         <div className={style.textRegister}>Dont have an account?</div>
         <div className={style.linkRegister}>
           <NavLink to={'/registration'}>Sign Up</NavLink>
