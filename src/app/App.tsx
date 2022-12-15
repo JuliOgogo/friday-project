@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 
 import './App.css'
-import { AppBar, Container } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 
-import itIncubatorLogo from '../assets/images/itIncubatorLogo.svg'
 import { ErrorSnackbar } from '../common/components/ErrorSnackbar/ErroSnackbar'
 import { Preloader } from '../common/components/preloader/Preloader'
 import { authMeTC } from '../features/auth/auth-reducer'
 
+import { Header } from './Header/Header'
 import Pages from './Pages/Pages'
 import { useAppDispatch, useAppSelector } from './store'
 
@@ -25,17 +25,11 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar position="static" color={'inherit'}>
-        <div style={{ padding: '10px 100px' }}>
-          <img alt={'logo'} src={itIncubatorLogo} />
-        </div>
-        {/*<div> здесь должна быть либо кнопка 'Sign In', либо значок профиля в зависимости от состояния нашего приложения </div>*/}
-      </AppBar>
-      <ErrorSnackbar />
-
+      <Header />
       <Container fixed style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Pages />
       </Container>
+      <ErrorSnackbar />
     </div>
   )
 }

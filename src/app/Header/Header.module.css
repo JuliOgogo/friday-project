@@ -1,5 +1,21 @@
-.header {
-    height: 80px;
+.appBar {
+    align-items: center;
+    justify-content: space-between;
 
-    background-color: #004D99;
+    padding: 12px 136px;
+}
+
+.profileIcon {
+    cursor: pointer;
+
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
 }
