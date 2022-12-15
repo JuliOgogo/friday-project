@@ -1,8 +1,9 @@
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 
+import { setAppIsInitializedAC } from '../../app/app-reducer'
 import { AppThunkType } from '../../app/store'
+import { errorUtils } from '../../common/utils/error-utils'
 import { AuthResponseType } from '../auth/auth-api'
-import { setAuthError } from '../auth/auth-reducer'
 
 import { profileAPI } from './profile-api'
 
@@ -56,15 +57,9 @@ export const updateUserTC =
     } catch (e) {
       const err = e as Error | AxiosError
 
-      if (axios.isAxiosError(err)) {
-        const error = err.response?.data
-          ? (err.response.data as { error: string }).error
-          : err.message
-
-        dispatch(setAuthError(error))
-      } else {
-        dispatch(setAuthError(`Native error ${err.message}`))
-      }
+      errorUtils(err, dispatch)
+    } finally {
+      dispatch(setAppIsInitializedAC(true))
     }
   }
 

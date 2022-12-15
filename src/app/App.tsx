@@ -4,12 +4,12 @@ import './App.css'
 import { AppBar, Container } from '@material-ui/core'
 
 import itIncubatorLogo from '../assets/images/itIncubatorLogo.svg'
+import { ErrorSnackbar } from '../common/components/ErrorSnackbar/ErroSnackbar'
 import { Preloader } from '../common/components/preloader/Preloader'
 import { authMeTC } from '../features/auth/auth-reducer'
 
 import Pages from './Pages/Pages'
 import { useAppDispatch, useAppSelector } from './store'
-import {ErrorSnackbar} from "../common/components/ErrorSnackbar/ErroSnackbar";
 
 function App() {
   const dispatch = useAppDispatch()
@@ -31,7 +31,7 @@ function App() {
         </div>
         {/*<div> здесь должна быть либо кнопка 'Sign In', либо значок профиля в зависимости от состояния нашего приложения </div>*/}
       </AppBar>
-        <ErrorSnackbar/>
+      <ErrorSnackbar />
 
       <Container fixed style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Pages />

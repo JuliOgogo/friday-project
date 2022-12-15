@@ -1,5 +1,5 @@
 /* eslint-disable */
-import  {AxiosError} from 'axios'
+import {AxiosError} from 'axios'
 
 import {
     SetAppErrorType,
@@ -9,7 +9,7 @@ import {
 } from '../../app/app-reducer'
 import {AppThunkType} from '../../app/store'
 import {updateUserAC} from '../profile/profile-reducer'
-import { errorUtils } from '../../common/utils/error-utils'
+import {errorUtils} from '../../common/utils/error-utils'
 
 import {authAPI, AuthResponseType, LoginDataType} from './auth-api'
 
@@ -73,9 +73,9 @@ const checkEmailAC = (check: boolean) => ({type: auth_CHECK_EMAIL, check} as con
 ///----------- thunks creators -----------\\\
 export const authMeTC = (): AppThunkType => async dispatch => {
     try {
-        const responce = await authAPI.me()
+        const res = await authAPI.me()
 
-        dispatch(authMeAC(responce.data))
+        dispatch(authMeAC(res.data))
     } catch (e) {
         const err = e as Error | AxiosError;
         errorUtils(err, dispatch);
@@ -93,8 +93,9 @@ export const setLoginTC =
                 dispatch(updateUserAC(res.data.name, '#'))
             } catch (e) {
                 const err = e as Error | AxiosError;
-                errorUtils(err, dispatch);}
+                errorUtils(err, dispatch);
             }
+        }
 
 export const setLogoutTC = (): AppThunkType => async dispatch => {
     try {
@@ -150,9 +151,6 @@ export const newPasswordTC =
 ///----------- types -----------\\\
 // type InitialStateType = typeof initialState
 export type InitialStateType = {
-    // происходит ли сейчас взаимодействие с сервером
-    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-
     isRegistration: boolean
     LoginParams: AuthResponseType
     email: string
