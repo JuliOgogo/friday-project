@@ -1,9 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_BACK_URL || "http://localhost:7542/2.0/",
-  baseURL:
-    process.env.REACT_APP_BACK_URL || "https://neko-back.herokuapp.com/2.0/",
+  baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+  // baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0/',
 
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
   withCredentials: true,
@@ -11,31 +10,28 @@ export const instance = axios.create({
 
 export const authAPI = {
   me() {
-    return instance.get<ResponseType>('/auth/me', {})
+    return instance.post<ResponseType>('/auth/me', {})
     //return instance.get("ping")
   },
   registration(email: string, password: string) {
-    return instance.post<AxiosResponse<RegistrationResponseType>>('/auth/register', {
+    return instance.post<RegistrationResponseType>('/auth/register', {
       email,
       password,
     })
   },
   login(data: LoginDataType) {
-    return instance.post<LoginDataType, AxiosResponse<AuthResponseType>>('/auth/login', data)
+    return instance.post<AuthResponseType>('/auth/login', data)
     // return instance.get("ping") //проверка пингуется или нет
   },
   logout() {
     return instance.delete<LogoutResponseType>('/auth/me')
   },
   forgot(email: string) {
-    return instance.post<forgotParamsType, AxiosResponse<forgotResponseType>>(
-      "/auth/forgot",
-      {
-        email,
-        form: "test-front-admin <ai73a@yandex.by>",
-        message: `<div style="background-color: limegreen; padding: 15px">password recovery link: <a href="http://localhost:3000/#/new-password/$token$">link</> </div>`,
-      }
-    );
+    return instance.post<forgotResponseType>('/auth/forgot', {
+      email,
+      form: 'test-front-admin <ai73a@yandex.by>',
+      message: `<div style="background-color: limegreen; padding: 15px">password recovery link: <a href="http://localhost:3000/#/new-password/$token$">link</> </div>`,
+    })
   },
   newPassword(payload: newPasswordParamsType) {
     return instance.post<newPasswordParamsType, AxiosResponse<forgotResponseType>>(

@@ -1,50 +1,49 @@
-import React from "react";
+import React from 'react'
 
-import { Button, FormGroup, Paper, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import { Navigate, useParams } from "react-router-dom";
+import { Button, FormGroup, Paper, TextField, Typography } from '@mui/material'
+import { useFormik } from 'formik'
+import { Navigate, useParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { newPasswordTC } from "../auth-reducer";
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { routing } from '../../../common/routes/pathRoutesList'
+import { newPasswordTC } from '../auth-reducer'
 
-import style from "./Password.module.css";
-import { routing } from "../../../common/routes/pathRoutesList";
+import style from './Password.module.css'
 
 export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const status = useAppSelector((state) => state.app.status);
+  const status = useAppSelector(state => state.app.status)
 
-  const { resetToken } = useParams<{ resetToken: string }>();
+  const { resetToken } = useParams<{ resetToken: string }>()
 
   type FormikErrorType = {
-    password?: string;
-  };
+    password?: string
+  }
   const formik = useFormik({
     initialValues: {
-      password: "",
+      password: '',
     },
-    validate: (values) => {
-      const errors: FormikErrorType = {};
+    validate: values => {
+      const errors: FormikErrorType = {}
 
       if (!values.password) {
-        errors.password = "Required field";
+        errors.password = 'Required field'
       } else if (values.password.length < 8) {
-        errors.password =
-          "Invalid password length! Password must be more than 7 characters...";
+        errors.password = 'Invalid password length! Password must be more than 7 characters...'
       }
 
-      return errors;
+      return errors
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
-      formik.resetForm();
-      resetToken && dispatch(newPasswordTC(values.password, resetToken));
+    onSubmit: values => {
+      alert(JSON.stringify(values))
+      formik.resetForm()
+      resetToken && dispatch(newPasswordTC(values.password, resetToken))
     },
-  });
+  })
 
-  if (status === "succeeded") {
-    return <Navigate to={routing.login} />;
+  if (status === 'succeeded') {
+    return <Navigate to={routing.login} />
   }
 
   return (
@@ -59,31 +58,25 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
             label="Password"
             margin="normal"
             variant="standard"
-            {...formik.getFieldProps("password")}
+            {...formik.getFieldProps('password')}
             onBlur={formik.handleBlur}
           />
           {formik.touched.password && formik.errors.password ? (
-            <div style={{ color: "red" }}>{formik.errors.password}</div>
+            <div style={{ color: 'red' }}>{formik.errors.password}</div>
           ) : null}
 
           <p className={style.textMessage}>
-            Create new password and we will send you further instructions to
-            email
+            Create new password and we will send you further instructions to email
           </p>
 
-          <Button
-            className={style.button}
-            type={"submit"}
-            variant={"contained"}
-            color={"primary"}
-          >
+          <Button className={style.button} type={'submit'} variant={'contained'} color={'primary'}>
             Create new password
           </Button>
         </FormGroup>
       </form>
     </Paper>
-  );
-};
+  )
+}
 
 // types
-type NewPasswordRecoveryPropsType = {};
+type NewPasswordRecoveryPropsType = {}

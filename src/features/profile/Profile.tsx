@@ -5,16 +5,15 @@ import { Avatar, Button } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
+import { routing } from '../../common/routes/pathRoutesList'
 import { setLogoutTC } from '../auth/auth-reducer'
 
 import { EditableSpan } from './EditableSpan'
 import { updateUserTC } from './profile-reducer'
 import s from './Profile.module.css'
-import { routing } from '../../common/routes/pathRoutesList'
 
 type ProfilePropsType = {}
 
-// comment
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
   const nickName = useAppSelector(state => state.profile.name)
   const email = useAppSelector(state => state.auth.LoginParams.email)
@@ -30,7 +29,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
   }
 
   if (!email) {
-    return <Navigate to={routing.startPage} />
+    return <Navigate to={routing.login} />
   }
 
   return (
