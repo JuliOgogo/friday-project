@@ -13,7 +13,12 @@ export function Header() {
   const name = useAppSelector(state => state.auth.LoginParams.name)
 
   return (
-    <AppBar position="static" color={'inherit'} className={s.appBar}>
+    <AppBar
+      position="static"
+      color={'inherit'}
+      className={s.appBar}
+      style={{ flexDirection: 'row' }}
+    >
       <img alt={'logo'} src={itIncubatorLogo} />
       {isLoggedIn ? (
         <div className={s.profileIcon}>
