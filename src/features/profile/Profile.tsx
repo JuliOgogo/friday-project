@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import { Avatar, Button } from '@mui/material'
@@ -15,9 +15,7 @@ import s from './Profile.module.css'
 type ProfilePropsType = {}
 
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
-  const [value, setValue] = useState('Ivan') // заменить на диспатч экшна в редьюсер
-
-  const nickName = useAppSelector(state => state.auth.LoginParams.name)
+  const nickName = useAppSelector(state => state.profile.name)
   const email = useAppSelector(state => state.auth.LoginParams.email)
 
   const dispatch = useAppDispatch()
@@ -26,8 +24,8 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
     dispatch(setLogoutTC())
   }
 
-  const updateNameHandler = () => {
-    dispatch(updateUserTC(nickName, 'avatar'))
+  const updateNickNameHandler = (newNickName: string) => {
+    dispatch(updateUserTC(newNickName, 'new avatar'))
   }
 
   if (!email) {
@@ -42,7 +40,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
         <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96 }} />
 
         <div className={s.editableSpan}>
-          <EditableSpan value={nickName} onChange={updateNameHandler} />
+          <EditableSpan value={nickName} onChange={updateNickNameHandler} />
         </div>
 
         <div className={s.email}>{email}</div>
