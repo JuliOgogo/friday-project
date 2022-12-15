@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import { Avatar, Button } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
-import { setLogoutTC } from '../auth/auth-reducer'
+import { authMeTC, setLogoutTC } from "../auth/auth-reducer";
 
 import { EditableSpan } from './EditableSpan'
 import s from './Profile.module.css'

@@ -7,11 +7,12 @@ import { useAppSelector } from '../../../app/store'
 
 import style from './Login.module.css'
 import { LoginForm } from './loginForm/LoginForm'
+import { profile } from "../../../common/routes/pathRoutesList";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector(state => state.auth.LoginParams._id)
 
-  if (isLoggedIn) return <Navigate to={'/profile'} />
+  if (isLoggedIn) return <Navigate to={profile} />
 
   return (
     <Paper elevation={3} className={style.loginContainer}>
