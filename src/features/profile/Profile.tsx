@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
-import { Avatar, Button } from '@mui/material'
-import { Navigate } from 'react-router-dom'
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { Avatar, Button } from "@mui/material";
+import { Navigate } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
-import { setLogoutTC } from '../auth/auth-reducer'
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { setLogoutTC } from "../auth/auth-reducer";
 
-import { EditableSpan } from './EditableSpan'
-import s from './Profile.module.css'
+import { EditableSpan } from "./EditableSpan";
+import s from "./Profile.module.css";
+import { routing } from "../../common/routes/pathRoutesList";
 
-type ProfilePropsType = {}
+type ProfilePropsType = {};
 
 // comment
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
-  const [value, setValue] = useState('Ivan') // заменить на диспатч экшна в редьюсер
+  const [value, setValue] = useState("Ivan"); // заменить на диспатч экшна в редьюсер
 
-  const nickName = useAppSelector(state => state.auth.LoginParams.name)
-  const email = useAppSelector(state => state.auth.LoginParams.email)
+  const nickName = useAppSelector((state) => state.auth.LoginParams.name);
+  const email = useAppSelector((state) => state.auth.LoginParams.email);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
-    dispatch(setLogoutTC())
-  }
+    dispatch(setLogoutTC());
+  };
 
   if (!email) {
-    return <Navigate to={'/'} />
+    return <Navigate to={routing.startPage} />;
   }
 
   return (
@@ -51,5 +52,5 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
         <span>Back to Packs List</span>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -13,6 +13,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
   const dispatch = useAppDispatch();
 
   const { resetToken } = useParams<{ resetToken: string }>();
+  debugger;
 
   type FormikErrorType = {
     password?: string;

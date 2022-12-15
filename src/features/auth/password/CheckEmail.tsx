@@ -3,7 +3,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 
 import eIcon from "../../../assets/images/check-icon.jpg";
-import { login } from "../../../common/routes/pathRoutesList";
+import { routing } from "../../../common/routes/pathRoutesList";
 
 import style from "./Password.module.css";
 import { Paper, Typography } from "@mui/material";
@@ -23,7 +23,7 @@ export const CheckEmail: React.FC<CheckEmailProps> = ({ userEmail }) => {
 
         <Button
           className={style.button}
-          href={`#${login}`}
+          href={`#${routing.login}`}
           variant={"contained"}
           color={"primary"}
         >

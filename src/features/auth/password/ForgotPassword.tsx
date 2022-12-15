@@ -4,7 +4,7 @@ import { Button, FormGroup, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { login } from "../../../common/routes/pathRoutesList";
+import { routing } from "../../../common/routes/pathRoutesList";
 import { forgotTC } from "../auth-reducer";
 
 import { CheckEmail } from "./CheckEmail";
@@ -79,7 +79,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
             Send Instructions
           </Button>
           <p className={style.textBox}>Did you remember your password?</p>
-          <NavLink to={`${login}`}>Try to logging in</NavLink>
+          <NavLink to={`${routing.login}`}>Try to logging in</NavLink>
         </FormGroup>
       </form>
     </Paper>
