@@ -71,10 +71,11 @@ const forgotPasswordAC = (email: string) => ({ type: auth_FORGOT_PASSWORD, email
 const checkEmailAC = (check: boolean) => ({ type: auth_CHECK_EMAIL, check } as const)
 
 ///----------- thunks creators -----------\\\
-export const authMeTC = (): AppThunkType => async dispatch => {
+export const authMeTC = (): AppThunkType => async (dispatch, getState)=> {
   try {
     const res = await authAPI.me()
-
+    const state = getState()
+    !state.auth.LoginParams.name &&
     dispatch(authMeAC(res.data))
   } catch (e) {
     const err = e as Error | AxiosError
