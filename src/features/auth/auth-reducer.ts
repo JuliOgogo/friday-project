@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { AxiosError } from 'axios'
 
 import {
@@ -9,7 +8,6 @@ import {
   SetIsInitializedAppType,
 } from '../../app/app-reducer'
 import { AppThunkType } from '../../app/store'
-import { updateUserAC } from '../profile/profile-reducer'
 import { errorUtils } from '../../common/utils/error-utils'
 
 import { authAPI, AuthResponseType, LoginDataType } from './auth-api'
@@ -36,9 +34,7 @@ export const authReducer = (
     case auth_LOGIN:
       return { ...state, LoginParams: action.payload }
     case auth_LOGOUT:
-      //todo переделать объект
       return initialState
-
     case auth_FORGOT_PASSWORD:
       return {
         ...state,
@@ -48,6 +44,11 @@ export const authReducer = (
       return {
         ...state,
         check: action.check,
+      }
+    case profile_UPDATE_USER:
+      return {
+        ...state,
+        LoginParams: { ...state.LoginParams, name: action.name, avatar: action.avatar },
       }
     default:
       return state
@@ -70,6 +71,14 @@ export const setLogoutDataAC = () => ({ type: auth_LOGOUT } as const)
 const forgotPasswordAC = (email: string) => ({ type: auth_FORGOT_PASSWORD, email } as const)
 const checkEmailAC = (check: boolean) => ({ type: auth_CHECK_EMAIL, check } as const)
 
+export const updateUserAC = (name: string, avatar: string) => {
+  return {
+    type: profile_UPDATE_USER,
+    name,
+    avatar,
+  } as const
+}
+
 ///----------- thunks creators -----------\\\
 export const authMeTC = (): AppThunkType => async (dispatch, getState)=> {
   try {
@@ -79,6 +88,7 @@ export const authMeTC = (): AppThunkType => async (dispatch, getState)=> {
     dispatch(authMeAC(res.data))
   } catch (e) {
     const err = e as Error | AxiosError
+
     errorUtils(err, dispatch)
   } finally {
     dispatch(setAppIsInitializedAC(true))
@@ -91,13 +101,12 @@ export const setLoginTC =
       let res = await authAPI.login(data)
 
       dispatch(setLoginDataAC(res.data))
-      dispatch(updateUserAC(res.data.name, '#'))
     } catch (e) {
       const err = e as Error | AxiosError
+
       errorUtils(err, dispatch)
     }
   }
-
 export const setLogoutTC = (): AppThunkType => async dispatch => {
   try {
     let res = await authAPI.logout()
@@ -107,6 +116,7 @@ export const setLogoutTC = (): AppThunkType => async dispatch => {
     }
   } catch (e) {
     const err = e as Error | AxiosError
+
     errorUtils(err, dispatch)
   }
 }
@@ -118,6 +128,7 @@ export const registrationTC =
       dispatch(registration(true))
     } catch (e) {
       const err = e as Error | AxiosError
+
       errorUtils(err, dispatch)
     }
   }
@@ -130,6 +141,7 @@ export const forgotTC =
       dispatch(checkEmailAC(true))
     } catch (e) {
       const err = e as Error | AxiosError
+
       errorUtils(err, dispatch)
     }
   }
@@ -146,7 +158,26 @@ export const newPasswordTC =
       dispatch(checkEmailAC(false))
     } catch (e) {
       const err = e as Error | AxiosError
+
       errorUtils(err, dispatch)
+    }
+  }
+export const updateUserTC =
+  (name: string, avatar: string): AppThunkType =>
+  async dispatch => {
+    try {
+      const data = { name, avatar }
+      let res = await authAPI.updateUser(data)
+
+      if (res.data.error === undefined) {
+        dispatch(updateUserAC(data.name, data.avatar))
+      }
+    } catch (e) {
+      const err = e as Error | AxiosError
+
+      errorUtils(err, dispatch)
+    } finally {
+      dispatch(setAppIsInitializedAC(true))
     }
   }
 
@@ -170,6 +201,7 @@ export type AuthActionsType =
   | RegistrationType
   | ReturnType<typeof forgotPasswordAC>
   | ReturnType<typeof checkEmailAC>
+  | ReturnType<typeof updateUserAC>
 
 // constants
 const auth_AUTH_ME = 'auth/AUTH_ME'
@@ -178,3 +210,4 @@ const auth_LOGIN = 'auth/LOGIN'
 const auth_LOGOUT = 'auth/LOGOUT'
 const auth_FORGOT_PASSWORD = 'auth/FORGOT_PASSWORD'
 const auth_CHECK_EMAIL = 'auth/CHECK_EMAIL'
+const profile_UPDATE_USER = 'profile/UPDATE_USER'

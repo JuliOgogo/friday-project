@@ -6,16 +6,15 @@ import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { routing } from '../../common/routes/pathRoutesList'
-import { setLogoutTC } from '../auth/auth-reducer'
+import { setLogoutTC, updateUserTC } from '../auth/auth-reducer'
 
 import { EditableSpan } from './EditableSpan'
-import { updateUserTC } from './profile-reducer'
 import s from './Profile.module.css'
 
 type ProfilePropsType = {}
 
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
-  const nickName = useAppSelector(state => state.profile.name)
+  const nickName = useAppSelector(state => state.auth.LoginParams.name)
   const email = useAppSelector(state => state.auth.LoginParams.email)
 
   const dispatch = useAppDispatch()
