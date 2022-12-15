@@ -39,12 +39,19 @@ export const authAPI = {
       payload
     )
   },
+  updateUser(data: { name: string; avatar: string }) {
+    return instance.put<UpdatedUserResponseType>('/auth/me', data)
+  },
 }
 
 ///----------- types -----------\\\
 export type LogoutResponseType = {
   info: string
   error: string
+}
+type UpdatedUserResponseType = {
+  updatedUser: AuthResponseType
+  error?: string
 }
 type RegistrationResponseType = {
   addedUser: addedUserType
