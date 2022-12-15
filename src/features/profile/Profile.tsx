@@ -27,7 +27,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
   }
 
   const updateNameHandler = () => {
-    dispatch(updateUserTC())
+    dispatch(updateUserTC(nickName, 'avatar'))
   }
 
   if (!email) {

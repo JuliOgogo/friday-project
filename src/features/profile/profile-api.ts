@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 import { AuthResponseType } from '../auth/auth-api'
 
@@ -10,7 +10,7 @@ export const instance = axios.create({
 
 export const profileAPI = {
   updateUser(data: { name: string; avatar: string }) {
-    return instance.put<AxiosResponse<UpdatedUserResponseType>>('/auth/me', data)
+    return instance.put<UpdatedUserResponseType>('/auth/me', data)
   },
 }
 

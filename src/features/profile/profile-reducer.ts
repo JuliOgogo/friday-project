@@ -50,7 +50,7 @@ export const updateUserTC =
       const data = { name, avatar }
       let res = await profileAPI.updateUser(data)
 
-      if (res.data.data.error === undefined) {
+      if (res.data.error === undefined) {
         dispatch(updateUserAC(data.name, data.avatar))
       }
     } catch (e) {
