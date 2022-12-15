@@ -1,9 +1,11 @@
-export const startPage = '/'
-export const testPage = '/test'
-export const login = '/login'
-export const registration = '/registration'
-export const profile = '/profile'
-export const forgotPassword = '/forgot-password'
-export const newPassword = '/new-password/:resetToken'
-export const page404 = '/404'
-export const wrongPath = '*'
+export const routing = {
+  startPage: "/",
+  login: "/login",
+  registration: "/registration",
+  profile: "/profile",
+  forgotPassword: "/forgot-password",
+  newPassword: "/new-password/:resetToken",
+  page404: "/404",
+  wrongPath: "*",
+  testPage: "/test",
+};
