@@ -1,8 +1,9 @@
 import React from 'react'
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
-import { Avatar, Button } from '@mui/material'
-import { Navigate } from 'react-router-dom'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { Avatar, Button, Paper } from '@mui/material'
+import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { routing } from '../../common/routes/pathRoutesList'
@@ -33,10 +34,10 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
 
   return (
     <div>
-      <div className={s.profile}>
+      <Paper elevation={3} className={s.profile}>
         <div className={s.text}>Personal Information</div>
 
-        <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96 }} />
+        <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96, margin: '30px 0 17px 0' }} />
 
         <div className={s.editableSpan}>
           <EditableSpan value={nickName} onChange={updateNickNameHandler} />
@@ -44,13 +45,21 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
 
         <div className={s.email}>{email}</div>
 
-        <Button variant="outlined" onClick={logoutHandler}>
+        <Button
+          variant="outlined"
+          onClick={logoutHandler}
+          sx={{
+            width: '127px',
+            borderRadius: '50px',
+          }}
+        >
+          <LogoutIcon sx={{ marginRight: '5px', fontSize: '20px' }} />
           Log out
         </Button>
-      </div>
+      </Paper>
       <div className={s.back}>
-        <KeyboardBackspaceIcon />
-        <span>Back to Packs List</span>
+        <KeyboardBackspaceIcon sx={{ marginRight: '5px', fontSize: '20px' }} />
+        <NavLink to={'#'}>Back to Packs List</NavLink>
       </div>
     </div>
   )

@@ -11,6 +11,7 @@ type EditableSpanPropsType = {
 export const EditableSpan = (props: EditableSpanPropsType) => {
   let [editMode, setEditMode] = useState(false)
   let [title, setTitle] = useState(props.value)
+  let [error, setError] = useState(false)
 
   const activateEditMode = () => {
     setEditMode(true)
@@ -21,21 +22,31 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     props.onChange(title)
   }
   const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value)
+    const newValue = e.currentTarget.value
+
+    if (newValue.trim() === '' || newValue.trim().length > 20) {
+      setError(true)
+    } else {
+      setError(false)
+    }
+    setTitle(newValue)
   }
 
   return editMode ? (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <TextField
-        variant="standard"
-        label={'Nickname'}
-        value={title}
-        onChange={changeTitle}
-        autoFocus
-      />
-      <Button variant="contained" onClick={activateViewMode}>
-        Save
-      </Button>
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <TextField
+          variant="standard"
+          label={'Nickname'}
+          value={title}
+          onChange={changeTitle}
+          autoFocus
+        />
+        <Button variant="contained" onClick={activateViewMode} disabled={error}>
+          Save
+        </Button>
+      </div>
+      {error && <span style={{ color: 'red', fontSize: '15px' }}>bad name</span>}
     </div>
   ) : (
     <div>
