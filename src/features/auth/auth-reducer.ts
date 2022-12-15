@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 
 import {
   SetAppErrorType,
+  setAppStatusAC,
   SetAppStatusType,
   SetIsInitializedAppType,
 } from "../../app/app-reducer";
@@ -148,11 +149,9 @@ export const forgotTC =
   (email: string): AppThunkType =>
   async (dispatch) => {
     try {
-      const res = await authAPI.forgot(email);
-
+      await authAPI.forgot(email);
       dispatch(forgotPasswordAC(email));
       dispatch(checkEmailAC(true));
-      console.log(res.data.info);
     } catch (e) {
       const err = e as Error | AxiosError;
       if (axios.isAxiosError(err)) {
@@ -170,13 +169,13 @@ export const newPasswordTC =
   (password: string, resetToken: string): AppThunkType =>
   async (dispatch) => {
     try {
-      const res = await authAPI.newPassword({
+      dispatch(setAppStatusAC("loading"));
+      await authAPI.newPassword({
         password,
         resetPasswordToken: resetToken,
       });
-
+      dispatch(setAppStatusAC("succeeded"));
       dispatch(checkEmailAC(false));
-      console.log(res.data.info);
     } catch (e) {
       const err = e as Error | AxiosError;
       if (axios.isAxiosError(err)) {

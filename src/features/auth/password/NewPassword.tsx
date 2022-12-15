@@ -2,18 +2,20 @@ import React from "react";
 
 import { Button, FormGroup, Paper, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
-import { useAppDispatch } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { newPasswordTC } from "../auth-reducer";
 
 import style from "./Password.module.css";
+import { routing } from "../../../common/routes/pathRoutesList";
 
 export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
   const dispatch = useAppDispatch();
 
+  const status = useAppSelector((state) => state.app.status);
+
   const { resetToken } = useParams<{ resetToken: string }>();
-  debugger;
 
   type FormikErrorType = {
     password?: string;
@@ -40,6 +42,10 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
       resetToken && dispatch(newPasswordTC(values.password, resetToken));
     },
   });
+
+  if (status === "succeeded") {
+    return <Navigate to={routing.login} />;
+  }
 
   return (
     <Paper elevation={3} className={style.container}>
