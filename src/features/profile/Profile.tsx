@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import { Avatar, Button } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
+import { login } from '../../common/routes/pathRoutesList'
 import { setLogoutTC } from '../auth/auth-reducer'
 
 import { EditableSpan } from './EditableSpan'
+import { updateUserTC } from './profile-reducer'
 import s from './Profile.module.css'
 
 type ProfilePropsType = {}
 
 // comment
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
-  const [value, setValue] = useState('Ivan') // заменить на диспатч экшна в редьюсер
-
-  const nickName = useAppSelector(state => state.auth.LoginParams.name)
+  const nickName = useAppSelector(state => state.profile.name)
   const email = useAppSelector(state => state.auth.LoginParams.email)
 
   const dispatch = useAppDispatch()
@@ -25,8 +25,12 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
     dispatch(setLogoutTC())
   }
 
+  const updateNickNameHandler = (newNickName: string) => {
+    dispatch(updateUserTC(newNickName, 'new avatar'))
+  }
+
   if (!email) {
-    return <Navigate to={'/'} />
+    return <Navigate to={login} />
   }
 
   return (
@@ -37,7 +41,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
         <Avatar alt="avatar" src="#" sx={{ width: 96, height: 96 }} />
 
         <div className={s.editableSpan}>
-          <EditableSpan value={nickName} onChange={setValue} />
+          <EditableSpan value={nickName} onChange={updateNickNameHandler} />
         </div>
 
         <div className={s.email}>{email}</div>

@@ -8,6 +8,7 @@ import {
     SetIsInitializedAppType,
 } from '../../app/app-reducer'
 import {AppThunkType} from '../../app/store'
+import {updateUserAC} from '../profile/profile-reducer'
 
 import {authAPI, AuthResponseType, LoginDataType} from './auth-api'
 
@@ -87,6 +88,7 @@ export const setLoginTC =
                 let res = await authAPI.login(data)
 
                 dispatch(setLoginDataAC(res.data))
+                dispatch(updateUserAC(res.data.name, '#'))
             } catch (e) {
                 const err = e as Error | AxiosError
 

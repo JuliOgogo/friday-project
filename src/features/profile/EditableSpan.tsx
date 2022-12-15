@@ -8,7 +8,7 @@ type EditableSpanPropsType = {
   onChange: (newValue: string) => void
 }
 
-export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
+export const EditableSpan = (props: EditableSpanPropsType) => {
   let [editMode, setEditMode] = useState(false)
   let [title, setTitle] = useState(props.value)
 
@@ -32,14 +32,19 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
         value={title}
         onChange={changeTitle}
         autoFocus
-        onBlur={activateViewMode}
       />
-      <Button variant="contained">Save</Button>
+      <Button variant="contained" onClick={activateViewMode}>
+        Save
+      </Button>
     </div>
   ) : (
-    <label onDoubleClick={activateEditMode}>
+    <div>
       <span>{props.value}</span>
-      <BorderColorOutlinedIcon color="action" sx={{ marginLeft: '5px', fontSize: '20px' }} />
-    </label>
+      <BorderColorOutlinedIcon
+        color="action"
+        sx={{ marginLeft: '5px', fontSize: '20px' }}
+        onClick={activateEditMode}
+      />
+    </div>
   )
-})
+}
