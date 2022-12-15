@@ -9,6 +9,7 @@ import { authMeTC } from '../features/auth/auth-reducer'
 
 import Pages from './Pages/Pages'
 import { useAppDispatch, useAppSelector } from './store'
+import {ErrorSnackbar} from "../common/components/ErrorSnackbar/ErroSnackbar";
 
 function App() {
   const dispatch = useAppDispatch()
@@ -30,6 +31,7 @@ function App() {
         </div>
         {/*<div> здесь должна быть либо кнопка 'Sign In', либо значок профиля в зависимости от состояния нашего приложения </div>*/}
       </AppBar>
+        <ErrorSnackbar/>
 
       <Container fixed style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Pages />

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import axios, {AxiosError} from 'axios'
+import  {AxiosError} from 'axios'
 
 import {
     SetAppErrorType,
@@ -8,11 +8,12 @@ import {
     SetIsInitializedAppType,
 } from '../../app/app-reducer'
 import {AppThunkType} from '../../app/store'
+import { errorUtils } from '../../common/utils/error-utils'
 
 import {authAPI, AuthResponseType, LoginDataType} from './auth-api'
 
 const initialState: InitialStateType = {
-    error: '',
+
     isRegistration: false,
     LoginParams: {} as AuthResponseType,
     email: '',
@@ -36,8 +37,7 @@ export const authReducer = (
         case auth_LOGOUT:
             //todo переделать объект
             return initialState
-        case auth_SET_ERROR:
-            return {...state, error: action.error}
+
         case auth_FORGOT_PASSWORD:
             return {
                 ...state,
@@ -65,7 +65,7 @@ export const registration = (isRegistration: boolean) =>
 export const setLoginDataAC = (payload: AuthResponseType) =>
     ({type: auth_LOGIN, payload} as const)
 export const setLogoutDataAC = () => ({type: auth_LOGOUT} as const)
-export const setAuthError = (error: string | null) => ({type: auth_SET_ERROR, error} as const)
+
 const forgotPasswordAC = (email: string) => ({type: auth_FORGOT_PASSWORD, email} as const)
 const checkEmailAC = (check: boolean) => ({type: auth_CHECK_EMAIL, check} as const)
 
@@ -76,6 +76,8 @@ export const authMeTC = (): AppThunkType => async dispatch => {
 
         dispatch(authMeAC(responce.data))
     } catch (e) {
+        const err = e as Error | AxiosError;
+        errorUtils(err, dispatch);
     } finally {
         dispatch(setAppIsInitializedAC(true))
     }
@@ -88,19 +90,10 @@ export const setLoginTC =
 
                 dispatch(setLoginDataAC(res.data))
             } catch (e) {
-                const err = e as Error | AxiosError
-
-                if (axios.isAxiosError(err)) {
-                    const error = err.response?.data
-                        ? (err.response.data as { error: string }).error
-                        : err.message
-
-                    dispatch(setAuthError(error))
-                } else {
-                    dispatch(setAuthError(`Native error ${err.message}`))
-                }
+                const err = e as Error | AxiosError;
+                errorUtils(err, dispatch);}
             }
-        }
+
 export const setLogoutTC = (): AppThunkType => async dispatch => {
     try {
         let res = await authAPI.logout()
@@ -109,17 +102,8 @@ export const setLogoutTC = (): AppThunkType => async dispatch => {
             dispatch(setLogoutDataAC())
         }
     } catch (e) {
-        const err = e as Error | AxiosError
-
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as { error: string }).error
-                : err.message
-
-            dispatch(setAuthError(error))
-        } else {
-            dispatch(setAuthError(`Native error ${err.message}`))
-        }
+        const err = e as Error | AxiosError;
+        errorUtils(err, dispatch);
     }
 }
 export const registrationTC =
@@ -129,18 +113,8 @@ export const registrationTC =
                 await authAPI.registration(email, password)
                 dispatch(registration(true))
             } catch (e) {
-                //errorUtils(e, dispatch)
-                const err = e as Error | AxiosError
-
-                if (axios.isAxiosError(err)) {
-                    const error = err.response?.data
-                        ? (err.response.data as { error: string }).error
-                        : err.message
-
-                    dispatch(setAuthError(error))
-                } else {
-                    dispatch(setAuthError(`Native error ${err.message}`))
-                }
+                const err = e as Error | AxiosError;
+                errorUtils(err, dispatch);
             }
         }
 export const forgotTC =
@@ -153,15 +127,8 @@ export const forgotTC =
                 dispatch(checkEmailAC(true))
                 console.log(res.data.info)
             } catch (e) {
-                const err = e as Error | AxiosError
-                // if (axios.isAxiosError(err)) {
-                //     const error = err.response?.data
-                //         ? (err.response.data as { error: string }).error
-                //         : err.message
-                //
-                //     dispatch(setAuthError(error))
-                // } else {
-                //     dispatch(setAuthError(`Native error ${err.message}`))}
+                const err = e as Error | AxiosError;
+                errorUtils(err, dispatch);
             }
         }
 export const newPasswordTC =
@@ -173,15 +140,8 @@ export const newPasswordTC =
                 dispatch(checkEmailAC(false))
                 console.log(res.data.info)
             } catch (e) {
-                const err = e as Error | AxiosError
-                // if (axios.isAxiosError(err)) {
-                //     const error = err.response?.data
-                //         ? (err.response.data as { error: string }).error
-                //         : err.message
-                //
-                //     dispatch(setAuthError(error))
-                // } else {
-                //     dispatch(setAuthError(`Native error ${err.message}`))}
+                const err = e as Error | AxiosError;
+                errorUtils(err, dispatch);
             }
         }
 
@@ -190,13 +150,13 @@ export const newPasswordTC =
 export type InitialStateType = {
     // происходит ли сейчас взаимодействие с сервером
     // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-    error: string | null
+
     isRegistration: boolean
     LoginParams: AuthResponseType
     email: string
     check: boolean
 }
-export type SetAuthErrorType = ReturnType<typeof setAuthError>
+
 export type RegistrationType = ReturnType<typeof registration>
 export type AuthActionsType =
     | ReturnType<typeof authMeAC>
@@ -205,7 +165,7 @@ export type AuthActionsType =
     | SetAppStatusType
     | SetAppErrorType
     | SetIsInitializedAppType
-    | SetAuthErrorType
+
     | RegistrationType
     | ReturnType<typeof forgotPasswordAC>
     | ReturnType<typeof checkEmailAC>
@@ -215,6 +175,6 @@ const auth_AUTH_ME = 'auth/AUTH_ME'
 const auth_REGISTRATION = 'auth/REGISTRATION'
 const auth_LOGIN = 'auth/LOGIN'
 const auth_LOGOUT = 'auth/LOGOUT'
-const auth_SET_ERROR = 'auth/SET_ERROR'
+
 const auth_FORGOT_PASSWORD = 'auth/FORGOT_PASSWORD'
 const auth_CHECK_EMAIL = 'auth/CHECK_EMAIL'
