@@ -80,12 +80,12 @@ export const updateUserAC = (name: string, avatar: string) => {
 }
 
 ///----------- thunks creators -----------\\\
-export const authMeTC = (): AppThunkType => async (dispatch, getState)=> {
+export const authMeTC = (): AppThunkType => async (dispatch, getState) => {
   try {
     const res = await authAPI.me()
     const state = getState()
-    !state.auth.LoginParams.name &&
-    dispatch(authMeAC(res.data))
+
+    !state.auth.LoginParams.name && dispatch(authMeAC(res.data))
   } catch (e) {
     const err = e as Error | AxiosError
 
