@@ -88,7 +88,7 @@ export function Registration() {
   return (
       <Paper elevation={3} className={style.loginContainer}>
         <Typography variant="h4" className={style.title}>
-          Sing up
+          Sing Up
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>

@@ -4,6 +4,7 @@ import { AppBar } from '@material-ui/core'
 import { Avatar, Button } from '@mui/material'
 
 import itIncubatorLogo from '../../assets/images/itIncubatorLogo.svg'
+import { routing } from '../../common/routes/pathRoutesList'
 import { useAppSelector } from '../store'
 
 import s from './Header.module.css'
@@ -28,7 +29,7 @@ export function Header() {
       ) : (
         <Button
           variant="contained"
-          onClick={() => {}}
+          href={`#${routing.login}`}
           sx={{
             width: '113px',
             borderRadius: '50px',
