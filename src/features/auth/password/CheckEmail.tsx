@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
-import { Paper, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Paper, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
 
-import eIcon from "../../../assets/images/check-icon.jpg";
-import { routing } from "../../../common/routes/pathRoutesList";
+import eIcon from '../../../assets/images/check-icon.jpg'
+import { routing } from '../../../common/routes/pathRoutesList'
 
-import style from "./Password.module.css";
+import style from './Password.module.css'
 
 export const CheckEmail: React.FC<CheckEmailProps> = ({ userEmail }) => {
   return (
@@ -15,31 +15,29 @@ export const CheckEmail: React.FC<CheckEmailProps> = ({ userEmail }) => {
         Check Email
       </Typography>
       <div>
-        <img className={style.image} src={eIcon} alt={"email"} />
+        <img className={style.image} src={eIcon} alt={'email'} />
 
-        <p
-          className={style.textBox}
-        >{`We’ve sent an Email with instructions to ${userEmail}`}</p>
+        <p className={style.textBox}>{`We’ve sent an Email with instructions to ${userEmail}`}</p>
 
         <Button
           href={`#${routing.login}`}
-          variant={"contained"}
-          color={"primary"}
+          variant={'contained'}
+          color={'primary'}
           sx={{
-            width: "347px",
-            borderRadius: "50px",
-            fontFamily: "Montserrat, sans-serif",
-            fontWeight: "300",
+            width: '347px',
+            borderRadius: '50px',
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeight: '300',
           }}
         >
           Back to login
         </Button>
       </div>
     </Paper>
-  );
-};
+  )
+}
 
 // types
 type CheckEmailProps = {
-  userEmail: string;
-};
+  userEmail: string
+}

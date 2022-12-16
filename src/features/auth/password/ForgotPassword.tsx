@@ -1,50 +1,48 @@
-import React from "react";
+import React from 'react'
 
-import { Button, FormGroup, Paper, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import { NavLink } from "react-router-dom";
+import { Button, FormGroup, Paper, TextField, Typography } from '@mui/material'
+import { useFormik } from 'formik'
+import { NavLink } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { routing } from "../../../common/routes/pathRoutesList";
-import { forgotTC } from "../auth-reducer";
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { routing } from '../../../common/routes/pathRoutesList'
+import { forgotTC } from '../auth-reducer'
 
-import { CheckEmail } from "./CheckEmail";
-import style from "./Password.module.css";
+import { CheckEmail } from './CheckEmail'
+import style from './Password.module.css'
 
 export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
-  const dispatch = useAppDispatch();
-  const email = useAppSelector((state) => state.auth.email);
-  const check = useAppSelector((state) => state.auth.check);
+  const dispatch = useAppDispatch()
+  const email = useAppSelector(state => state.auth.email)
+  const check = useAppSelector(state => state.auth.check)
 
   type FormikErrorType = {
-    email?: string;
-  };
+    email?: string
+  }
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: '',
     },
-    validate: (values) => {
-      const errors: FormikErrorType = {};
+    validate: values => {
+      const errors: FormikErrorType = {}
 
       if (!values.email) {
-        errors.email = "Required field";
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-      ) {
-        errors.email = "Invalid email address";
+        errors.email = 'Required field'
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address'
       }
 
-      return errors;
+      return errors
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
-      formik.resetForm();
-      dispatch(forgotTC(values.email));
+    onSubmit: values => {
+      alert(JSON.stringify(values))
+      formik.resetForm()
+      dispatch(forgotTC(values.email))
     },
-  });
+  })
 
   if (check) {
-    return <CheckEmail userEmail={email} />;
+    return <CheckEmail userEmail={email} />
   }
 
   return (
@@ -59,7 +57,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
             label="Email"
             margin="normal"
             variant="standard"
-            {...formik.getFieldProps("email")}
+            {...formik.getFieldProps('email')}
             onBlur={formik.handleBlur}
           />
           {formik.touched.email && formik.errors.email ? (
@@ -71,14 +69,14 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
           </p>
 
           <Button
-            type={"submit"}
-            variant={"contained"}
-            color={"primary"}
+            type={'submit'}
+            variant={'contained'}
+            color={'primary'}
             sx={{
-              width: "347px",
-              borderRadius: "50px",
-              fontFamily: "Montserrat, sans-serif",
-              fontWeight: "300",
+              width: '347px',
+              borderRadius: '50px',
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeight: '300',
             }}
           >
             Send Instructions
@@ -88,8 +86,8 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
         </FormGroup>
       </form>
     </Paper>
-  );
-};
+  )
+}
 
 // types
-type PasswordRecoveryPropsType = {};
+type PasswordRecoveryPropsType = {}
