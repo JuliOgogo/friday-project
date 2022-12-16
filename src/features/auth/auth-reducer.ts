@@ -91,8 +91,10 @@ export const authMeTC = (): AppThunkType => async (dispatch, getState) => {
     // todo if(token! =res.token)
   } catch (e) {
     const err = e as Error | AxiosError
+    if(getState().auth.LoginParams.name)
+      errorUtils(err, dispatch)
 
-    errorUtils(err, dispatch)
+
   } finally {
     dispatch(setAppIsInitializedAC(true))
   }

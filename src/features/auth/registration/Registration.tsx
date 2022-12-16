@@ -65,7 +65,8 @@ export function Registration() {
       }
       if (!values.password) {
         errors.password = 'Required'
-      } else if (values.password.length < 7) {
+      } else if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i.test(values.password)) {
+        // !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/i.test(values.password)
         errors.password = 'Password must be more than 7 characters...'
       }
       if (values.password !== values.confirm_password) {
