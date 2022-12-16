@@ -85,16 +85,16 @@ export function Registration() {
   }
 
   return (
-      <Paper elevation={4} className={style.loginContainer}>
+      <Paper elevation={3} className={style.loginContainer}>
         <Typography variant="h4" className={style.title}>
           Sing up
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <TextField
-                required
-                id="standard-required"
-                margin="normal"
+
+                size={'small'}
+                margin={'normal'}
                 label="Email"
                 variant="standard"
                 {...formik.getFieldProps("email")}
@@ -160,7 +160,14 @@ export function Registration() {
             <Button
                 variant="contained"
                 type={"submit"}
-                className={style.buttonSubmit}
+                color={'primary'}
+                sx={{
+                  width: '347px',
+                  borderRadius: '50px',
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontWeight: '300',
+                  mt:'60px',
+                }}
             >
               Sing Up
             </Button>

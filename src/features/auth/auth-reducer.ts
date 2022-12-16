@@ -86,6 +86,9 @@ export const authMeTC = (): AppThunkType => async (dispatch, getState) => {
     const state = getState()
 
     !state.auth.LoginParams.name && dispatch(authMeAC(res.data))
+
+
+    // todo if(token! =res.token)
   } catch (e) {
     const err = e as Error | AxiosError
 
