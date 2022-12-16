@@ -72,10 +72,15 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
           </p>
 
           <Button
-            className={style.button}
             type={"submit"}
             variant={"contained"}
             color={"primary"}
+            sx={{
+              width: "347px",
+              borderRadius: "50px",
+              fontFamily: "Montserrat, sans-serif",
+              fontWeight: "300",
+            }}
           >
             Create new password
           </Button>
