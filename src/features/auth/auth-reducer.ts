@@ -12,7 +12,7 @@ import { errorUtils } from '../../common/utils/error-utils'
 
 import { authAPI, AuthResponseType, LoginDataType } from './auth-api'
 
-const initialState: InitialStateType = {
+const initialState = {
   isRegistration: false,
   LoginParams: {} as AuthResponseType,
   email: '',
@@ -62,7 +62,7 @@ export const authMeAC = (LoginParams: AuthResponseType) => {
     LoginParams,
   } as const
 }
-export const registration = (isRegistration: boolean) =>
+export const registrationAC = (isRegistration: boolean) =>
   ({ type: auth_REGISTRATION, isRegistration } as const)
 export const setLoginDataAC = (payload: AuthResponseType) =>
   ({ type: auth_LOGIN, payload } as const)
@@ -127,7 +127,7 @@ export const registrationTC =
   async dispatch => {
     try {
       await authAPI.registration(email, password)
-      dispatch(registration(true))
+      dispatch(registrationAC(true))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -184,15 +184,8 @@ export const updateUserTC =
   }
 
 ///----------- types -----------\\\
-// type InitialStateType = typeof initialState
-export type InitialStateType = {
-  isRegistration: boolean
-  LoginParams: AuthResponseType
-  email: string
-  check: boolean
-}
-
-export type RegistrationType = ReturnType<typeof registration>
+export type InitialStateType = typeof initialState
+export type RegistrationType = ReturnType<typeof registrationAC>
 export type AuthActionsType =
   | ReturnType<typeof authMeAC>
   | ReturnType<typeof setLoginDataAC>
