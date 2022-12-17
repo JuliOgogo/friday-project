@@ -5,14 +5,14 @@ import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { CustomButton } from '../../../common/components/CustomButton/CustomButton'
+import { CustomInput } from '../../../common/components/CustomInput/CustomInput'
+import { CustomInputPassword } from '../../../common/components/CustomInputPassword/CustomInputPassword'
 import { PATH } from '../../../common/routes/pathRoutesList'
 import { registrationTC } from '../auth-reducer'
 import { registrationSelector } from '../auth-selector'
 
 import style from './Registration.module.css'
-import { CustomInput } from '../../../common/components/CustomInput/CustomInput'
-import { CustomInputPassword } from '../../../common/components/CustomInputPassword/CustomInputPassword'
-import { CustomButton } from '../../../common/components/CustomButton/CustomButton'
 
 type FormikErrorType = {
   email?: string
@@ -83,7 +83,7 @@ export function Registration() {
           />
 
           <CustomInputPassword
-            label={'Password'}
+            label={'Confirm password'}
             autoComplete={'new-password'}
             error={!!formik.errors.confirm_password && formik.touched.confirm_password}
             helperText={formik.touched.confirm_password && formik.errors.confirm_password}
