@@ -1,22 +1,13 @@
 import React from 'react'
 
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  TextField,
-} from '@mui/material'
-import Button from '@mui/material/Button'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { NavLink } from 'react-router-dom'
 
 import { useAppDispatch } from '../../../../app/store'
+import { CustomButton } from '../../../../common/components/CustomButton/CustomButton'
+import { CustomInput } from '../../../../common/components/CustomInput/CustomInput'
+import { CustomInputPassword } from '../../../../common/components/CustomInputPassword/CustomInputPassword'
 import { PATH } from '../../../../common/routes/pathRoutesList'
 import { LoginDataType } from '../../auth-api'
 import { setLoginTC } from '../../auth-reducer'
@@ -25,14 +16,6 @@ import style from './LoginForm.module.css'
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch()
-
-  const [showPassword, setShowPassword] = React.useState(false)
-
-  const handleClickShowPassword = () => setShowPassword(show => !show)
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
 
   const formik = useFormik({
     initialValues: {
@@ -62,73 +45,43 @@ export const LoginForm = () => {
   })
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <FormGroup>
-        <TextField
-          label="Email"
-          size={'small'}
-          margin={'normal'}
-          variant={'standard'}
-          {...formik.getFieldProps('email')}
-        />
-        {formik.errors.email && (
-          <div className={style.error}>{formik.touched.email && formik.errors.email}</div>
-        )}
-        <FormControl variant="standard">
-          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
+    <>
+      <form onSubmit={formik.handleSubmit}>
+        <FormGroup>
+          <CustomInput
+            label="Email"
+            error={!!formik.errors.email && formik.touched.email}
+            helperText={formik.touched.email && formik.errors.email}
+            {...formik.getFieldProps('email')}
+          />
+          <CustomInputPassword
+            label="Password"
+            error={formik.touched.password && !!formik.errors.password}
+            helperText={formik.touched.password && formik.errors.password}
             {...formik.getFieldProps('password')}
           />
-          {formik.touched.password && formik.errors.password && (
-            <div className={style.error}>{formik.errors.password}</div>
-          )}
-        </FormControl>
-        <div className={style.checkbox}>
-          <FormControlLabel
-            label={'Remember me'}
-            control={
-              <Checkbox
-                checked={formik.values.rememberMe}
-                {...formik.getFieldProps('rememberMe')}
-              />
-            }
-          />
-        </div>
-        <div className={style.linkPassword}>
-          <NavLink to={PATH.FORGOT_PASS}>Forgot password?</NavLink>
-        </div>
-      </FormGroup>
-      <Button
-        type={'submit'}
-        variant={'contained'}
-        color={'primary'}
-        sx={{
-          width: '347px',
-          borderRadius: '50px',
-          fontFamily: 'Montserrat, sans-serif',
-          fontWeight: '300',
-        }}
-      >
-        Sign In
-      </Button>
+          <div className={style.checkbox}>
+            <FormControlLabel
+              label={<Typography className={style.checkboxRemember}>Remember me</Typography>}
+              control={
+                <Checkbox
+                  checked={formik.values.rememberMe}
+                  {...formik.getFieldProps('rememberMe')}
+                />
+              }
+            />
+          </div>
+          <div className={style.linkPassword}>
+            <NavLink to={PATH.FORGOT_PASS}>Forgot password?</NavLink>
+          </div>
+          <CustomButton>Sign In</CustomButton>
+        </FormGroup>
+      </form>
       <div className={style.textRegister}>Dont have an account?</div>
       <div className={style.linkRegister}>
         <NavLink to={PATH.REGISTRATION}>Sign Up</NavLink>
       </div>
-    </form>
+    </>
   )
 }
 
