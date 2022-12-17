@@ -45,7 +45,7 @@ export const authReducer = (
         ...state,
         check: action.check,
       }
-    case profile_UPDATE_USER:
+    case auth_UPDATE_USER:
       return {
         ...state,
         LoginParams: { ...state.LoginParams, name: action.name, avatar: action.avatar },
@@ -73,7 +73,7 @@ const checkEmailAC = (check: boolean) => ({ type: auth_CHECK_EMAIL, check } as c
 
 export const updateUserAC = (name: string, avatar: string) => {
   return {
-    type: profile_UPDATE_USER,
+    type: auth_UPDATE_USER,
     name,
     avatar,
   } as const
@@ -205,4 +205,4 @@ const auth_LOGIN = 'auth/LOGIN'
 const auth_LOGOUT = 'auth/LOGOUT'
 const auth_FORGOT_PASSWORD = 'auth/FORGOT_PASSWORD'
 const auth_CHECK_EMAIL = 'auth/CHECK_EMAIL'
-const profile_UPDATE_USER = 'profile/UPDATE_USER'
+const auth_UPDATE_USER = 'auth/UPDATE_USER'

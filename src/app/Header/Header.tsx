@@ -4,14 +4,15 @@ import { AppBar } from '@material-ui/core'
 import { Avatar, Button } from '@mui/material'
 
 import itIncubatorLogo from '../../assets/images/itIncubatorLogo.svg'
-import { routing } from '../../common/routes/pathRoutesList'
+import { PATH } from '../../common/routes/pathRoutesList'
+import { userEmailSelector, userNameSelector } from '../../features/auth/auth-selector'
 import { useAppSelector } from '../store'
 
 import s from './Header.module.css'
 
 export function Header() {
-  const isLoggedIn = useAppSelector(state => state.auth.LoginParams.email)
-  const name = useAppSelector(state => state.auth.LoginParams.name)
+  const isLoggedIn = useAppSelector(userEmailSelector)
+  const name = useAppSelector(userNameSelector)
 
   return (
     <AppBar
@@ -29,7 +30,7 @@ export function Header() {
       ) : (
         <Button
           variant="contained"
-          href={`#${routing.login}`}
+          href={`#${PATH.LOGIN}`}
           sx={{
             width: '113px',
             borderRadius: '50px',

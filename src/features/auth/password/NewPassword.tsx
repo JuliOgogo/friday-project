@@ -4,8 +4,9 @@ import { Button, FormGroup, Paper, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { Navigate, useParams } from 'react-router-dom'
 
+import { statusSelector } from '../../../app/app-selector'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { routing } from '../../../common/routes/pathRoutesList'
+import { PATH } from '../../../common/routes/pathRoutesList'
 import { newPasswordTC } from '../auth-reducer'
 
 import style from './Password.module.css'
@@ -13,7 +14,7 @@ import style from './Password.module.css'
 export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
   const dispatch = useAppDispatch()
 
-  const status = useAppSelector(state => state.app.status)
+  const status = useAppSelector(statusSelector)
 
   const { resetToken } = useParams<{ resetToken: string }>()
 
@@ -43,7 +44,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
   })
 
   if (status === 'succeeded') {
-    return <Navigate to={routing.login} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (

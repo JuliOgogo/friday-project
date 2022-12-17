@@ -5,16 +5,17 @@ import { useFormik } from 'formik'
 import { NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { routing } from '../../../common/routes/pathRoutesList'
+import { PATH } from '../../../common/routes/pathRoutesList'
 import { forgotTC } from '../auth-reducer'
+import { forgotPasswordCheckSelector, forgotPasswordEmailSelector } from '../auth-selector'
 
 import { CheckEmail } from './CheckEmail'
 import style from './Password.module.css'
 
 export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
   const dispatch = useAppDispatch()
-  const email = useAppSelector(state => state.auth.email)
-  const check = useAppSelector(state => state.auth.check)
+  const email = useAppSelector(forgotPasswordEmailSelector)
+  const check = useAppSelector(forgotPasswordCheckSelector)
 
   type FormikErrorType = {
     email?: string
@@ -82,7 +83,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
             Send Instructions
           </Button>
           <p className={style.textBox}>Did you remember your password?</p>
-          <NavLink to={`${routing.login}`}>Try to logging in</NavLink>
+          <NavLink to={`${PATH.LOGIN}`}>Try to logging in</NavLink>
         </FormGroup>
       </form>
     </Paper>

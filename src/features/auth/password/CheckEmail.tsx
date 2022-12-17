@@ -4,7 +4,7 @@ import { Paper, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 
 import eIcon from '../../../assets/images/check-icon.jpg'
-import { routing } from '../../../common/routes/pathRoutesList'
+import { PATH } from '../../../common/routes/pathRoutesList'
 
 import style from './Password.module.css'
 
@@ -20,7 +20,7 @@ export const CheckEmail: React.FC<CheckEmailProps> = ({ userEmail }) => {
         <p className={style.textBox}>{`We’ve sent an Email with instructions to ${userEmail}`}</p>
 
         <Button
-          href={`#${routing.login}`}
+          href={`#${PATH.LOGIN}`}
           variant={'contained'}
           color={'primary'}
           sx={{

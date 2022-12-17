@@ -1,11 +1,10 @@
-export const routing = {
-  startPage: '/',
-  login: '/login',
-  registration: '/registration',
-  profile: '/profile',
-  forgotPassword: '/forgot-password',
-  newPassword: '/new-password/:resetToken',
-  page404: '/404',
-  wrongPath: '*',
-  testPage: '/test',
+export const PATH = {
+  START_PAGE: '/',
+  LOGIN: '/login',
+  REGISTRATION: '/registration',
+  PROFILE: '/profile',
+  FORGOT_PASS: '/forgot-password',
+  NEW_PASS: '/new-password/:resetToken',
+  PAGE404: '/404',
+  WRONG_PATH: '*',
 }

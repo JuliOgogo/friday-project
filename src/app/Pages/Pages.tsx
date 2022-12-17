@@ -1,29 +1,39 @@
 import React from 'react'
 
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
-import { routing } from '../../common/routes/pathRoutesList'
+import { PATH } from '../../common/routes/pathRoutesList'
+import { loginSelector } from '../../features/auth/auth-selector'
 import { Login } from '../../features/auth/login/Login'
 import { ForgotPassword } from '../../features/auth/password/ForgotPassword'
 import { NewPassword } from '../../features/auth/password/NewPassword'
 import { Registration } from '../../features/auth/registration/Registration'
 import { Profile } from '../../features/profile/Profile'
+import { useAppSelector } from '../store'
 
 function Pages() {
+  const PrivateRoutes = () => {
+    let isLoggedIn = useAppSelector(loginSelector)
+
+    return isLoggedIn ? <Outlet /> : <Navigate to={PATH.LOGIN} />
+  }
+
   return (
     <Routes>
-      {/*<Route path={startPage} element={<Navigate to={login} />} />*/}
-      <Route index path={routing.startPage} element={<h1>start</h1>} />
-      <Route path={routing.registration} element={<Registration />} />
-      <Route path={routing.login} element={<Login />} />
-      <Route path={routing.profile} element={<Profile />} />
-      <Route path={routing.forgotPassword} element={<ForgotPassword />} />
-      <Route path={routing.newPassword} element={<NewPassword />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path={PATH.PROFILE} element={<Profile />} />
+      </Route>
+
+      <Route index path={PATH.START_PAGE} element={<Profile />} />
+      <Route path={PATH.REGISTRATION} element={<Registration />} />
+      <Route path={PATH.LOGIN} element={<Login />} />
+      <Route path={PATH.FORGOT_PASS} element={<ForgotPassword />} />
+      <Route path={PATH.NEW_PASS} element={<NewPassword />} />
       <Route
-        path={routing.page404}
+        path={PATH.PAGE404}
         element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
       />
-      <Route path={routing.wrongPath} element={<Navigate to={routing.page404} />} />
+      <Route path={PATH.WRONG_PATH} element={<Navigate to={PATH.PAGE404} />} />
     </Routes>
   )
 }

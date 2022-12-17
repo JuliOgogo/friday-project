@@ -4,15 +4,16 @@ import { Paper, Typography } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppSelector } from '../../../app/store'
-import { routing } from '../../../common/routes/pathRoutesList'
+import { PATH } from '../../../common/routes/pathRoutesList'
+import { loginSelector } from '../auth-selector'
 
 import style from './Login.module.css'
 import { LoginForm } from './loginForm/LoginForm'
 
 export const Login = () => {
-  const isLoggedIn = useAppSelector(state => state.auth.LoginParams._id)
+  const isLoggedIn = useAppSelector(loginSelector)
 
-  if (isLoggedIn) return <Navigate to={routing.profile} />
+  if (isLoggedIn) return <Navigate to={PATH.PROFILE} />
 
   return (
     <Paper elevation={3} className={style.loginContainer}>

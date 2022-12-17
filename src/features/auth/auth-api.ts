@@ -1,8 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosError } from 'axios'
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-  baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0/',
+  baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
+  // baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0/',
 
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
   withCredentials: true,
@@ -34,10 +34,7 @@ export const authAPI = {
     })
   },
   newPassword(payload: NewPasswordParamsType) {
-    return instance.post<NewPasswordParamsType, AxiosResponse<ForgotResponseType>>(
-      '/auth/set-new-password',
-      payload
-    )
+    return instance.post<ForgotResponseType>('/auth/set-new-password', payload)
   },
   updateUser(data: { name: string; avatar: string }) {
     return instance.put<UpdatedUserResponseType>('/auth/me', data)
@@ -54,13 +51,8 @@ type UpdatedUserResponseType = {
   error?: string
 }
 type RegistrationResponseType = {
-  addedUser: AddedUserType
+  addedUser: {}
   error?: Error | AxiosError
-}
-type AddedUserType = {
-  _id: string
-  email: string
-  created: Date
 }
 export type LoginDataType = {
   email: string
@@ -87,7 +79,6 @@ type ForgotResponseType = {
   info: string
   error: string
 }
-
 type NewPasswordParamsType = {
   password: string
   resetPasswordToken: string

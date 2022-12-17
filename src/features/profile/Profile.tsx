@@ -6,8 +6,9 @@ import { Avatar, Button, Paper } from '@mui/material'
 import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
-import { routing } from '../../common/routes/pathRoutesList'
+import { PATH } from '../../common/routes/pathRoutesList'
 import { setLogoutTC, updateUserTC } from '../auth/auth-reducer'
+import { userEmailSelector, userNameSelector } from '../auth/auth-selector'
 
 import { EditableSpan } from './EditableSpan'
 import s from './Profile.module.css'
@@ -15,8 +16,8 @@ import s from './Profile.module.css'
 type ProfilePropsType = {}
 
 export const Profile: React.FC<ProfilePropsType> = ({}) => {
-  const nickName = useAppSelector(state => state.auth.LoginParams.name)
-  const email = useAppSelector(state => state.auth.LoginParams.email)
+  const nickName = useAppSelector(userNameSelector)
+  const email = useAppSelector(userEmailSelector)
 
   const dispatch = useAppDispatch()
 
@@ -29,7 +30,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
   }
 
   if (!email) {
-    return <Navigate to={routing.login} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (

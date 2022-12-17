@@ -17,7 +17,7 @@ import { useFormik } from 'formik'
 import { NavLink } from 'react-router-dom'
 
 import { useAppDispatch } from '../../../../app/store'
-import { routing } from '../../../../common/routes/pathRoutesList'
+import { PATH } from '../../../../common/routes/pathRoutesList'
 import { LoginDataType } from '../../auth-api'
 import { setLoginTC } from '../../auth-reducer'
 
@@ -58,7 +58,6 @@ export const LoginForm = () => {
     },
     onSubmit: (values: LoginDataType) => {
       dispatch(setLoginTC(values))
-      formik.resetForm()
     },
   })
 
@@ -109,7 +108,7 @@ export const LoginForm = () => {
           />
         </div>
         <div className={style.linkPassword}>
-          <NavLink to={routing.forgotPassword}>Forgot password?</NavLink>
+          <NavLink to={PATH.FORGOT_PASS}>Forgot password?</NavLink>
         </div>
       </FormGroup>
       <Button
@@ -127,7 +126,7 @@ export const LoginForm = () => {
       </Button>
       <div className={style.textRegister}>Dont have an account?</div>
       <div className={style.linkRegister}>
-        <NavLink to={routing.registration}>Sign Up</NavLink>
+        <NavLink to={PATH.REGISTRATION}>Sign Up</NavLink>
       </div>
     </form>
   )
