@@ -8,6 +8,8 @@ import { Login } from '../../features/auth/login/Login'
 import { ForgotPassword } from '../../features/auth/password/ForgotPassword'
 import { NewPassword } from '../../features/auth/password/NewPassword'
 import { Registration } from '../../features/auth/registration/Registration'
+import { Cards } from '../../features/cards-packs/cards/Cards'
+import { Packs } from '../../features/cards-packs/packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
 
@@ -22,6 +24,8 @@ function Pages() {
     <Routes>
       <Route element={<PrivateRoutes />}>
         <Route path={PATH.PROFILE} element={<Profile />} />
+        <Route path={PATH.PACKS} element={<Packs />} />
+        <Route path={PATH.CARDS} element={<Cards />} />
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />
