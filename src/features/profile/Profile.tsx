@@ -60,7 +60,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
       </Paper>
       <div className={s.back}>
         <KeyboardBackspaceIcon sx={{ marginRight: '5px', fontSize: '20px' }} />
-        <NavLink to={'#'}>Back to Packs List</NavLink>
+        <NavLink to={PATH.PACKS}>Back to Packs List</NavLink>
       </div>
     </div>
   )

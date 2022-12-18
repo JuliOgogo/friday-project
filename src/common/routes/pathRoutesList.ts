@@ -7,4 +7,6 @@ export const PATH = {
   NEW_PASS: '/new-password/:resetToken',
   PAGE404: '/404',
   WRONG_PATH: '*',
+  PACKS: '/packs',
+  ADD_NEW_PACK: '/add-new-pack'
 }
