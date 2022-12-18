@@ -8,5 +8,5 @@ export const PATH = {
   PAGE404: '/404',
   WRONG_PATH: '*',
   PACKS: '/packs',
-  ADD_NEW_PACK: '/add-new-pack'
+  ADD_NEW_PACK: '/add-new-pack',
 }
