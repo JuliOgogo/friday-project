@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-  // baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0/',
 
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
   withCredentials: true,
@@ -10,7 +9,9 @@ export const instance = axios.create({
 
 export const packAPI = {
   getPacks(user_id: string) {
-    return instance.get<GetPacksResponseType>('/cards/pack', { params: { user_id: user_id } })
+    return instance.get<GetPacksResponseType>('/cards/pack', {
+      params: { user_id: user_id },
+    })
   },
   createPack(name: string, privateCheckbox: boolean) {
     return instance.post<CreatePackResponseType>('/cards/pack', {
@@ -65,22 +66,4 @@ export type UpdatePackResponseType = {
 
 export type DeletePackResponseType = {
   deletedCardsPack: PackType
-}
-
-///----------- data types -----------\\\
-export type PackParamsType = {
-  packName?: string
-  min?: number | null
-  max?: number | null
-  sortPacks?: any // добавить тип когда будет сортировка
-  page?: number | null
-  pageCount?: number | null
-  user_id?: string
-  block?: boolean
-}
-
-export type PackDataType = {
-  name?: string
-  private?: boolean
-  deckCover?: string
 }
