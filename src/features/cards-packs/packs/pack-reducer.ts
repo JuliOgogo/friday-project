@@ -1,14 +1,7 @@
-import { AppRootStateType, AppThunkType } from '../../../app/store'
+import { AppThunkType } from '../../../app/store'
 import { errorUtils } from '../../../common/utils/error-utils'
 
-import {
-  CreatePackResponseType,
-  GetPacksResponseType,
-  packAPI,
-  PackDataType,
-  PackParamsType,
-  PackType,
-} from './pack-api'
+import { GetPacksResponseType, packAPI, PackType } from './pack-api'
 
 const initialState = {
   cardPacks: [] as Array<PackType>,
@@ -26,9 +19,6 @@ export const packReducer = (
   switch (action.type) {
     case 'PACK/SET_PACKS':
       return { ...state, ...action.payload }
-    case 'PACK/CREATE_PACK': {
-      return { ...state, cardPacks: [...state.cardPacks, action.payload] }
-    }
     default:
       return state
   }
@@ -41,23 +31,15 @@ export const setPackAC = (payload: GetPacksResponseType) => {
     payload,
   } as const
 }
-export const createPackAC = (payload: PackType) => {
-  return {
-    type: PACK_CREATE_PACK,
-    payload,
-  } as const
-}
-// export const updatePackAC = () => {}
-// export const deletePackAC = () => {}
 
 ///----------- thunks creators -----------\\\
 export const getPackTC =
   (user_id: string): AppThunkType =>
   async dispatch => {
     try {
-      let res = await packAPI.getPacks(user_id)
+      let { data } = await packAPI.getPacks(user_id)
 
-      dispatch(setPackAC(res.data))
+      dispatch(setPackAC(data))
     } catch (e: any) {
       errorUtils(e, dispatch)
     }
@@ -67,9 +49,33 @@ export const createPackTC =
   (name: string, privateCheckbox: boolean): AppThunkType =>
   async dispatch => {
     try {
-      let res = await packAPI.createPack(name, privateCheckbox)
+      let { data } = await packAPI.createPack(name, privateCheckbox)
 
-      dispatch(createPackAC(res.data.newCardsPack))
+      dispatch(getPackTC(data.newCardsPack.user_id))
+    } catch (e: any) {
+      errorUtils(e, dispatch)
+    }
+  }
+
+export const updatePackTC =
+  (name: string, _id: string): AppThunkType =>
+  async dispatch => {
+    try {
+      let { data } = await packAPI.updatePack(name, _id)
+
+      dispatch(getPackTC(data.updatedCardsPack.user_id))
+    } catch (e: any) {
+      errorUtils(e, dispatch)
+    }
+  }
+
+export const deletePackTC =
+  (id: string): AppThunkType =>
+  async dispatch => {
+    try {
+      let { data } = await packAPI.deletePack(id)
+
+      dispatch(getPackTC(data.deletedCardsPack.user_id))
     } catch (e: any) {
       errorUtils(e, dispatch)
     }
@@ -78,10 +84,7 @@ export const createPackTC =
 ///----------- types -----------\\\
 export type PacksInitialStateType = typeof initialState
 
-export type PacksActionType = ReturnType<typeof setPackAC> | ReturnType<typeof createPackAC>
-// | ReturnType<typeof updatePackAC>
-// | ReturnType<typeof deletePackAC>
+export type PacksActionType = ReturnType<typeof setPackAC>
 
 ///----------- constants -----------\\\
 const PACK_SET_PACKS = 'PACK/SET_PACKS'
-const PACK_CREATE_PACK = 'PACK/CREATE_PACK'

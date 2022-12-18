@@ -18,11 +18,11 @@ export const packAPI = {
     })
   },
 
-  updatePack(data: UpdatePackDataType) {
-    return instance.put<UpdatePackResponseType>('cards/pack', { cardsPack: data })
+  updatePack(name: string, _id: string) {
+    return instance.put<UpdatePackResponseType>('cards/pack', { cardsPack: { name, _id } })
   },
-  deletePack(packId: string) {
-    return instance.delete<DeletePackResponseType>(`/cards/pack?id=${packId}`)
+  deletePack(id: string) {
+    return instance.delete<DeletePackResponseType>('/cards/pack', { params: { id } })
   },
 }
 
@@ -64,7 +64,7 @@ export type UpdatePackResponseType = {
 }
 
 export type DeletePackResponseType = {
-  deletedCardsPack: Array<PackType>
+  deletedCardsPack: PackType
 }
 
 ///----------- data types -----------\\\
@@ -84,7 +84,3 @@ export type PackDataType = {
   private?: boolean
   deckCover?: string
 }
-
-export type UpdatePackDataType = {
-  _id: string
-} & PackDataType

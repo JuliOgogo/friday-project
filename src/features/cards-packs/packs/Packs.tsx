@@ -4,7 +4,56 @@ import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { createPackTC, getPackTC } from './pack-reducer'
+import { createPackTC, deletePackTC, getPackTC, updatePackTC } from './pack-reducer'
+
+type PropsType = {
+  name: string
+  _id: string
+}
+
+const UpdateConmonent = ({ name, _id }: PropsType) => {
+  const dispatch = useAppDispatch()
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [inputName, setInputName] = useState(name)
+
+  return (
+    <div>
+      {isUpdate ? (
+        <input
+          type={'text'}
+          value={inputName}
+          onChange={e => {
+            setInputName(e.target.value)
+          }}
+        />
+      ) : (
+        <span
+          onDoubleClick={() => {
+            setIsUpdate(true)
+          }}
+        >
+          {inputName}
+        </span>
+      )}
+
+      <button
+        onClick={() => {
+          dispatch(deletePackTC(_id))
+        }}
+      >
+        del
+      </button>
+      <button
+        onClick={() => {
+          dispatch(updatePackTC(inputName, _id))
+          setIsUpdate(false)
+        }}
+      >
+        update
+      </button>
+    </div>
+  )
+}
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
@@ -34,7 +83,11 @@ export const Packs = () => {
       <Button variant={'outlined'} size={'small'} color={'secondary'} onClick={getPack}>
         GET
       </Button>
-      <div>{packs.map((el: any) => el.name)}</div>
+      <div>
+        {packs.map((el: any) => (
+          <UpdateConmonent key={el._id} name={el.name} _id={el._id} />
+        ))}
+      </div>
       <Button variant={'outlined'} size={'small'} color={'secondary'} onClick={createPack}>
         CREATE
       </Button>
@@ -52,16 +105,6 @@ export const Packs = () => {
           setCheckValue(e.target.checked)
         }}
       />
-      <Button
-        variant={'outlined'}
-        size={'small'}
-        color={'secondary'}
-        onClick={() => {
-          console.log()
-        }}
-      >
-        DELETE
-      </Button>
     </div>
   )
 }
