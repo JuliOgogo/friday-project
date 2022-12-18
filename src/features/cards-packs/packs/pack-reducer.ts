@@ -26,6 +26,9 @@ export const packReducer = (
   switch (action.type) {
     case 'PACK/SET_PACKS':
       return { ...state, ...action.payload }
+    case 'PACK/CREATE_PACK': {
+      return { ...state, cardPacks: [...state.cardPacks, action.payload] }
+    }
     default:
       return state
   }
@@ -38,7 +41,12 @@ export const setPackAC = (payload: GetPacksResponseType) => {
     payload,
   } as const
 }
-// export const createPackAC = () => {}
+export const createPackAC = (payload: PackType) => {
+  return {
+    type: PACK_CREATE_PACK,
+    payload,
+  } as const
+}
 // export const updatePackAC = () => {}
 // export const deletePackAC = () => {}
 
@@ -55,10 +63,22 @@ export const getPackTC =
     }
   }
 
+export const createPackTC =
+  (name: string, privateCheckbox: boolean): AppThunkType =>
+  async dispatch => {
+    try {
+      let res = await packAPI.createPack(name, privateCheckbox)
+
+      dispatch(createPackAC(res.data.newCardsPack))
+    } catch (e: any) {
+      errorUtils(e, dispatch)
+    }
+  }
+
 ///----------- types -----------\\\
 export type PacksInitialStateType = typeof initialState
 
-export type PacksActionType = ReturnType<typeof setPackAC>
+export type PacksActionType = ReturnType<typeof setPackAC> | ReturnType<typeof createPackAC>
 // | ReturnType<typeof updatePackAC>
 // | ReturnType<typeof deletePackAC>
 

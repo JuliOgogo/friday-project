@@ -12,8 +12,10 @@ export const packAPI = {
   getPacks(user_id: string) {
     return instance.get<GetPacksResponseType>('/cards/pack', { params: { user_id: user_id } })
   },
-  createPack(data: PackDataType) {
-    return instance.post<CreatePackResponseType>('/cards/pack', { cardsPack: data })
+  createPack(name: string, privateCheckbox: boolean) {
+    return instance.post<CreatePackResponseType>('/cards/pack', {
+      cardsPack: { name, private: privateCheckbox },
+    })
   },
 
   updatePack(data: UpdatePackDataType) {
@@ -54,7 +56,7 @@ export type GetPacksResponseType = {
 }
 
 export type CreatePackResponseType = {
-  newCardsPack: Array<PackType>
+  newCardsPack: PackType
 }
 
 export type UpdatePackResponseType = {
@@ -78,9 +80,9 @@ export type PackParamsType = {
 }
 
 export type PackDataType = {
-  name: string
-  private: boolean
-  deckCover: string
+  name?: string
+  private?: boolean
+  deckCover?: string
 }
 
 export type UpdatePackDataType = {
