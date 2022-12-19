@@ -56,12 +56,8 @@ export const authReducer = (
 }
 
 ///----------- actions creators -----------\\\
-export const authMeAC = (LoginParams: AuthResponseType) => {
-  return {
-    type: auth_AUTH_ME,
-    LoginParams,
-  } as const
-}
+export const authMeAC = (LoginParams: AuthResponseType) =>
+  ({ type: auth_AUTH_ME, LoginParams } as const)
 export const registrationAC = (isRegistration: boolean) =>
   ({ type: auth_REGISTRATION, isRegistration } as const)
 export const setLoginDataAC = (payload: AuthResponseType) =>
