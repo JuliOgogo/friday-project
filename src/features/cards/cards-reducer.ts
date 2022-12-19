@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios/index'
+import { AxiosError } from 'axios'
 
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
