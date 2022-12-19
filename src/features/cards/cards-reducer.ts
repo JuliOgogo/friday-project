@@ -1,6 +1,13 @@
-import { CardType, CreateCardType, UpdateCardValuesType } from './cards-api'
+import { AxiosError } from 'axios/index'
 
-const initialState: CardsStateType = {}
+import { AppThunkType } from '../../app/store'
+import { errorUtils } from '../../common/utils/error-utils'
+
+import { cardsAPI, CardType, CreateCardType, UpdateCardValuesType } from './cards-api'
+
+const initialState = {
+  cards: [] as CardType[],
+}
 
 export const cardsReducer = (
   state: InitialStateType = initialState,
@@ -9,8 +16,6 @@ export const cardsReducer = (
   switch (action.type) {
     case cards_SET_CARDS:
       return { ...state, cards: action.cards }
-    // case cards_ADD_CARD:
-    //   return { ...state, cards:  }
     default:
       return state
   }
@@ -18,32 +23,64 @@ export const cardsReducer = (
 
 // actions
 export const setCardsAC = (cards: CardType[]) => ({ type: cards_SET_CARDS, cards } as const)
-export const addCardAC = (card: CreateCardType) =>
-  ({
-    type: cards_ADD_CARD,
-    card,
-  } as const)
-export const removeCardAC = (packId: string, cardId: string) =>
-  ({ type: cards_REMOVE_CARD, cardId } as const)
-export const updateCardAC = (values: UpdateCardValuesType) =>
-  ({ type: cards_UPDATE_CARD, values } as const)
 
 // thunks
+const fetchCardsTC =
+  (cardsPack_id: string): AppThunkType =>
+  async dispatch => {
+    try {
+      const res = await cardsAPI.getCards({ cardsPack_id })
+
+      dispatch(setCardsAC(res.data.cards))
+    } catch (e) {
+      const err = e as Error | AxiosError
+
+      errorUtils(err, dispatch)
+    }
+  }
+
+const addCardTC =
+  (data: CreateCardType): AppThunkType =>
+  async dispatch => {
+    try {
+      await cardsAPI.createCard(data)
+      dispatch(fetchCardsTC(data.cardsPack_id))
+    } catch (e) {
+      const err = e as Error | AxiosError
+
+      errorUtils(err, dispatch)
+    }
+  }
+
+const deleteCardTC =
+  (cardsPack_id: string, cardId: string): AppThunkType =>
+  async dispatch => {
+    try {
+      await cardsAPI.deleteCard(cardId)
+      dispatch(fetchCardsTC(cardsPack_id))
+    } catch (e) {
+      const err = e as Error | AxiosError
+
+      errorUtils(err, dispatch)
+    }
+  }
+
+const updateCardTC =
+  (cardsPack_id: string, payload: UpdateCardValuesType): AppThunkType =>
+  async dispatch => {
+    try {
+      await cardsAPI.updateCard(payload)
+      dispatch(fetchCardsTC(cardsPack_id))
+    } catch (e) {
+      const err = e as Error | AxiosError
+
+      errorUtils(err, dispatch)
+    }
+  }
 
 // types
 export type InitialStateType = typeof initialState
-export type CardsActionsType =
-  | ReturnType<typeof setCardsAC>
-  | ReturnType<typeof addCardAC>
-  | ReturnType<typeof removeCardAC>
-  | ReturnType<typeof updateCardAC>
-
-export type CardsStateType = {
-  [key: string]: CardType[]
-}
+export type CardsActionsType = ReturnType<typeof setCardsAC>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
-const cards_ADD_CARD = 'cards/ADD_CARD'
-const cards_REMOVE_CARD = 'cards/REMOVE_CARD'
-const cards_UPDATE_CARD = 'cards/UPDATE_CARD'
