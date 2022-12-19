@@ -9,8 +9,7 @@ import { ForgotPassword } from '../../features/auth/password/ForgotPassword'
 import { NewPassword } from '../../features/auth/password/NewPassword'
 import { Registration } from '../../features/auth/registration/Registration'
 import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
-import Packs from '../../features/packs/Packs/Packs' // Расул
-import { Packs } from '../../features/cards-packs/pack/Packs' // Женя
+import Packs from '../../features/packs/Packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
 
@@ -25,7 +24,7 @@ function Pages() {
     <Routes>
       <Route element={<PrivateRoutes />}>
         <Route path={PATH.PROFILE} element={<Profile />} />
-        <Route path={PATH.PACK} element={<Packs />} />
+        <Route path={PATH.PACKS} element={<Packs />} />
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />
@@ -33,7 +32,6 @@ function Pages() {
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.FORGOT_PASS} element={<ForgotPassword />} />
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
-      <Route path={PATH.PACKS} element={<Packs />} />
       <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
 
       <Route

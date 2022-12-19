@@ -1,20 +1,20 @@
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
-import {applyMiddleware, combineReducers, legacy_createStore} from 'redux'
-import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { applyMiddleware, combineReducers, legacy_createStore } from 'redux'
+import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
-import {AuthActionsType, authReducer} from '../features/auth/auth-reducer'
-import {CardsActionsType, cardsReducer} from '../features/cards/cards-reducer'
-import {CardPacksActionsType, packsReducer} from '../features/packs/packs-reducer'
-import {packReducer, PacksActionType} from '../features/cards-packs/pack/pack-reducer'
+import { AuthActionsType, authReducer } from '../features/auth/auth-reducer'
+import { packReducer, PacksActionType } from '../features/cards-packs/pack/pack-reducer'
+import { CardsActionsType, cardsReducer } from '../features/cards/cards-reducer'
+import { CardPacksActionsType, packsReducer } from '../features/packs/packs-reducer'
 
-import {AppActionsType, appReducer} from './app-reducer'
+import { AppActionsType, appReducer } from './app-reducer'
 
 const rootReducer = combineReducers({
-    app: appReducer,
-    auth: authReducer,
-    cards: cardsReducer,
-    packs: packsReducer, // Расул
-    pack: packReducer, // Женя
+  app: appReducer,
+  auth: authReducer,
+  cards: cardsReducer,
+  packs: packsReducer, // Расул
+  pack: packReducer, // Женя
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
@@ -24,19 +24,21 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 // сюда добавлять все общие типы actions из reducers
 export type RootActionsType =
-    | AuthActionsType
-    | AppActionsType
-    | CardsActionsType
-    | CardPacksActionsType
-    | PacksActionType
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType,
-    AppRootStateType,
-    unknown,
-    RootActionsType>
+  | AuthActionsType
+  | AppActionsType
+  | CardsActionsType
+  | CardPacksActionsType
+  | PacksActionType
+export type AppThunkType<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppRootStateType,
+  unknown,
+  RootActionsType
+>
 
 // hooks
 export const useAppDispatch = () =>
-    useDispatch<ThunkDispatch<AppRootStateType, unknown, RootActionsType>>()
+  useDispatch<ThunkDispatch<AppRootStateType, unknown, RootActionsType>>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // @ts-ignore
