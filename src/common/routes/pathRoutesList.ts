@@ -9,4 +9,5 @@ export const PATH = {
   WRONG_PATH: '*',
   PACKS: '/packs',
   ADD_NEW_PACK: '/add-new-pack',
+  PACK: '/pack',
 }
