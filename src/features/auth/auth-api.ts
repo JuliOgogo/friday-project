@@ -10,7 +10,7 @@ export const instance = axios.create({
 
 export const authAPI = {
   me() {
-    return instance.post<ResponseType>('/auth/me', {})
+    return instance.post<ResponseType>('/auth/me')
     //return instance.get("ping")
   },
   registration(email: string, password: string) {
