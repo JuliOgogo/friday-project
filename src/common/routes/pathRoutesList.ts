@@ -8,5 +8,4 @@ export const PATH = {
   PAGE404: '/404',
   WRONG_PATH: '*',
   PACKS: '/pack',
-  CARDS: '/cards',
 }
