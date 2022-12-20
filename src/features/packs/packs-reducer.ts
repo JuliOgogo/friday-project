@@ -12,7 +12,7 @@ const initialState = {
   // количество колод
   maxCardsCount: 53, // 53 значение, которое приходит с бэка по умолчанию
   minCardsCount: 0,
-  page: 0, // выбранная страница
+  page: 1, // выбранная страница
   pageCount: 5,
 }
 
