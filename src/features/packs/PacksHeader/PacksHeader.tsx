@@ -6,6 +6,7 @@ import { PATH } from '../../../common/routes/pathRoutesList'
 
 import s from './PacksHeader.module.css'
 import { CardsNumber } from './packsHeaderButtons/CardsNumber/CardsNumber'
+import { ResetFiltersButton } from './packsHeaderButtons/ResetFiltersButton/ResetFiltersButton'
 import { Search } from './packsHeaderButtons/Search/Search'
 import { ShowMyAll } from './packsHeaderButtons/ShowMyAll/ShowMyAll'
 
@@ -23,6 +24,7 @@ export const PacksHeader = () => {
         <Search />
         <ShowMyAll />
         <CardsNumber />
+        <ResetFiltersButton />
       </div>
     </div>
   )
