@@ -6,6 +6,7 @@ import { PATH } from '../../../common/routes/pathRoutesList'
 
 import s from './PacksHeader.module.css'
 import { CardsNumber } from './packsHeaderButtons/CardsNumber/CardsNumber'
+import { ShowMyAll } from './packsHeaderButtons/ShowMyAll/ShowMyAll'
 
 export const PacksHeader = () => {
   return (
@@ -18,6 +19,7 @@ export const PacksHeader = () => {
       </div>
 
       <div className={s.settingsWrapper}>
+        <ShowMyAll />
         <CardsNumber />
       </div>
     </div>
