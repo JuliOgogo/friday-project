@@ -10,7 +10,7 @@ const initialState = {
   cardPacks: [] as Pack[],
   cardPacksTotalCount: 0,
   // количество колод
-  maxCardsCount: 60,
+  maxCardsCount: 53, // 53 значение, которое приходит с бэка по умолчанию
   minCardsCount: 0,
   page: 0, // выбранная страница
   pageCount: 5,

@@ -18,6 +18,7 @@ import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePage, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
+import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 interface Column {
   id: 'name' | 'updated' | 'user_name' | 'cardsCount' | '_id'
@@ -132,16 +133,8 @@ export default function Packs() {
 
   return (
     <div>
-      <Button
-        href={`#${PATH.ADD_NEW_PACK}`}
-        sx={{
-          width: '113px',
-          borderRadius: '50px',
-        }}
-      >
-        {' '}
-        add new pack
-      </Button>
+      <PacksHeader />
+
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
