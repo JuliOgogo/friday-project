@@ -1,11 +1,11 @@
 import React from 'react'
 
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Avatar, Button, Paper } from '@mui/material'
-import { Navigate, NavLink } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
+import { BackToPacksList } from '../../common/components/BackToPacksList/BackToPacksList'
 import { PATH } from '../../common/routes/pathRoutesList'
 import { setLogoutTC, updateUserTC } from '../auth/auth-reducer'
 import { userEmailSelector, userNameSelector } from '../auth/auth-selector'
@@ -58,10 +58,7 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
           Log out
         </Button>
       </Paper>
-      <div className={s.back}>
-        <KeyboardBackspaceIcon sx={{ marginRight: '5px', fontSize: '20px' }} />
-        <NavLink to={PATH.PACKS}>Back to Packs List</NavLink>
-      </div>
+      <BackToPacksList />
     </div>
   )
 }
