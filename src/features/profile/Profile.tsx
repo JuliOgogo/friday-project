@@ -2,11 +2,9 @@ import React from 'react'
 
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Avatar, Button, Paper } from '@mui/material'
-import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { BackToPacksList } from '../../common/components/BackToPacksList/BackToPacksList'
-import { PATH } from '../../common/routes/pathRoutesList'
 import { setLogoutTC, updateUserTC } from '../auth/auth-reducer'
 import { userEmailSelector, userNameSelector } from '../auth/auth-selector'
 
@@ -27,10 +25,6 @@ export const Profile: React.FC<ProfilePropsType> = ({}) => {
 
   const updateNickNameHandler = (newNickName: string) => {
     dispatch(updateUserTC(newNickName, 'new avatar'))
-  }
-
-  if (!email) {
-    return <Navigate to={PATH.LOGIN} />
   }
 
   return (

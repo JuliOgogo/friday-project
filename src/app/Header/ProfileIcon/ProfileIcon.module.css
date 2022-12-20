@@ -1,0 +1,14 @@
+.profileIcon {
+    cursor: pointer;
+
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
