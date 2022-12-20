@@ -68,7 +68,7 @@ export const fetchPacksTC = (): AppThunkType => async (dispatch, getState) => {
     const state = getState().packs
     const params = {
       params: {
-        page: state.page ,
+        page: state.page,
         pageCount: state.pageCount,
         max: state.maxCardsCount,
       },
@@ -80,7 +80,6 @@ export const fetchPacksTC = (): AppThunkType => async (dispatch, getState) => {
 
     console.log(res.data.cardPacks)
     dispatch(addCardPack(res.data))
-
   } catch (e) {
     const err = e as Error | AxiosError
 

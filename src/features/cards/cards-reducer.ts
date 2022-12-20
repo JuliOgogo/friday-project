@@ -3,10 +3,10 @@ import { AxiosError } from 'axios'
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { cardsAPI, CardType, CreateCardType, UpdateCardValuesType } from './cards-api'
+import { cardsAPI, CreateCardType, UpdateCardValuesType } from './cards-api'
 
 const initialState = {
-  cards: [] as CardType[],
+  cards: [] as CardStateType[],
   cardsTotalCount: 0,
   maxGrade: 30,
   minGrade: 5,
@@ -37,7 +37,8 @@ export const cardsReducer = (
 
 // actions
 export const setCardsAC = (cards: CardsStateType) => ({ type: cards_SET_CARDS, cards } as const)
-export const addCardAC = (card: CreateCardType) =>
+//todo изменился тип с CreateCardType на CardStateType
+export const addCardAC = (card: CardStateType) =>
   ({
     type: cards_ADD_CARD,
     card,
@@ -53,6 +54,7 @@ export const fetchCardsTC =
   async (dispatch, getState) => {
     try {
       const res = await cardsAPI.getCards({ cardsPack_id: cardsPacks_id })
+
       dispatch(setCardsAC(res.data))
     } catch (e) {
       const err = e as Error | AxiosError

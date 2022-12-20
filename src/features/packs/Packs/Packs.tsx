@@ -10,14 +10,14 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { PATH } from '../../../common/routes/pathRoutesList'
+import { Cards } from '../../cards/Cards'
+import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePage, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
-import {Cards} from "../../cards/Cards";
-import {useNavigate} from "react-router-dom";
-import {fetchCardsTC} from "../../cards/cards-reducer";
 
 interface Column {
   id: 'name' | 'updated' | 'user_name' | 'cardsCount' | '_id'
@@ -90,7 +90,7 @@ function createData(
 // ];
 
 export default function Packs() {
-  let navigate = useNavigate();
+  let navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -98,6 +98,7 @@ export default function Packs() {
   const handleChangePage = (event: unknown, page: number) => {
     // setPage(newPage)
     const newPage = page + 1
+
     console.log('page', newPage)
     dispatch(changePage(newPage))
   }
@@ -117,18 +118,17 @@ export default function Packs() {
   //console.log(cardPacksTotal)
 
   useEffect(() => {
-
     // const cards = dispatch()
     dispatch(fetchPacksTC())
   }, [pageState, packCountState])
 
   const rows = packsCards
 
-  const handleClick = (id_cards:string) => {
+  const handleClick = (id_cards: string) => {
     console.log(id_cards)
     navigate(`/cards/${id_cards}`)
     dispatch(fetchCardsTC(id_cards))
-  };
+  }
 
   return (
     <div>
@@ -163,7 +163,13 @@ export default function Packs() {
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row._id} onClick={()=>handleClick(row._id)}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row._id}
+                      onClick={() => handleClick(row._id)}
+                    >
                       {columns.map(column => {
                         const value = row[column.id]
 
