@@ -12,6 +12,7 @@ import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
 import Packs from '../../features/packs/Packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
+import {Cards} from "../../features/cards/Cards";
 
 function Pages() {
   const PrivateRoutes = () => {
@@ -33,6 +34,8 @@ function Pages() {
       <Route path={PATH.FORGOT_PASS} element={<ForgotPassword />} />
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
       <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
+        <Route path={PATH.CARDS + '/:pack_id'} element={<Cards/>}/>
+
 
       <Route
         path={PATH.PAGE404}

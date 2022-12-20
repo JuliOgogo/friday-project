@@ -12,7 +12,7 @@ const initialState = {
   // количество колод
   maxCardsCount: 60,
   minCardsCount: 0,
-  page: 1, // выбранная страница
+  page: 0, // выбранная страница
   pageCount: 5,
 }
 
@@ -68,7 +68,7 @@ export const fetchPacksTC = (): AppThunkType => async (dispatch, getState) => {
     const state = getState().packs
     const params = {
       params: {
-        page: state.page,
+        page: state.page ,
         pageCount: state.pageCount,
         max: state.maxCardsCount,
       },
@@ -80,6 +80,7 @@ export const fetchPacksTC = (): AppThunkType => async (dispatch, getState) => {
 
     console.log(res.data.cardPacks)
     dispatch(addCardPack(res.data))
+
   } catch (e) {
     const err = e as Error | AxiosError
 

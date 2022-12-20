@@ -7,6 +7,12 @@ import { cardsAPI, CardType, CreateCardType, UpdateCardValuesType } from './card
 
 const initialState = {
   cards: [] as CardType[],
+  cardsTotalCount: 0,
+  maxGrade: 30,
+  minGrade: 5,
+  page: 1,
+  pageCount: 5,
+  packUserId: '',
 }
 
 export const cardsReducer = (
@@ -15,23 +21,39 @@ export const cardsReducer = (
 ): InitialStateType => {
   switch (action.type) {
     case cards_SET_CARDS:
-      return { ...state, cards: action.cards }
+      return {
+        ...action.cards,
+        cards: action.cards.cards.map(({ updated, question, answer, grade }) => ({
+          answer,
+          question,
+          grade,
+          updated: new Date(updated).toLocaleDateString(),
+        })),
+      }
     default:
       return state
   }
 }
 
 // actions
-export const setCardsAC = (cards: CardType[]) => ({ type: cards_SET_CARDS, cards } as const)
+export const setCardsAC = (cards: CardsStateType) => ({ type: cards_SET_CARDS, cards } as const)
+export const addCardAC = (card: CreateCardType) =>
+  ({
+    type: cards_ADD_CARD,
+    card,
+  } as const)
+export const removeCardAC = (packId: string, cardId: string) =>
+  ({ type: cards_REMOVE_CARD, cardId } as const)
+export const updateCardAC = (values: UpdateCardValuesType) =>
+  ({ type: cards_UPDATE_CARD, values } as const)
 
 // thunks
-const fetchCardsTC =
-  (cardsPack_id: string): AppThunkType =>
-  async dispatch => {
+export const fetchCardsTC =
+  (cardsPacks_id: string): AppThunkType =>
+  async (dispatch, getState) => {
     try {
-      const res = await cardsAPI.getCards({ cardsPack_id })
-
-      dispatch(setCardsAC(res.data.cards))
+      const res = await cardsAPI.getCards({ cardsPack_id: cardsPacks_id })
+      dispatch(setCardsAC(res.data))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -80,7 +102,31 @@ const updateCardTC =
 
 // types
 export type InitialStateType = typeof initialState
-export type CardsActionsType = ReturnType<typeof setCardsAC>
+export type CardsActionsType =
+  | ReturnType<typeof setCardsAC>
+  | ReturnType<typeof addCardAC>
+  | ReturnType<typeof removeCardAC>
+  | ReturnType<typeof updateCardAC>
+
+export type CardsStateType = {
+  cards: CardStateType[]
+  cardsTotalCount: number
+  maxGrade: number
+  minGrade: number
+  page: number
+  pageCount: number
+  packUserId: string
+}
+type CardStateType = {
+  question: string
+  answer: string
+  grade: number
+
+  updated: string
+}
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
+const cards_ADD_CARD = 'cards/ADD_CARD'
+const cards_REMOVE_CARD = 'cards/REMOVE_CARD'
+const cards_UPDATE_CARD = 'cards/UPDATE_CARD'
