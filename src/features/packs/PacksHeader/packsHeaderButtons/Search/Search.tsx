@@ -13,7 +13,7 @@ export const Search = () => {
       <div className={s.text}>Search</div>
       <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 413, height: 32 }}
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, height: 32 }}
       >
         <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
