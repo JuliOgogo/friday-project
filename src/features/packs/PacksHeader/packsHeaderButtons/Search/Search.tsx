@@ -5,11 +5,11 @@ import IconButton from '@mui/material/IconButton'
 import InputBase from '@mui/material/InputBase'
 import Paper from '@mui/material/Paper'
 
-import s from './Search.module.css'
+import s from '../commonStyles.module.css'
 
 export const Search = () => {
   return (
-    <div className={s.search}>
+    <div className={s.wrapper}>
       <div className={s.text}>Search</div>
       <Paper
         component="form"

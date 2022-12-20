@@ -4,6 +4,7 @@ import Slider from '@mui/material/Slider'
 
 import { useAppSelector } from '../../../../../app/store'
 import { maxCardsNumber, minCardsNumber } from '../../../packs-selector'
+import s2 from '../commonStyles.module.css'
 
 import s from './CardsNumber.module.css'
 
@@ -17,8 +18,8 @@ export const CardsNumber = () => {
   }
 
   return (
-    <div className={s.cardsNumber}>
-      <div className={s.text}>Number of cards</div>
+    <div className={s2.wrapper}>
+      <div className={s2.text}>Number of cards</div>
       <div className={s.slider}>
         <div className={s.value}>{value[0]}</div>
         <Slider
