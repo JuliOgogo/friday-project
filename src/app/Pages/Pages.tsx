@@ -26,7 +26,7 @@ function Pages() {
       <Route element={<PrivateRoutes />}>
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={PATH.PACKS} element={<Packs />} />
-        <Route path={PATH.CARDS + '/:pack_id'} element={<Cards />} />
+        <Route path={PATH.CARDS} element={<Cards />} />
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />

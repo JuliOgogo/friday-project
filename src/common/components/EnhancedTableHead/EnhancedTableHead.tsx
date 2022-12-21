@@ -6,35 +6,64 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
 
-interface Data {
+interface DataPacks {
+  name: string
+  updated: string
+  user_name: string
+  cardsCount: number
+  user_id: string
+}
+
+
+interface DataCards {
   question: string
   answer: string
   updated: string
   grade: number
 }
-interface Data2 {
-  name:string
-  updated: string
-  user_name: string
-  cardsCount: number
-  _id: string
-}
 interface Column {
   // id: 'name' | 'updated' | 'user_name' | 'cardsCount' | '_id'
-  id: keyof Data2
+  id: keyof DataPacks
   label: string
   minWidth?: number
   align?: 'right'
-  format?: (value: number) => string
+  // format?: (value: number) => string
 }
 interface HeadCell {
   disablePadding: boolean
-  id: keyof Data
+  id: keyof DataCards
   label: string
   numeric: boolean
+  align?: 'right'
+  minWidth?: number
 }
 
-const headCells: readonly HeadCell[] = [
+// const columns: readonly Column[] = [
+//   { id: 'name', label: 'Name', minWidth: 170 },
+//   { id: 'cardsCount', label: 'Cards', minWidth: 100 },
+//   {
+//     id: 'updated',
+//     label: 'Last Updated',
+//     minWidth: 170,
+//     align: 'right',
+//     // format: (value: number) => value.toLocaleString('en-US'),
+//   },
+//   {
+//     id: 'user_name',
+//     label: 'Created by',
+//     minWidth: 170,
+//     align: 'right',
+//     // format: (value: number) => value.toLocaleString('en-US'),
+//   },
+//   {
+//     id: 'user_id',
+//     label: 'Action',
+//     minWidth: 170,
+//     align: 'right',
+//     // format: (value: number) => value.toFixed(2),
+//   },
+// ]
+const headCells:  HeadCell[] = [
   {
     id: 'question',
     numeric: false,
@@ -61,63 +90,29 @@ const headCells: readonly HeadCell[] = [
   },
 ]
 
-const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'cardsCount', label: 'Cards', minWidth: 100 },
-  {
-    id: 'updated',
-    label: 'Last Updated',
-    minWidth: 170,
-    align: 'right',
-    // format: (value: number) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'user_name',
-    label: 'Created by',
-    minWidth: 170,
-    align: 'right',
-    // format: (value: number) => value.toLocaleString('en-US'),
-  },
-  {
-    id: '_id',
-    label: 'Action',
-    minWidth: 170,
-    align: 'right',
-    // format: (value: number) => value.toFixed(2),
-  },
-]
-
-
-
-
 type Order = 'asc' | 'desc'
 
-
-
-
 interface EnhancedTableProps {
-  numSelected: number
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data2) => void
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DataPacks) => void
   order: Order
   orderBy: string
   rowCount: number
-
+  columnsHead:  Column[]
 }
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, numSelected, rowCount, onRequestSort } = props
+  const { order, orderBy, onRequestSort, columnsHead } = props
 
-  const createSortHandler = (property: keyof Data2) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof DataPacks) => (event: React.MouseEvent<unknown>) => {
+
     onRequestSort(event, property)
   }
-
   return (
     <TableHead>
       <TableRow>
-        {columns.map(headCell => (
+        {columnsHead.map(headCell => (
           <TableCell
             key={headCell.id}
-
             padding={'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
             align={headCell.align}

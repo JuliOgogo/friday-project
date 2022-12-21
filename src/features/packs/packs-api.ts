@@ -9,8 +9,8 @@ export const instance = axios.create({
 })
 
 export const authPacks = {
-  getPacks(date?: Params) {
-    return instance.get<Pack>('/cards/pack', date)
+  getPacks(params?: ParamsTemplateType) {
+    return instance.get<Pack>('/cards/pack', {params:params })
   },
   addNewPack(date: any) {
     return instance.post('/cards/pack', date)
@@ -20,14 +20,13 @@ export const authPacks = {
 export type Params = Partial<ParamsTemplateType>
 
 export type ParamsTemplateType = {
-  params: {
     min?: number
     max?: number
     sortPacks?: string
-    page: number
-    pageCount: number
+    page?: number
+    pageCount?: number
     user_id?: string
-  }
+
 }
 export type Pack = {
   cardPacks: Packs[]
@@ -37,6 +36,7 @@ export type Pack = {
   minCardsCount: number
   page: number // выбранная страница
   pageCount: number
+  sortPacks: string
 }
 export type cardPack = Pick<Packs, 'name' | 'updated' | 'user_name' | 'cardsCount'>
 
