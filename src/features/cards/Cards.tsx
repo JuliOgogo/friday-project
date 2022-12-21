@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 
+import { Button, Rating } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -11,10 +13,18 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { useAppSelector } from '../../app/store'
+import { useAppDispatch, useAppSelector } from '../../app/store'
 
-import { cardsSelector } from './cards-selector'
+import { addCardTC, fetchCardsTC } from './cards-reducer'
+import {
+  cardPageSelector,
+  cardsPacksIdSelector,
+  cardsPageCountSelector,
+  cardsSelector,
+  cardsTotalCountSelector,
+} from './cards-selector'
 
 interface Data {
   question: string
@@ -22,37 +32,6 @@ interface Data {
   updated: string
   grade: number
 }
-
-// function createData(
-//     name: string,
-//     calories: number,
-//     fat: number,
-//     carbs: number,
-//
-// ): Data {
-//     return {
-//         name,
-//         calories,
-//         fat,
-//         carbs,
-//     };
-// }
-
-// const rows = [
-//     createData('Cupcake', 305, 3.7, 67),
-//     createData('Donut', 452, 25.0, 51),
-//     createData('Eclair', 262, 16.0, 24),
-//     createData('Frozen yoghurt', 159, 6.0, 24),
-//     createData('Gingerbread', 356, 16.0, 49),
-//     createData('Honeycomb', 408, 3.2, 87),
-//     createData('Ice cream sandwich', 237, 9.0, 37),
-//     createData('Jelly Bean', 375, 0.0, 94),
-//     createData('KitKat', 518, 26.0, 65),
-//     createData('Lollipop', 392, 0.2, 98),
-//     createData('Marshmallow', 318, 0, 81),
-//     createData('Nougat', 360, 19.0, 9),
-//     createData('Oreo', 437, 18.0, 63),
-// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -129,16 +108,22 @@ const headCells: readonly HeadCell[] = [
 ]
 
 interface EnhancedTableProps {
-  numSelected: number
+  // numSelected: number
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
+  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
   order: Order
   orderBy: string
   rowCount: number
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+// function EnhancedTableHead(props: EnhancedTableProps) {
+//   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+//   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+//     onRequestSort(event, property)
+//   }
+
+const EnhancedTableHead = (props: EnhancedTableProps) => {
+  const { order, orderBy, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -183,16 +168,38 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   )
 }
 
-export function Cards() {
-  const cards = useAppSelector(cardsSelector)
+export const Cards = () => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  // selectors
+  const rows = useAppSelector(cardsSelector)
+  // const rows = cards
+
+  const cardsTotal = useAppSelector(cardsTotalCountSelector)
+  const cardCount = useAppSelector(cardsPageCountSelector)
+  const cardPage = useAppSelector(cardPageSelector)
+  const cardsPacksId = useAppSelector(cardsPacksIdSelector)
+
+  // local state
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('question')
-  const [selected, setSelected] = React.useState<readonly string[]>([])
+  // const [selected, setSelected] = React.useState<readonly string[]>([])
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
-  console.log(cards)
-  const rows = cards
+  // sort functions
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: cardPage.toString(),
+    pageCount: cardCount.toString(),
+    // sortPacks: '0updated',
+  })
+
+  const paramsSearch: any = {}
+
+  searchParams.forEach((key, value) => {
+    paramsSearch[value] = key
+  })
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -201,65 +208,71 @@ export function Cards() {
     setOrderBy(property)
   }
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map(n => n.question)
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
+    // setPage(newPage)
+    // const newPage = page + 1
 
-      setSelected(newSelected)
-
-      return
-    }
-    setSelected([])
-  }
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name)
-    let newSelected: readonly string[] = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
-    }
-
-    setSelected(newSelected)
-  }
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+    searchParams.set('page', newPage.toString())
+    // dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+    // setRowsPerPage(parseInt(event.target.value, 10))
+    // setPage(0)
+    searchParams.set('pageCount', event.target.value.toString())
+    // dispatch(changePageCountAC(+event.target.value))
   }
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1
-
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+
+  useEffect(() => {
+    setSearchParams(searchParams)
+
+    dispatch(fetchCardsTC(cardsPacksId))
+  }, [rows])
+
+  // const handleClick = (id_cards: string) => {
+  //   console.log(id_cards)
+  //   navigate(`/cards`)
+  //   dispatch(fetchCardsTC(id_cards))
+  // }
+
+  const addNewCardHandler = () => {
+    dispatch(
+      addCardTC({
+        cardsPack_id: cardsPacksId,
+        question: 'New Question',
+        answer: 'New Answer',
+        // grade: 0,
+        // shots: 0,
+        // questionImg: '',
+        // questionVideo: '',
+        // answerImg: '',
+        // answerVideo: '',
+      })
+    )
+  }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2, mt: '60px' }}>
-        <TableContainer>
+    <div>
+      <Button variant={'contained'} sx={{ width: '100%', borderRadius: '30px' }} onClick={addNewCardHandler}>
+        {'Add new Card'}
+      </Button>
+      <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
+        <TableContainer sx={{ maxHeight: 840 }}>
           <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
+            stickyHeader
+            aria-label="sticky table"
+            // sx={{ minWidth: 750 }}
+            // aria-labelledby="tableTitle"
             // size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              // numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -269,50 +282,48 @@ export function Cards() {
               {stableSort(rows, getComparator(order, orderBy))
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.question)
+                  // const isItemSelected = isSelected(row.question)
                   const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.question)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.question}
-                      selected={isItemSelected}
+                      // onClick={event => handleClick(event)}
+
+                      // onClick={event => handleClick(event, row.question)}
+                      // role="checkbox"
+                      // aria-checked={isItemSelected}
+                      // selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.question}
                       </TableCell>
                       <TableCell align="right">{row.answer}</TableCell>
                       <TableCell align="right">{row.updated}</TableCell>
-                      <TableCell align="right">{row.grade}</TableCell>
+                      <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
                     </TableRow>
                   )
                 })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          // count={rows.length}
+          // rowsPerPage={rowsPerPage}
+          // page={page}
+          // onPageChange={handleChangePage}
+          // onRowsPerPageChange={handleChangeRowsPerPage}
+          count={cardsTotal}
+          rowsPerPage={cardCount}
+          page={cardPage ? cardPage - 1 : 0}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Box>
+    </div>
   )
 }

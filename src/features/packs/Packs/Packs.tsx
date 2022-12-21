@@ -161,12 +161,7 @@ export default function Packs() {
                   const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={row._id}
-                      onClick={() => handleClick(row._id)}
-                    >
+                    <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
                       {/*{columns.map(column => {*/}
                       {/*  const value = row[column.id]*/}
                       {/*  console.log(value)*/}

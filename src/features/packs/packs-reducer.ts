@@ -26,24 +26,19 @@ export type DomainPackType = {
   _id: string
 }
 
-export const packsReducer = (
-  state: InitialStateType = initialState,
-  action: PacksActionsType
-): InitialStateType => {
+export const packsReducer = (state: InitialStateType = initialState, action: PacksActionsType): InitialStateType => {
   switch (action.type) {
     case packs_SET_PACKS:
       return {
         ...action.packs,
-        cardPacks: action.packs.cardPacks.map(
-          ({ _id, name, user_name, updated, cardsCount, user_id }) => ({
-            _id,
-            name,
-            cardsCount,
-            updated: new Date(updated).toLocaleDateString(),
-            user_name,
-            user_id,
-          })
-        ),
+        cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
+          _id,
+          name,
+          cardsCount,
+          updated: new Date(updated).toLocaleDateString(),
+          user_name,
+          user_id,
+        })),
       }
     case packs_CHANGE_PAGE:
       return { ...state, page: action.page }
@@ -58,8 +53,7 @@ export const packsReducer = (
 const addPacksAC = (packs: InitialStateType) => ({ type: packs_SET_PACKS, packs } as const)
 
 export const changePageAC = (page: number) => ({ type: packs_CHANGE_PAGE, page } as const)
-export const changePageCountAC = (pageCount: number) =>
-  ({ type: packs_CHANGE_PAGE_COUNT, pageCount } as const)
+export const changePageCountAC = (pageCount: number) => ({ type: packs_CHANGE_PAGE_COUNT, pageCount } as const)
 
 // thunks
 export const fetchPacksTC =

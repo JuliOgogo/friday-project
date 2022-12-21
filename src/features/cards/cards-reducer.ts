@@ -50,7 +50,7 @@ export const fetchCardsTC =
     }
   }
 
-const addCardTC =
+export const addCardTC =
   (data: CreateCardType): AppThunkType =>
   async dispatch => {
     try {
@@ -63,7 +63,7 @@ const addCardTC =
     }
   }
 
-const deleteCardTC =
+export const deleteCardTC =
   (cardsPack_id: string, cardId: string): AppThunkType =>
   async dispatch => {
     try {
@@ -76,7 +76,7 @@ const deleteCardTC =
     }
   }
 
-const updateCardTC =
+export const updateCardTC =
   (cardsPack_id: string, payload: UpdateCardValuesType): AppThunkType =>
   async dispatch => {
     try {
