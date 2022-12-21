@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { cardsAPI, CreateCardType, UpdateCardValuesType } from './cards-api'
+import { cardsAPI, CardsResponseType, CreateCardType, UpdateCardValuesType } from './cards-api'
 
 const initialState = {
   cards: [] as CardStateType[],
@@ -15,10 +15,7 @@ const initialState = {
   packUserId: '',
 }
 
-export const cardsReducer = (
-  state: InitialStateType = initialState,
-  action: CardsActionsType
-): InitialStateType => {
+export const cardsReducer = (state: InitialStateType = initialState, action: CardsActionsType): InitialStateType => {
   switch (action.type) {
     case cards_SET_CARDS:
       return {
@@ -36,22 +33,12 @@ export const cardsReducer = (
 }
 
 // actions
-export const setCardsAC = (cards: CardsStateType) => ({ type: cards_SET_CARDS, cards } as const)
-//todo изменился тип с CreateCardType на CardStateType
-export const addCardAC = (card: CardStateType) =>
-  ({
-    type: cards_ADD_CARD,
-    card,
-  } as const)
-export const removeCardAC = (packId: string, cardId: string) =>
-  ({ type: cards_REMOVE_CARD, cardId } as const)
-export const updateCardAC = (values: UpdateCardValuesType) =>
-  ({ type: cards_UPDATE_CARD, values } as const)
+export const setCardsAC = (cards: CardsResponseType) => ({ type: cards_SET_CARDS, cards } as const)
 
 // thunks
 export const fetchCardsTC =
   (cardsPacks_id: string): AppThunkType =>
-  async (dispatch, getState) => {
+  async dispatch => {
     try {
       const res = await cardsAPI.getCards({ cardsPack_id: cardsPacks_id })
 
@@ -104,31 +91,14 @@ const updateCardTC =
 
 // types
 export type InitialStateType = typeof initialState
-export type CardsActionsType =
-  | ReturnType<typeof setCardsAC>
-  | ReturnType<typeof addCardAC>
-  | ReturnType<typeof removeCardAC>
-  | ReturnType<typeof updateCardAC>
+export type CardsActionsType = ReturnType<typeof setCardsAC>
 
-export type CardsStateType = {
-  cards: CardStateType[]
-  cardsTotalCount: number
-  maxGrade: number
-  minGrade: number
-  page: number
-  pageCount: number
-  packUserId: string
-}
 type CardStateType = {
   question: string
   answer: string
   grade: number
-
   updated: string
 }
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
-const cards_ADD_CARD = 'cards/ADD_CARD'
-const cards_REMOVE_CARD = 'cards/REMOVE_CARD'
-const cards_UPDATE_CARD = 'cards/UPDATE_CARD'
