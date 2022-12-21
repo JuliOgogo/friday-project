@@ -1,20 +1,20 @@
 .loginContainer {
-    position: absolute;
-    top: 120px;
-    left: 50%;
+  position: absolute;
+  top: 120px;
+  left: 50%;
 
-    width: 348px;
-    margin-left: -207px;
-    padding: 35px 33px 42px;
+  width: 348px;
+  margin-left: -207px;
+  padding: 35px 33px 42px;
 
-    text-align: center;
+  text-align: center;
 }
 
 .title {
-    margin: 0 0 40px !important;
+  margin: 0 0 40px !important;
 
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 26px !important;
-    font-weight: 600 !important;
-    font-style: normal !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
 }

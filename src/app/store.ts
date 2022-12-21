@@ -21,11 +21,7 @@ export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
 // сюда добавлять все общие типы actions из reducers
-export type RootActionsType =
-  | AuthActionsType
-  | AppActionsType
-  | PacksActionsType
-  | CardsActionsType
+export type RootActionsType = AuthActionsType | AppActionsType | PacksActionsType | CardsActionsType
 export type AppThunkType<ReturnType = void> = ThunkAction<
   ReturnType,
   AppRootStateType,

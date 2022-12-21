@@ -79,6 +79,7 @@ export const updateUserAC = (name: string, avatar: string) => {
 export const authMeTC = (): AppThunkType => async (dispatch, getState) => {
   try {
     const res = await authAPI.me()
+
     // const state = getState()
     //
     // !state.auth.LoginParams.name &&

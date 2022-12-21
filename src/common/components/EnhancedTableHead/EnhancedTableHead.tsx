@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import Box from '@mui/material/Box'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
@@ -13,7 +14,6 @@ interface DataPacks {
   cardsCount: number
   user_id: string
 }
-
 
 interface DataCards {
   question: string
@@ -63,7 +63,7 @@ interface HeadCell {
 //     // format: (value: number) => value.toFixed(2),
 //   },
 // ]
-const headCells:  HeadCell[] = [
+const headCells: HeadCell[] = [
   {
     id: 'question',
     numeric: false,
@@ -97,16 +97,16 @@ interface EnhancedTableProps {
   order: Order
   orderBy: string
   rowCount: number
-  columnsHead:  Column[]
+  columnsHead: Column[]
 }
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort, columnsHead } = props
 
   const createSortHandler = (property: keyof DataPacks) => (event: React.MouseEvent<unknown>) => {
-
     onRequestSort(event, property)
   }
+
   return (
     <TableHead>
       <TableRow>

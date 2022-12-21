@@ -56,6 +56,7 @@ export const packsReducer = (
 
 // actions
 const addPacksAC = (packs: InitialStateType) => ({ type: packs_SET_PACKS, packs } as const)
+
 export const changePageAC = (page: number) => ({ type: packs_CHANGE_PAGE, page } as const)
 export const changePageCountAC = (pageCount: number) =>
   ({ type: packs_CHANGE_PAGE_COUNT, pageCount } as const)

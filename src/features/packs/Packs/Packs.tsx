@@ -11,14 +11,13 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-
+import { EnhancedTableHead } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePageAC, changePageCountAC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
-import { EnhancedTableHead } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
-import { userId } from '../../auth/auth-selector'
 
 interface Column {
   id: 'name' | 'updated' | 'user_name' | 'cardsCount' | 'user_id'
@@ -65,24 +64,29 @@ interface Data {
 export default function Packs() {
   let navigate = useNavigate()
   const dispatch = useAppDispatch()
+
   type Order = 'asc' | 'desc'
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('updated')
   const [selected, setSelected] = React.useState<readonly string[]>([])
-      // это параметры можно вытащить из state
-  const [searchParams, setSearchParams] = useSearchParams({page: '1', pageCount: '5', sortPacks: '0updated'})
+  // это параметры можно вытащить из state
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: '1',
+    pageCount: '5',
+    sortPacks: '0updated',
+  })
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
 
-    searchParams.set('sortPacks', 0+property)
+    searchParams.set('sortPacks', 0 + property)
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
 
-
   const handleChangePage = (event: unknown, page: number) => {
     // setPage(newPage)
     const newPage = page + 1
+
     // setSearchParams({ page: newPage.toString() })
     //searchParams.delete('page')
     searchParams.set('page', newPage.toString())
@@ -103,16 +107,14 @@ export default function Packs() {
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
 
-  const paramsSearch:any = {};
+  const paramsSearch: any = {}
 
   searchParams.forEach((key, value) => {
-    paramsSearch[value] = key;
-  });
+    paramsSearch[value] = key
+  })
 
   useEffect(() => {
-    setSearchParams(
-        searchParams
-    )
+    setSearchParams(searchParams)
 
     dispatch(fetchPacksTC(paramsSearch))
   }, [pageState, packCountState])
@@ -124,6 +126,7 @@ export default function Packs() {
     navigate(`/cards`)
     dispatch(fetchCardsTC(id_cards))
   }
+
   return (
     <div>
       <PacksHeader />
@@ -156,6 +159,7 @@ export default function Packs() {
                 // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`
+
                   return (
                     <TableRow
                       hover

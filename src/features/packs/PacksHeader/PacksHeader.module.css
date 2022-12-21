@@ -1,26 +1,26 @@
 .packsHeader {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .titleAndButton {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
-    font-family: 'Montserrat';
-    font-size: 22px;
-    font-weight: 600;
-    font-style: normal;
-    line-height: 27px;
+  font-family: 'Montserrat';
+  font-size: 22px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 27px;
 }
 
 .settingsWrapper {
-    display: flex;
-    gap: 50px;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
 
-    margin-top: 40px;
+  margin-top: 40px;
 }
