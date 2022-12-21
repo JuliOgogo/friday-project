@@ -5,13 +5,13 @@ import { Navigate } from 'react-router-dom'
 
 import { useAppSelector } from '../../../app/store'
 import { PATH } from '../../../common/routes/pathRoutesList'
-import { loginSelector } from '../auth-selector'
+import { userId } from '../auth-selector'
 
 import style from './Login.module.css'
 import { LoginForm } from './loginForm/LoginForm'
 
 export const Login = () => {
-  const isLoggedIn = useAppSelector(loginSelector)
+  const isLoggedIn = useAppSelector(userId)
 
   if (isLoggedIn) return <Navigate to={PATH.PROFILE} />
 

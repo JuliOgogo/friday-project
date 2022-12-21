@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper'
 
 import { useAppDispatch } from '../../../app/store'
 import style from '../../auth/login/Login.module.css'
-import { createPackTC } from '../../cards-packs/pack/pack-reducer'
+import { createPackTC } from '../packs-reducer'
 
 export function AddNewPack() {
   const dispatch = useAppDispatch()

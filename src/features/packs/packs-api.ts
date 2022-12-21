@@ -8,28 +8,34 @@ export const instance = axios.create({
   withCredentials: true,
 })
 
-export const authPacks = {
+export const packsAPI = {
   getPacks(params?: ParamsTemplateType) {
-    return instance.get<Pack>('/cards/pack', {params:params })
+    return instance.get<PacksType>('/cards/pack', { params: params })
   },
-  addNewPack(date: any) {
-    return instance.post('/cards/pack', date)
+  createPack(name: string, privateCheckbox: boolean) {
+    return instance.post<CreatePackResponseType>('/cards/pack', {
+      cardsPack: { name, private: privateCheckbox },
+    })
+  },
+  updatePack(name: string, _id: string) {
+    return instance.put<UpdatePackResponseType>('cards/pack', { cardsPack: { name, _id } })
+  },
+  deletePack(id: string) {
+    return instance.delete<DeletePackResponseType>('/cards/pack', { params: { id } })
   },
 }
 
-export type Params = Partial<ParamsTemplateType>
-
+///----------- types -----------\\\
 export type ParamsTemplateType = {
-    min?: number
-    max?: number
-    sortPacks?: string
-    page?: number
-    pageCount?: number
-    user_id?: string
-
+  min?: number
+  max?: number
+  sortPacks?: string
+  page?: number
+  pageCount?: number
+  user_id?: string
 }
-export type Pack = {
-  cardPacks: Packs[]
+export type PacksType = {
+  cardPacks: PackType[]
   cardPacksTotalCount: number
   // количество колод
   maxCardsCount: number
@@ -38,9 +44,7 @@ export type Pack = {
   pageCount: number
   sortPacks: string
 }
-export type cardPack = Pick<Packs, 'name' | 'updated' | 'user_name' | 'cardsCount'>
-
-export type Packs = {
+export type PackType = {
   cardsCount: number
   created: Date
   deckCover: null
@@ -58,3 +62,14 @@ export type Packs = {
   __v: number
   _id: string
 }
+export type CreatePackResponseType = {
+  newCardsPack: PackType
+}
+export type UpdatePackResponseType = {
+  updatedCardsPack: PackType
+}
+export type DeletePackResponseType = {
+  deletedCardsPack: PackType
+}
+
+// export type cardPack = Pick<Packs, 'name' | 'updated' | 'user_name' | 'cardsCount'>

@@ -3,7 +3,7 @@ import React from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
 import { PATH } from '../../common/routes/pathRoutesList'
-import { loginSelector } from '../../features/auth/auth-selector'
+import { userId } from '../../features/auth/auth-selector'
 import { Login } from '../../features/auth/login/Login'
 import { ForgotPassword } from '../../features/auth/password/ForgotPassword'
 import { NewPassword } from '../../features/auth/password/NewPassword'
@@ -16,7 +16,7 @@ import { useAppSelector } from '../store'
 
 function Pages() {
   const PrivateRoutes = () => {
-    let isLoggedIn = useAppSelector(loginSelector)
+    let isLoggedIn = useAppSelector(userId)
 
     return isLoggedIn ? <Outlet /> : <Navigate to={PATH.LOGIN} />
   }

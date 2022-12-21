@@ -8,23 +8,17 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
-import {changePage, changePageCount, fetchPacksTC} from '../packs-reducer'
-import {
-  cardPacksTotalCount,
-  packCount,
-  packPage,
-  packSelector,
-  user_id_login,
-} from '../packs-selector'
+import { changePageAC, changePageCountAC, fetchPacksTC } from '../packs-reducer'
+import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 import { EnhancedTableHead } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
-import { createSearchParams, useSearchParams } from 'react-router-dom'
+import { userId } from '../../auth/auth-selector'
 
 interface Column {
   id: 'name' | 'updated' | 'user_name' | 'cardsCount' | 'user_id'
@@ -76,7 +70,7 @@ export default function Packs() {
   const [orderBy, setOrderBy] = React.useState<keyof Data>('updated')
   const [selected, setSelected] = React.useState<readonly string[]>([])
       // это параметры можно вытащить из state
-  const [searchParams, setSearchParams] = useSearchParams({page: '2', pageCount: '5', sortPacks: '0updated'})
+  const [searchParams, setSearchParams] = useSearchParams({page: '1', pageCount: '5', sortPacks: '0updated'})
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
 
@@ -92,7 +86,7 @@ export default function Packs() {
     // setSearchParams({ page: newPage.toString() })
     //searchParams.delete('page')
     searchParams.set('page', newPage.toString())
-    dispatch(changePage(newPage))
+    dispatch(changePageAC(newPage))
   }
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     //setRowsPerPage(+event.target.value)
@@ -100,14 +94,14 @@ export default function Packs() {
     //searchParams.delete('pageCount')
     searchParams.set('pageCount', event.target.value.toString())
 
-    dispatch(changePageCount(+event.target.value))
+    dispatch(changePageCountAC(+event.target.value))
   }
 
   const packsCards = useAppSelector(packSelector)
   const pageState = useAppSelector(packPage)
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
-  const userIdLogin = useAppSelector(user_id_login)
+  const userIdLogin = useAppSelector(userId)
 
   const paramsSearch:any = {};
 
