@@ -56,7 +56,7 @@ export type PackType = {
   rating: number
   shots: number
   type: string
-  updated: string
+  updated: Date
   user_id: string
   user_name: string
   __v: number
