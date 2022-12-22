@@ -4,7 +4,7 @@ import { SetAppErrorType, SetAppStatusType, SetIsInitializedAppType } from '../.
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { packsAPI, ParamsTemplateType } from './packs-api'
+import { packsAPI, PackType, ParamsTemplateType } from './packs-api'
 
 const initialState = {
   cardPacks: [] as DomainPackType[],
@@ -17,25 +17,21 @@ const initialState = {
   sortPacks: '0updated',
 }
 
-export type DomainPackType = {
-  cardsCount: number
-  name: string
-  updated: string
-  user_name: string
-  user_id: string
-  _id: string
-}
+export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
 
 export const packsReducer = (state: InitialStateType = initialState, action: PacksActionsType): InitialStateType => {
   switch (action.type) {
     case packs_SET_PACKS:
       return {
         ...action.packs,
+        /*maxCardsCount: state.maxCardsCount,
+        minCardsCount: state.minCardsCount,
+        sortPacks: state.sortPacks,*/
         cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
           _id,
           name,
           cardsCount,
-          updated: new Date(updated).toLocaleDateString(),
+          updated,
           user_name,
           user_id,
         })),
@@ -44,16 +40,27 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
       return { ...state, page: action.page }
     case packs_CHANGE_PAGE_COUNT:
       return { ...state, pageCount: action.pageCount }
+    case packs_CHANGE_CARDS_NUMBER_IN_PACK:
+      return { ...state, minCardsCount: action.min, maxCardsCount: action.max }
+    case packs_CHANGE_SORT_PACKS:
+      return { ...state, sortPacks: action.sortPacks }
     default:
       return state
   }
 }
 
 // actions
-const addPacksAC = (packs: InitialStateType) => ({ type: packs_SET_PACKS, packs } as const)
+const setPacksAC = (packs: InitialStateType) => ({ type: packs_SET_PACKS, packs } as const)
 
 export const changePageAC = (page: number) => ({ type: packs_CHANGE_PAGE, page } as const)
 export const changePageCountAC = (pageCount: number) => ({ type: packs_CHANGE_PAGE_COUNT, pageCount } as const)
+export const changeCardsNumberInPackAC = (min: number, max: number) =>
+  ({
+    type: packs_CHANGE_CARDS_NUMBER_IN_PACK,
+    min,
+    max,
+  } as const)
+export const changeSortPacksAC = (sortPacks: string) => ({ type: packs_CHANGE_SORT_PACKS, sortPacks } as const)
 
 // thunks
 export const fetchPacksTC =
@@ -62,7 +69,7 @@ export const fetchPacksTC =
     try {
       const res = await packsAPI.getPacks(paramsSearch)
 
-      dispatch(addPacksAC(res.data))
+      dispatch(setPacksAC(res.data))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -105,9 +112,11 @@ export const deletePackTC =
 
 // types
 export type InitialStateType = typeof initialState
-export type AddPacksType = ReturnType<typeof addPacksAC>
+export type AddPacksType = ReturnType<typeof setPacksAC>
 export type ChangePageType = ReturnType<typeof changePageAC>
 export type ChangePageCountType = ReturnType<typeof changePageCountAC>
+export type ChangeSortPacksType = ReturnType<typeof changeSortPacksAC>
+
 export type PacksActionsType =
   | SetAppStatusType
   | SetAppErrorType
@@ -115,8 +124,12 @@ export type PacksActionsType =
   | AddPacksType
   | ChangePageType
   | ChangePageCountType
+  | ReturnType<typeof changeCardsNumberInPackAC>
+  | ChangeSortPacksType
 
 // const
 const packs_SET_PACKS = 'packs/SET_PACKS'
 const packs_CHANGE_PAGE = 'packs/CHANGE_PAGE'
 const packs_CHANGE_PAGE_COUNT = 'packs/CHANGE_PAGE_COUNT'
+const packs_CHANGE_CARDS_NUMBER_IN_PACK = 'packs/CHANGE_CARDS_NUMBER_IN_PACK'
+const packs_CHANGE_SORT_PACKS = 'packs/CHANGE_SORT_PACKS'
