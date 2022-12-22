@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { cardsAPI, CardsResponseType, CreateCardType, UpdateCardValuesType } from './cards-api'
+import { cardsAPI, CardsResponseType, CardType, CreateCardType, UpdateCardValuesType } from './cards-api'
 
 const initialState = {
   cards: [] as CardStateType[],
@@ -20,7 +20,9 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
     case cards_SET_CARDS:
       return {
         ...action.cards,
-        cards: action.cards.cards.map(({ updated, question, answer, grade }) => ({
+        cards: action.cards.cards.map(({ cardsPack_id, _id, updated, question, answer, grade }) => ({
+          cardsPack_id,
+          _id,
           answer,
           question,
           grade,
@@ -93,12 +95,7 @@ export const updateCardTC =
 export type InitialStateType = typeof initialState
 export type CardsActionsType = ReturnType<typeof setCardsAC>
 
-type CardStateType = {
-  question: string
-  answer: string
-  grade: number
-  updated: string
-}
+export type CardStateType = Pick<CardType, 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
