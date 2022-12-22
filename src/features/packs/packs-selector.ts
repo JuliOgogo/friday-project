@@ -14,3 +14,7 @@ export const cardPacksTotalCount = (state: AppRootStateType) => state.packs.card
 
 export const minCardsNumber = (state: AppRootStateType) => state.packs.minCardsCount
 export const maxCardsNumber = (state: AppRootStateType) => state.packs.maxCardsCount
+
+//sortPacks
+
+export const sortPacks = (state: AppRootStateType) => state.packs.sortPacks
