@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { ColumnPack, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
@@ -19,7 +19,7 @@ import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fet
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
-const columns: ColumnPack[] = [
+const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'cardsCount', label: 'Cards', minWidth: 100 },
   {

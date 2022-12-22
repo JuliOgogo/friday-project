@@ -10,7 +10,7 @@ import { DomainPackType } from '../../../features/packs/packs-reducer'
 
 export type Order = 'asc' | 'desc'
 
-export interface ColumnPack {
+export interface Column {
   id: keyof DomainPackType
   label: string
   minWidth?: number
@@ -22,7 +22,7 @@ interface EnhancedTableProps {
   order: Order
   orderBy: string
   rowCount: number
-  columnsHead: ColumnPack[]
+  columnsHead: Column[]
 }
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
@@ -35,21 +35,21 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        {columnsHead.map(headCell => (
+        {columnsHead.map(column => (
           <TableCell
-            key={headCell.id}
+            key={column.id}
             padding={'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            align={headCell.align}
-            style={{ minWidth: headCell.minWidth }}
+            sortDirection={orderBy === column.id ? order : false}
+            align={column.align}
+            style={{ minWidth: column.minWidth }}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === column.id}
+              direction={orderBy === column.id ? order : 'asc'}
+              onClick={createSortHandler(column.id)}
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
+              {column.label}
+              {orderBy === column.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
