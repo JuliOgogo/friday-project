@@ -15,6 +15,7 @@ import { visuallyHidden } from '@mui/utils'
 import { useAppSelector } from '../../app/store'
 
 import { cardsSelector } from './cards-selector'
+import { CardsHeader } from './CardsHeader/CardsHeader'
 
 interface Data {
   question: string
@@ -223,10 +224,7 @@ export function Cards() {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1))
     }
 
     setSelected(newSelected)
@@ -248,6 +246,7 @@ export function Cards() {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <CardsHeader />
       <Paper sx={{ width: '100%', mb: 2, mt: '60px' }}>
         <TableContainer>
           <Table

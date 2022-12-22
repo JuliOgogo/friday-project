@@ -1,0 +1,12 @@
+.cardsHeader {
+  margin-top: 75px;
+}
+
+.settingsWrapper {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 40px;
+}

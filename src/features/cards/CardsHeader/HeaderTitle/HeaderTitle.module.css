@@ -1,0 +1,17 @@
+.titleAndButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    font-family: 'Montserrat';
+    font-size: 22px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 27px;
+}
