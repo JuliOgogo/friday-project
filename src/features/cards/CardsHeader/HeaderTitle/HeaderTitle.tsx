@@ -21,11 +21,11 @@ export const HeaderTitle = () => {
         {title === 'My Pack' && <CustomMenu />}
       </div>
       {title === 'My Pack' ? (
-        <Button variant={'contained'} sx={{ borderRadius: '30px' }} href={`#`}>
+        <Button variant={'contained'} sx={{ borderRadius: '30px' }}>
           Add new card
         </Button>
       ) : (
-        <Button variant={'contained'} sx={{ borderRadius: '30px' }} href={`#`}>
+        <Button variant={'contained'} sx={{ borderRadius: '30px' }}>
           Learn to pack
         </Button>
       )}
