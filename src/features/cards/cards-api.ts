@@ -15,7 +15,7 @@ export const cardsAPI = {
     })
   },
   createCard(data: CreateCardType) {
-    return instance.post('/cards/card', data)
+    return instance.post('/cards/card', { card: { cardsPack_id: data.cardsPack_id } })
   },
   deleteCard(cardId: string) {
     return instance.delete(`/cards/card?id=${cardId}`)

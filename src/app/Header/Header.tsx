@@ -15,12 +15,7 @@ export function Header() {
   const isLoggedIn = useAppSelector(userEmailSelector)
 
   return (
-    <AppBar
-      position="static"
-      color={'inherit'}
-      className={s.appBar}
-      style={{ flexDirection: 'row' }}
-    >
+    <AppBar position="static" color={'inherit'} className={s.appBar} style={{ flexDirection: 'row' }}>
       <img alt={'logo'} src={itIncubatorLogo} />
       {isLoggedIn ? (
         <ProfileIcon />

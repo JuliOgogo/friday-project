@@ -19,10 +19,7 @@ const initialState = {
   check: false,
 }
 
-export const authReducer = (
-  state: InitialStateType = initialState,
-  action: AuthActionsType
-): InitialStateType => {
+export const authReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
   switch (action.type) {
     case auth_AUTH_ME:
       return {
@@ -56,12 +53,9 @@ export const authReducer = (
 }
 
 ///----------- actions creators -----------\\\
-export const authMeAC = (LoginParams: AuthResponseType) =>
-  ({ type: auth_AUTH_ME, LoginParams } as const)
-export const registrationAC = (isRegistration: boolean) =>
-  ({ type: auth_REGISTRATION, isRegistration } as const)
-export const setLoginDataAC = (payload: AuthResponseType) =>
-  ({ type: auth_LOGIN, payload } as const)
+export const authMeAC = (LoginParams: AuthResponseType) => ({ type: auth_AUTH_ME, LoginParams } as const)
+export const registrationAC = (isRegistration: boolean) => ({ type: auth_REGISTRATION, isRegistration } as const)
+export const setLoginDataAC = (payload: AuthResponseType) => ({ type: auth_LOGIN, payload } as const)
 export const setLogoutDataAC = () => ({ type: auth_LOGOUT } as const)
 
 const forgotPasswordAC = (email: string) => ({ type: auth_FORGOT_PASSWORD, email } as const)

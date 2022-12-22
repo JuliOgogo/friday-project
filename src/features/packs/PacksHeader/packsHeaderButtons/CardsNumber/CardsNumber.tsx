@@ -22,12 +22,7 @@ export const CardsNumber = () => {
       <div className={s2.text}>Number of cards</div>
       <div className={s.slider}>
         <div className={s.value}>{value[0]}</div>
-        <Slider
-          value={value}
-          onChange={handleChange}
-          valueLabelDisplay="auto"
-          sx={{ width: '155px' }}
-        />
+        <Slider value={value} onChange={handleChange} valueLabelDisplay="auto" sx={{ width: '155px' }} />
         <div className={s.value}>{value[1]}</div>
       </div>
     </div>

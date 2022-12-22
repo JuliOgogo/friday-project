@@ -1,7 +1,8 @@
-import * as React from 'react'
-import { useEffect } from 'react'
+import { log } from 'util'
 
-import { Button, Rating } from '@mui/material'
+import React, { useEffect } from 'react'
+
+import { Button, Rating, Toolbar, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -13,7 +14,7 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 
@@ -26,6 +27,7 @@ import {
   cardsTotalCountSelector,
 } from './cards-selector'
 
+// rows
 interface Data {
   question: string
   answer: string
@@ -33,6 +35,7 @@ interface Data {
   grade: number
 }
 
+// down sort function
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1
@@ -44,6 +47,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0
 }
 
+// up sort function
 type Order = 'asc' | 'desc'
 
 function getComparator<Key extends keyof any>(
@@ -55,24 +59,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number])
-
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-
-    if (order !== 0) {
-      return order
-    }
-
-    return a[1] - b[1]
-  })
-
-  return stabilizedThis.map(el => el[0])
-}
-
+// column names
 interface HeadCell {
   disablePadding: boolean
   id: keyof Data
@@ -107,23 +94,18 @@ const headCells: readonly HeadCell[] = [
   },
 ]
 
+// Table Head
 interface EnhancedTableProps {
   // numSelected: number
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void
-  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
   order: Order
   orderBy: string
-  rowCount: number
+  // rowCount: number
+  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-// function EnhancedTableHead(props: EnhancedTableProps) {
-//   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
-//   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-//     onRequestSort(event, property)
-//   }
-
 const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { order, orderBy, rowCount, onRequestSort } = props
+  const { order, orderBy, onRequestSort } = props
   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -131,17 +113,6 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
   return (
     <TableHead>
       <TableRow>
-        {/*<TableCell padding="checkbox">*/}
-        {/*    <Checkbox*/}
-        {/*        color="primary"*/}
-        {/*        indeterminate={numSelected > 0 && numSelected < rowCount}*/}
-        {/*        checked={rowCount > 0 && numSelected === rowCount}*/}
-        {/*        onChange={onSelectAllClick}*/}
-        {/*        inputProps={{*/}
-        {/*            'aria-label': 'select all desserts',*/}
-        {/*        }}*/}
-        {/*    />*/}
-        {/*</TableCell>*/}
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
@@ -168,6 +139,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
   )
 }
 
+// Cards Table
 export const Cards = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -175,31 +147,30 @@ export const Cards = () => {
   // selectors
   const rows = useAppSelector(cardsSelector)
   // const rows = cards
-
   const cardsTotal = useAppSelector(cardsTotalCountSelector)
   const cardCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
-  const cardsPacksId = useAppSelector(cardsPacksIdSelector)
 
+  const { id_pack } = useParams()
+
+  console.log(id_pack)
+
+  //const cardsPacksId = useAppSelector(cardsPacksIdSelector)
+
+  // const [searchParams, setSearchParams] = useSearchParams()
+  //
+  // useEffect(() => {
+  //   if (cardsPacksId) {
+  //     setSearchParams('cardsPack_id=' + cardsPacksId)
+  //   }
+  // }, [])
+  // console.log(searchParams)
   // local state
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('question')
   // const [selected, setSelected] = React.useState<readonly string[]>([])
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-  // sort functions
-  const [searchParams, setSearchParams] = useSearchParams({
-    page: cardPage.toString(),
-    pageCount: cardCount.toString(),
-    // sortPacks: '0updated',
-  })
-
-  const paramsSearch: any = {}
-
-  searchParams.forEach((key, value) => {
-    paramsSearch[value] = key
-  })
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -211,48 +182,36 @@ export const Cards = () => {
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
     // setPage(newPage)
     // const newPage = page + 1
-
-    searchParams.set('page', newPage.toString())
+    // searchParams.set('page', newPage.toString())
     // dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     // setRowsPerPage(parseInt(event.target.value, 10))
     // setPage(0)
-    searchParams.set('pageCount', event.target.value.toString())
+    // searchParams.set('pageCount', event.target.value.toString())
     // dispatch(changePageCountAC(+event.target.value))
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
   // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
-  useEffect(() => {
-    setSearchParams(searchParams)
-
-    dispatch(fetchCardsTC(cardsPacksId))
-  }, [rows])
-
-  // const handleClick = (id_cards: string) => {
-  //   console.log(id_cards)
-  //   navigate(`/cards`)
-  //   dispatch(fetchCardsTC(id_cards))
-  // }
-
+  // button onClick
   const addNewCardHandler = () => {
     dispatch(
       addCardTC({
-        cardsPack_id: cardsPacksId,
+        cardsPack_id: id_pack ? id_pack : '',
         question: 'New Question',
         answer: 'New Answer',
-        // grade: 0,
-        // shots: 0,
-        // questionImg: '',
-        // questionVideo: '',
-        // answerImg: '',
-        // answerVideo: '',
       })
     )
   }
+
+  // useEffect(() => {
+  //   // setSearchParams(searchParams)
+  //
+  //   dispatch(fetchCardsTC(cardsPacksId))
+  // }, [cardPage, cardCount])
 
   return (
     <div>
@@ -261,51 +220,41 @@ export const Cards = () => {
       </Button>
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            // sx={{ minWidth: 750 }}
-            // aria-labelledby="tableTitle"
-            // size={dense ? 'small' : 'medium'}
-          >
+          <Table stickyHeader aria-label="sticky table">
             <EnhancedTableHead
               // numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              // rowCount={rows.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(rows, getComparator(order, orderBy))
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  // const isItemSelected = isSelected(row.question)
-                  const labelId = `enhanced-table-checkbox-${index}`
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                // const isItemSelected = isSelected(row.question)
+                const labelId = `enhanced-table-checkbox-${index}`
 
-                  return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={row.question}
-                      // onClick={event => handleClick(event)}
+                return (
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={row.question}
+                    // onClick={event => handleClick(event)}
 
-                      // onClick={event => handleClick(event, row.question)}
-                      // role="checkbox"
-                      // aria-checked={isItemSelected}
-                      // selected={isItemSelected}
-                    >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.question}
-                      </TableCell>
-                      <TableCell align="right">{row.answer}</TableCell>
-                      <TableCell align="right">{row.updated}</TableCell>
-                      <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
-                    </TableRow>
-                  )
-                })}
+                    // onClick={event => handleClick(event, row.question)}
+                    // role="checkbox"
+                    // aria-checked={isItemSelected}
+                    // selected={isItemSelected}
+                  >
+                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                      {row.question}
+                    </TableCell>
+                    <TableCell align="right">{row.answer}</TableCell>
+                    <TableCell align="right">{row.updated}</TableCell>
+                    <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </TableContainer>

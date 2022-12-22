@@ -65,9 +65,7 @@ export const ForgotPassword: React.FC<PasswordRecoveryPropsType> = ({}) => {
             <div className={style.error}>{formik.errors.email}</div>
           ) : null}
 
-          <p className={style.textMessage}>
-            Enter your email address and we will send you further instructions
-          </p>
+          <p className={style.textMessage}>Enter your email address and we will send you further instructions</p>
 
           <Button
             type={'submit'}

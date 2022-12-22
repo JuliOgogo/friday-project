@@ -63,12 +63,7 @@ export const LoginForm = () => {
           <div className={style.checkbox}>
             <FormControlLabel
               label={<Typography className={style.checkboxRemember}>Remember me</Typography>}
-              control={
-                <Checkbox
-                  checked={formik.values.rememberMe}
-                  {...formik.getFieldProps('rememberMe')}
-                />
-              }
+              control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps('rememberMe')} />}
             />
           </div>
           <div className={style.linkPassword}>

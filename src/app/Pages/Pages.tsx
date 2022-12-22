@@ -26,7 +26,8 @@ function Pages() {
       <Route element={<PrivateRoutes />}>
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={PATH.PACKS} element={<Packs />} />
-        <Route path={PATH.CARDS} element={<Cards />} />
+        <Route path={PATH.PACK} element={<Cards />} />
+        {/*<Route path={PATH.CARDS} element={<Cards />} />*/}
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />
@@ -36,10 +37,7 @@ function Pages() {
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
       <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
 
-      <Route
-        path={PATH.PAGE404}
-        element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
-      />
+      <Route path={PATH.PAGE404} element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>} />
       <Route path={PATH.WRONG_PATH} element={<Navigate to={PATH.PAGE404} />} />
     </Routes>
   )

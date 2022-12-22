@@ -121,10 +121,9 @@ export default function Packs() {
 
   const rows = packsCards
 
-  const handleClick = (id_cards: string) => {
-    console.log(id_cards)
-    navigate(`/cards`)
-    dispatch(fetchCardsTC(id_cards))
+  const handleClick = (id_pack: string) => {
+    navigate(`/packs/${id_pack}`)
+    //dispatch(fetchPacksTC({}))
   }
 
   return (
