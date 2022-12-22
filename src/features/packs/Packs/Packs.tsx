@@ -11,28 +11,21 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { EnhancedTableHead } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
-import { changePageAC, changePageCountAC, fetchPacksTC } from '../packs-reducer'
+import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
 import {
   cardPacksTotalCount,
-  maxCardsNumber,
-  minCardsNumber,
   packCount,
   packPage,
   packSelector,
+  sortPacks,
+  maxCardsNumber,
+  minCardsNumber,
 } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
-
-interface Column {
-  id: 'name' | 'updated' | 'user_name' | 'cardsCount' | 'user_id'
-  label: string
-  minWidth?: number
-  align?: 'right'
-  format?: (value: number) => string
-}
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -42,110 +35,90 @@ const columns: Column[] = [
     label: 'Last Updated',
     minWidth: 170,
     align: 'right',
-    // format: (value: number) => value.toLocaleString('en-US'),
   },
   {
     id: 'user_name',
     label: 'Created by',
     minWidth: 170,
     align: 'right',
-    // format: (value: number) => value.toLocaleString('en-US'),
   },
   {
     id: 'user_id',
     label: 'Action',
     minWidth: 170,
     align: 'right',
-    // format: (value: number) => value.toFixed(2),
   },
 ]
-
-interface Data {
-  name: string
-  updated: string
-  user_name: string
-  cardsCount: number
-  user_id: string
-}
 
 export default function Packs() {
   let navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  type Order = 'asc' | 'desc'
-  const [order, setOrder] = React.useState<Order>('asc')
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('updated')
-  const [selected, setSelected] = React.useState<readonly string[]>([])
-  // это параметры можно вытащить из state
-  const [searchParams, setSearchParams] = useSearchParams({
-    page: '1',
-    pageCount: '5',
-    sortPacks: '0updated',
-  })
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
-    const isAsc = orderBy === property && order === 'asc'
-
-    searchParams.set('sortPacks', 0 + property)
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
-
-  const handleChangePage = (event: unknown, page: number) => {
-    // setPage(newPage)
-    const newPage = page + 1
-
-    setSearchParams({ ...searchParams, page: newPage.toString() })
-    //searchParams.delete('page')
-    searchParams.set('page', newPage.toString())
-    dispatch(changePageAC(newPage))
-  }
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //setRowsPerPage(+event.target.value)
-    // setPage(0)
-    //searchParams.delete('pageCount')
-    searchParams.set('pageCount', event.target.value.toString())
-
-    dispatch(changePageCountAC(+event.target.value))
-  }
-
-  console.log('render')
   const packsCards = useAppSelector(packSelector)
   const pageState = useAppSelector(packPage)
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
+  const sortPacksUse = useAppSelector(sortPacks)
   const minValue = useAppSelector(minCardsNumber)
   const maxValue = useAppSelector(maxCardsNumber)
 
-  console.log(pageState)
-  console.log(packCountState)
-  console.log(minValue)
-  console.log(maxValue)
+  const [order, setOrder] = React.useState<Order>('asc')
+  const [orderBy, setOrderBy] = React.useState<keyof DomainPackType>('updated')
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: '1',
+    pageCount: '5',
+  })
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
+    if (property === 'user_id') {
+      return
+    }
+    const isAsc = orderBy === property && order === 'asc'
+
+    searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    dispatch(changeSortPacksAC((isAsc ? 1 : 0) + property))
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+
+  const handleChangePage = (event: unknown, page: number) => {
+    const newPage = page + 1
+
+    searchParams.set('page', newPage.toString())
+    dispatch(changePageAC(newPage))
+  }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    searchParams.set('pageCount', event.target.value.toString())
+
+    dispatch(changePageCountAC(+event.target.value))
+  }
 
   const paramsSearch: any = {}
 
-  console.log('paramsSearch', paramsSearch)
   searchParams.forEach((key, value) => {
     paramsSearch[value] = key
   })
 
-  /*useEffect(() => {
-    //set to url
-    dispatch(fetchPacksTC({ page: pageState, pageCount: packCountState, max: maxValue, min: minValue }))
-  }, [pageState, packCountState, minValue, maxValue])*/
+  useEffect(() => {
+    setSearchParams(searchParams)
+
+    dispatch(
+      fetchPacksTC({
+        page: pageState,
+        pageCount: packCountState,
+        sortPacks: sortPacksUse,
+        max: maxValue,
+        min: minValue,
+      })
+    )
+  }, [pageState, packCountState, sortPacksUse, minValue, maxValue])
 
   const rows = packsCards
 
   const handleClick = (id_cards: string) => {
-    console.log(id_cards)
     navigate(`/cards`)
     dispatch(fetchCardsTC(id_cards))
   }
-
-  useEffect(() => {
-    setSearchParams(searchParams)
-    dispatch(fetchPacksTC({ page: pageState, pageCount: packCountState, max: maxValue, min: minValue }))
-  }, [pageState, packCountState, minValue, maxValue])
 
   return (
     <div>
@@ -154,19 +127,6 @@ export default function Packs() {
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
-            {/*<TableHead>*/}
-            {/*  <TableRow>*/}
-            {/*    {columns.map(column => (*/}
-            {/*      <TableCell*/}
-            {/*        key={column.id}*/}
-            {/*        align={column.align}*/}
-            {/*        style={{ minWidth: column.minWidth }}*/}
-            {/*      >*/}
-            {/*        {column.label}*/}
-            {/*      </TableCell>*/}
-            {/*    ))}*/}
-            {/*  </TableRow>*/}
-            {/*</TableHead>*/}
             <EnhancedTableHead
               columnsHead={columns}
               onRequestSort={handleRequestSort}
@@ -175,38 +135,24 @@ export default function Packs() {
               rowCount={rows.length}
             />
             <TableBody>
-              {rows
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`
+              {rows.map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`
 
-                  return (
-                    <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
-                      {/*{columns.map(column => {*/}
-                      {/*  const value = row[column.id]*/}
-                      {/*  console.log(value)*/}
-
-                      {/*  return (*/}
-                      {/*    <TableCell key={column.id} align={column.align} scope="row">*/}
-                      {/*      {column.format && typeof value === 'number'*/}
-                      {/*        ? column.format(value)*/}
-                      {/*        : value}*/}
-                      {/*    </TableCell>*/}
-
-                      {/*  )*/}
-                      {/*})}*/}
-                      <TableCell id={labelId} scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.cardsCount}</TableCell>
-                      <TableCell align="right">{row.updated}</TableCell>
-                      <TableCell align="right">{row.user_name}</TableCell>
-                      <TableCell align="right">
-                        {row.user_id === userIdLogin ? <div>You</div> : <div> no you</div>}
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
+                return (
+                  <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
+                    <TableCell id={labelId} scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.cardsCount}</TableCell>
+                    {/*/ new Date(updated).toLocaleDateString()*/}
+                    <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
+                    <TableCell align="right">{row.user_name}</TableCell>
+                    <TableCell align="right">
+                      {row.user_id === userIdLogin ? <div>You</div> : <div> no you</div>}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </TableContainer>

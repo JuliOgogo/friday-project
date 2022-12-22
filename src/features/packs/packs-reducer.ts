@@ -4,7 +4,7 @@ import { SetAppErrorType, SetAppStatusType, SetIsInitializedAppType } from '../.
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { packsAPI, ParamsTemplateType } from './packs-api'
+import { packsAPI, PackType, ParamsTemplateType } from './packs-api'
 
 const initialState = {
   cardPacks: [] as DomainPackType[],
@@ -17,14 +17,7 @@ const initialState = {
   sortPacks: '0updated',
 }
 
-export type DomainPackType = {
-  cardsCount: number
-  name: string
-  updated: string
-  user_name: string
-  user_id: string
-  _id: string
-}
+export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
 
 export const packsReducer = (state: InitialStateType = initialState, action: PacksActionsType): InitialStateType => {
   switch (action.type) {
@@ -37,7 +30,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
           _id,
           name,
           cardsCount,
-          updated: new Date(updated).toLocaleDateString(),
+          updated,
           user_name,
           user_id,
         })),
@@ -48,6 +41,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
       return { ...state, pageCount: action.pageCount }
     case packs_CHANGE_CARDS_NUMBER_IN_PACK:
       return { ...state, minCardsCount: action.min, maxCardsCount: action.max }
+    case packs_CHANGE_SORT_PACKS:
+      return { ...state, sortPacks: action.sortPacks }
     default:
       return state
   }
@@ -64,16 +59,14 @@ export const changeCardsNumberInPackAC = (min: number, max: number) =>
     min,
     max,
   } as const)
+export const changeSortPacksAC = (sortPacks: string) => ({ type: packs_CHANGE_SORT_PACKS, sortPacks } as const)
 
 // thunks
 export const fetchPacksTC =
   (paramsSearch?: ParamsTemplateType): AppThunkType =>
   async dispatch => {
     try {
-      console.log('paramsSearch - request', paramsSearch)
       const res = await packsAPI.getPacks(paramsSearch)
-
-      console.log(res, 'res')
 
       dispatch(setPacksAC(res.data))
     } catch (e) {
@@ -121,6 +114,8 @@ export type InitialStateType = typeof initialState
 export type AddPacksType = ReturnType<typeof setPacksAC>
 export type ChangePageType = ReturnType<typeof changePageAC>
 export type ChangePageCountType = ReturnType<typeof changePageCountAC>
+export type ChangeSortPacksType = ReturnType<typeof changeSortPacksAC>
+
 export type PacksActionsType =
   | SetAppStatusType
   | SetAppErrorType
@@ -129,9 +124,11 @@ export type PacksActionsType =
   | ChangePageType
   | ChangePageCountType
   | ReturnType<typeof changeCardsNumberInPackAC>
+  | ChangeSortPacksType
 
 // const
 const packs_SET_PACKS = 'packs/SET_PACKS'
 const packs_CHANGE_PAGE = 'packs/CHANGE_PAGE'
 const packs_CHANGE_PAGE_COUNT = 'packs/CHANGE_PAGE_COUNT'
 const packs_CHANGE_CARDS_NUMBER_IN_PACK = 'packs/CHANGE_CARDS_NUMBER_IN_PACK'
+const packs_CHANGE_SORT_PACKS = 'packs/CHANGE_SORT_PACKS'
