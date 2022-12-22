@@ -19,13 +19,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/store'
 
 import { addCardTC, fetchCardsTC } from './cards-reducer'
-import {
-  cardPageSelector,
-  cardsPacksIdSelector,
-  cardsPageCountSelector,
-  cardsSelector,
-  cardsTotalCountSelector,
-} from './cards-selector'
+import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
 
 // rows
 interface Data {
@@ -155,8 +149,6 @@ export const Cards = () => {
 
   console.log(id_pack)
 
-  //const cardsPacksId = useAppSelector(cardsPacksIdSelector)
-
   // const [searchParams, setSearchParams] = useSearchParams()
   //
   // useEffect(() => {
@@ -203,15 +195,14 @@ export const Cards = () => {
         cardsPack_id: id_pack ? id_pack : '',
         question: 'New Question',
         answer: 'New Answer',
+        grade: 2,
       })
     )
   }
 
-  // useEffect(() => {
-  //   // setSearchParams(searchParams)
-  //
-  //   dispatch(fetchCardsTC(cardsPacksId))
-  // }, [cardPage, cardCount])
+  useEffect(() => {
+    dispatch(fetchCardsTC(id_pack ? id_pack : ''))
+  }, [])
 
   return (
     <div>
