@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Button, Rating, Toolbar, Typography } from '@mui/material'
+import { Button, Rating } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -21,14 +21,14 @@ import { addCardTC, CardStateType, fetchCardsTC } from './cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
 
 // column names
-interface HeadCell {
+interface Column {
   disablePadding: boolean
   id: keyof CardStateType
   label: string
   numeric: boolean
 }
 
-const headCells: readonly HeadCell[] = [
+const columns: Column[] = [
   {
     id: 'question',
     numeric: false,
@@ -55,74 +55,50 @@ const headCells: readonly HeadCell[] = [
   },
 ]
 
-// // down sort function
-// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1
-//   }
-//
-//   return 0
-// }
-//
-// // up sort function
-// type Order = 'asc' | 'desc'
-//
-// function getComparator<Key extends keyof any>(
-//   order: Order,
-//   orderBy: Key
-// ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-//   return order === 'desc'
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy)
-// }
-//
-// // Table Head
-// interface EnhancedTableProps {
-//   // numSelected: number
-//   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void
-//   order: Order
-//   orderBy: string
-//   // rowCount: number
-//   // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
-// }
-//
-// const EnhancedTableHead = (props: EnhancedTableProps) => {
-//   const { order, orderBy, onRequestSort } = props
-//   const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-//     onRequestSort(event, property)
-//   }
-//
-//   return (
-//     <TableHead>
-//       <TableRow>
-//         {headCells.map(headCell => (
-//           <TableCell
-//             key={headCell.id}
-//             align={headCell.numeric ? 'right' : 'left'}
-//             padding={headCell.disablePadding ? 'none' : 'normal'}
-//             sortDirection={orderBy === headCell.id ? order : false}
-//           >
-//             <TableSortLabel
-//               active={orderBy === headCell.id}
-//               direction={orderBy === headCell.id ? order : 'asc'}
-//               onClick={createSortHandler(headCell.id)}
-//             >
-//               {headCell.label}
-//               {orderBy === headCell.id ? (
-//                 <Box component="span" sx={visuallyHidden}>
-//                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                 </Box>
-//               ) : null}
-//             </TableSortLabel>
-//           </TableCell>
-//         ))}
-//       </TableRow>
-//     </TableHead>
-//   )
-// }
+// Table Head
+interface EnhancedTableProps {
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof CardStateType) => void
+  order: Order
+  orderBy: string
+  rowCount: number
+  columnsHead: Column[]
+}
+
+const EnhancedTableHead = (props: EnhancedTableProps) => {
+  const { order, orderBy, onRequestSort, columnsHead } = props
+
+  const createSortHandler = (property: keyof CardStateType) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property)
+  }
+
+  return (
+    <TableHead>
+      <TableRow>
+        {columnsHead.map(column => (
+          <TableCell
+            key={column.id}
+            align={column.numeric ? 'right' : 'left'}
+            padding={column.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === column.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === column.id}
+              direction={orderBy === column.id ? order : 'asc'}
+              onClick={createSortHandler(column.id)}
+            >
+              {column.label}
+              {orderBy === column.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  )
+}
 
 // Cards Table
 export const Cards = () => {
@@ -138,8 +114,8 @@ export const Cards = () => {
   const { id_pack } = useParams()
 
   // local state
-  const [order, setOrder] = React.useState<Order>('asc')
-  const [orderBy, setOrderBy] = React.useState<keyof CardStateType>('question')
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof CardStateType>('question')
 
   const [searchParams, setSearchParams] = useSearchParams({
     page: '1',
@@ -206,13 +182,13 @@ export const Cards = () => {
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
-            {/*<EnhancedTableHead*/}
-            {/*  // numSelected={selected.length}*/}
-            {/*  order={order}*/}
-            {/*  orderBy={orderBy}*/}
-            {/*  onRequestSort={handleRequestSort}*/}
-            {/*  // rowCount={rows.length}*/}
-            {/*/>*/}
+            <EnhancedTableHead
+              columnsHead={columns}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
             <TableBody>
               {rows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
