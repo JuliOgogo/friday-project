@@ -37,12 +37,6 @@ export const CardsNumber = () => {
     dispatch(changeCardsNumberInPackAC(value[0], value[1]))
   }
 
-  const paramsSearch: any = {}
-
-  searchParams.forEach((key, value) => {
-    paramsSearch[value] = key
-  })
-
   return (
     <div className={s2.wrapper}>
       <div className={s2.text}>Number of cards</div>

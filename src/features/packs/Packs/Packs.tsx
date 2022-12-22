@@ -129,10 +129,10 @@ export default function Packs() {
     paramsSearch[value] = key
   })
 
-  useEffect(() => {
+  /*useEffect(() => {
     //set to url
     dispatch(fetchPacksTC({ page: pageState, pageCount: packCountState, max: maxValue, min: minValue }))
-  }, [pageState, packCountState, minValue, maxValue])
+  }, [pageState, packCountState, minValue, maxValue])*/
 
   const rows = packsCards
 
@@ -144,7 +144,8 @@ export default function Packs() {
 
   useEffect(() => {
     setSearchParams(searchParams)
-  }, [])
+    dispatch(fetchPacksTC({ page: pageState, pageCount: packCountState, max: maxValue, min: minValue }))
+  }, [pageState, packCountState, minValue, maxValue])
 
   return (
     <div>
