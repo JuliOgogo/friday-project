@@ -69,6 +69,7 @@ export default function Packs() {
     page: '1',
     pageCount: '5',
   })
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
       return
@@ -87,6 +88,7 @@ export default function Packs() {
     searchParams.set('page', newPage.toString())
     dispatch(changePageAC(newPage))
   }
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set('pageCount', event.target.value.toString())
 
@@ -102,15 +104,7 @@ export default function Packs() {
   useEffect(() => {
     setSearchParams(searchParams)
 
-    dispatch(
-      fetchPacksTC({
-        page: pageState,
-        pageCount: packCountState,
-        sortPacks: sortPacksUse,
-        max: maxValue,
-        min: minValue,
-      })
-    )
+    dispatch(fetchPacksTC(paramsSearch))
   }, [pageState, packCountState, sortPacksUse, minValue, maxValue])
 
   const rows = packsCards

@@ -1,11 +1,12 @@
 import * as React from 'react'
 
 import Box from '@mui/material/Box'
-import { visuallyHidden } from '@mui/utils'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
+import { visuallyHidden } from '@mui/utils'
+
 import { DomainPackType } from '../../../features/packs/packs-reducer'
 
 export type Order = 'asc' | 'desc'
