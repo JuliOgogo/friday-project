@@ -7,93 +7,19 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
 
-interface DataPacks {
-  name: string
-  updated: string
-  user_name: string
-  cardsCount: number
-  user_id: string
-}
+import { DomainPackType } from '../../../features/packs/packs-reducer'
 
-interface DataCards {
-  question: string
-  answer: string
-  updated: string
-  grade: number
-}
-interface Column {
-  // id: 'name' | 'updated' | 'user_name' | 'cardsCount' | '_id'
-  id: keyof DataPacks
+export type Order = 'asc' | 'desc'
+
+export interface Column {
+  id: keyof DomainPackType
   label: string
   minWidth?: number
   align?: 'right'
-  // format?: (value: number) => string
 }
-interface HeadCell {
-  disablePadding: boolean
-  id: keyof DataCards
-  label: string
-  numeric: boolean
-  align?: 'right'
-  minWidth?: number
-}
-
-// const columns: readonly Column[] = [
-//   { id: 'name', label: 'Name', minWidth: 170 },
-//   { id: 'cardsCount', label: 'Cards', minWidth: 100 },
-//   {
-//     id: 'updated',
-//     label: 'Last Updated',
-//     minWidth: 170,
-//     align: 'right',
-//     // format: (value: number) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: 'user_name',
-//     label: 'Created by',
-//     minWidth: 170,
-//     align: 'right',
-//     // format: (value: number) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: 'user_id',
-//     label: 'Action',
-//     minWidth: 170,
-//     align: 'right',
-//     // format: (value: number) => value.toFixed(2),
-//   },
-// ]
-const headCells: HeadCell[] = [
-  {
-    id: 'question',
-    numeric: false,
-    disablePadding: true,
-    label: 'Question',
-  },
-  {
-    id: 'answer',
-    numeric: true,
-    disablePadding: false,
-    label: 'Answer',
-  },
-  {
-    id: 'updated',
-    numeric: true,
-    disablePadding: false,
-    label: 'Last Updated',
-  },
-  {
-    id: 'grade',
-    numeric: true,
-    disablePadding: false,
-    label: 'Grade',
-  },
-]
-
-type Order = 'asc' | 'desc'
 
 interface EnhancedTableProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DataPacks) => void
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => void
   order: Order
   orderBy: string
   rowCount: number
@@ -103,28 +29,28 @@ interface EnhancedTableProps {
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort, columnsHead } = props
 
-  const createSortHandler = (property: keyof DataPacks) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof DomainPackType) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
 
   return (
     <TableHead>
       <TableRow>
-        {columnsHead.map(headCell => (
+        {columnsHead.map(column => (
           <TableCell
-            key={headCell.id}
+            key={column.id}
             padding={'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            align={headCell.align}
-            style={{ minWidth: headCell.minWidth }}
+            sortDirection={orderBy === column.id ? order : false}
+            align={column.align}
+            style={{ minWidth: column.minWidth }}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === column.id}
+              direction={orderBy === column.id ? order : 'asc'}
+              onClick={createSortHandler(column.id)}
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
+              {column.label}
+              {orderBy === column.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
