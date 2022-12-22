@@ -11,11 +11,25 @@ export const instance = axios.create({
 export const cardsAPI = {
   getCards(params: GetCardsParamsType) {
     return instance.get<CardsResponseType>('/cards/card', {
-      params: params,
+      params: {
+        cardsPack_id: params.cardsPack_id,
+        page: params.page,
+        pageCount: params.pageCount,
+        sortCards: params.sortCards,
+        min: params.min,
+        max: params.max,
+      },
     })
   },
   createCard(data: CreateCardType) {
-    return instance.post('/cards/card', { card: { cardsPack_id: data.cardsPack_id } })
+    return instance.post('/cards/card', {
+      card: {
+        cardsPack_id: data.cardsPack_id,
+        question: data.question,
+        answer: data.answer,
+        grade: data.grade,
+      },
+    })
   },
   deleteCard(cardId: string) {
     return instance.delete(`/cards/card?id=${cardId}`)
@@ -26,7 +40,6 @@ export const cardsAPI = {
 }
 
 // types
-type ResponseType = {}
 
 export type GetCardsParamsType = {
   cardAnswer?: string

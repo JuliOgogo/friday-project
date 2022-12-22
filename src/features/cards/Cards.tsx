@@ -17,7 +17,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
 
-import { addCardTC, CardStateType, fetchCardsTC } from './cards-reducer'
+import { addCardTC, CardStateType, changeCardsPageAC, changeCardsPageCountAC, fetchCardsTC } from './cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
 
 // column names
@@ -138,13 +138,13 @@ export const Cards = () => {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
-    // dispatch(changeCardsPageAC(newPage))
+    dispatch(changeCardsPageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set('pageCount', event.target.value.toString())
 
-    // dispatch(changeCardsCountAC(+event.target.value))
+    dispatch(changeCardsPageCountAC(+event.target.value))
   }
 
   // button onClick
@@ -171,7 +171,7 @@ export const Cards = () => {
   // }, [cardPage, cardsPageCount])
 
   useEffect(() => {
-    dispatch(fetchCardsTC(id_pack ? id_pack : ''))
+    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
   }, [])
 
   return (
