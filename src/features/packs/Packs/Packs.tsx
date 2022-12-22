@@ -16,7 +16,14 @@ import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePageAC, changePageCountAC, fetchPacksTC } from '../packs-reducer'
-import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
+import {
+  cardPacksTotalCount,
+  maxCardsNumber,
+  minCardsNumber,
+  packCount,
+  packPage,
+  packSelector,
+} from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 interface Column {
@@ -87,7 +94,7 @@ export default function Packs() {
     // setPage(newPage)
     const newPage = page + 1
 
-    // setSearchParams({ page: newPage.toString() })
+    setSearchParams({ ...searchParams, page: newPage.toString() })
     //searchParams.delete('page')
     searchParams.set('page', newPage.toString())
     dispatch(changePageAC(newPage))
@@ -101,23 +108,31 @@ export default function Packs() {
     dispatch(changePageCountAC(+event.target.value))
   }
 
+  console.log('render')
   const packsCards = useAppSelector(packSelector)
   const pageState = useAppSelector(packPage)
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
+  const minValue = useAppSelector(minCardsNumber)
+  const maxValue = useAppSelector(maxCardsNumber)
+
+  console.log(pageState)
+  console.log(packCountState)
+  console.log(minValue)
+  console.log(maxValue)
 
   const paramsSearch: any = {}
 
+  console.log('paramsSearch', paramsSearch)
   searchParams.forEach((key, value) => {
     paramsSearch[value] = key
   })
 
   useEffect(() => {
-    setSearchParams(searchParams)
-
-    dispatch(fetchPacksTC(paramsSearch))
-  }, [pageState, packCountState])
+    //set to url
+    dispatch(fetchPacksTC({ page: pageState, pageCount: packCountState, max: maxValue, min: minValue }))
+  }, [pageState, packCountState, minValue, maxValue])
 
   const rows = packsCards
 
@@ -126,6 +141,10 @@ export default function Packs() {
     navigate(`/cards`)
     dispatch(fetchCardsTC(id_cards))
   }
+
+  useEffect(() => {
+    setSearchParams(searchParams)
+  }, [])
 
   return (
     <div>
@@ -161,12 +180,7 @@ export default function Packs() {
                   const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={row._id}
-                      onClick={() => handleClick(row._id)}
-                    >
+                    <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
                       {/*{columns.map(column => {*/}
                       {/*  const value = row[column.id]*/}
                       {/*  console.log(value)*/}
