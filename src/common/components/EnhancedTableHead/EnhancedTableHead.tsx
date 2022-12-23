@@ -8,18 +8,19 @@ import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
 
 import { DomainPackType } from '../../../features/packs/packs-reducer'
+import { CardStateType } from '../../../features/cards/cards-reducer'
 
 export type Order = 'asc' | 'desc'
 
 export interface Column {
-  id: keyof DomainPackType
+  id: keyof DomainPackType | keyof CardStateType
   label: string
   minWidth?: number
   align?: 'right'
 }
 
 interface EnhancedTableProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => void
+  onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void
   order: Order
   orderBy: string
   rowCount: number
@@ -29,7 +30,7 @@ interface EnhancedTableProps {
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort, columnsHead } = props
 
-  const createSortHandler = (property: keyof DomainPackType) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
 
