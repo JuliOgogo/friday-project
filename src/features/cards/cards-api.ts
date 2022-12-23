@@ -35,7 +35,7 @@ export const cardsAPI = {
     return instance.delete(`/cards/card?id=${cardId}`)
   },
   updateCard(payload: UpdateCardValuesType) {
-    return instance.put('/cards/card', payload)
+    return instance.put('/cards/card', { card: payload })
   },
 }
 
