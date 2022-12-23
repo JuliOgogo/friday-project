@@ -59,7 +59,6 @@ const columns: Column[] = [
     align: 'right',
   },
 ]
-
 export default function Packs() {
   let navigate = useNavigate()
   const dispatch = useAppDispatch()
