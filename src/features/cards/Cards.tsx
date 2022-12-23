@@ -118,7 +118,6 @@ export const Cards = () => {
   const [orderBy, setOrderBy] = useState<keyof CardStateType>('question')
 
   const [searchParams, setSearchParams] = useSearchParams({
-    page: '1',
     pageCount: '5',
   })
 
