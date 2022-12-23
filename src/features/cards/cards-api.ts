@@ -9,19 +9,30 @@ export const instance = axios.create({
 })
 
 export const cardsAPI = {
-  // getCards(packsId: string) {
-  //   return instance.get<CardsResponseType>(`&cardsPack_id=${packsId}`)
-  // },
   getCards(params: GetCardsParamsType) {
     return instance.get<CardsResponseType>('/cards/card', {
-      params: params,
+      params: {
+        cardsPack_id: params.cardsPack_id,
+        page: params.page,
+        pageCount: params.pageCount,
+        sortCards: params.sortCards,
+        min: params.min,
+        max: params.max,
+      },
     })
   },
   createCard(data: CreateCardType) {
-    return instance.post<ResponseType>('/cards/card', data)
+    return instance.post('/cards/card', {
+      card: {
+        cardsPack_id: data.cardsPack_id,
+        question: data.question,
+        answer: data.answer,
+        grade: data.grade,
+      },
+    })
   },
   deleteCard(cardId: string) {
-    return instance.delete<ResponseType>(`/cards/card?id=${cardId}`)
+    return instance.delete(`/cards/card?id=${cardId}`)
   },
   updateCard(payload: UpdateCardValuesType) {
     return instance.put('/cards/card', payload)
@@ -29,9 +40,8 @@ export const cardsAPI = {
 }
 
 // types
-type ResponseType = {}
 
-type GetCardsParamsType = {
+export type GetCardsParamsType = {
   cardAnswer?: string
   cardQuestion?: string
   cardsPack_id: string
@@ -42,7 +52,7 @@ type GetCardsParamsType = {
   pageCount?: number
 }
 
-type CardsResponseType = {
+export type CardsResponseType = {
   cards: CardType[]
   cardsTotalCount: number
   maxGrade: number
@@ -50,6 +60,7 @@ type CardsResponseType = {
   page: number
   pageCount: number
   packUserId: string
+  sortCards: string
 }
 
 export type CardType = {
@@ -63,7 +74,7 @@ export type CardType = {
   created: string
   updated: string
 }
-// omit!!
+
 export type CreateCardType = {
   cardsPack_id: string
   question: string

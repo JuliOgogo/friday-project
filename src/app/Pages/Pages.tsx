@@ -8,6 +8,7 @@ import { Login } from '../../features/auth/login/Login'
 import { ForgotPassword } from '../../features/auth/password/ForgotPassword'
 import { NewPassword } from '../../features/auth/password/NewPassword'
 import { Registration } from '../../features/auth/registration/Registration'
+import { Card } from '../../features/cards/Card'
 import { Cards } from '../../features/cards/Cards'
 import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
 import Packs from '../../features/packs/Packs/Packs'
@@ -26,7 +27,9 @@ function Pages() {
       <Route element={<PrivateRoutes />}>
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={PATH.PACKS} element={<Packs />} />
-        <Route path={PATH.CARDS} element={<Cards />} />
+        <Route path={PATH.PACK} element={<Cards />} />
+        <Route path={PATH.CARD} element={<Card />} />
+        {/*<Route path={PATH.CARDS} element={<Cards />} />*/}
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />
@@ -36,10 +39,7 @@ function Pages() {
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
       <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
 
-      <Route
-        path={PATH.PAGE404}
-        element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
-      />
+      <Route path={PATH.PAGE404} element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>} />
       <Route path={PATH.WRONG_PATH} element={<Navigate to={PATH.PAGE404} />} />
     </Routes>
   )

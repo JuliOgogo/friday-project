@@ -22,16 +22,10 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 // сюда добавлять все общие типы actions из reducers
 export type RootActionsType = AuthActionsType | AppActionsType | PacksActionsType | CardsActionsType
-export type AppThunkType<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppRootStateType,
-  unknown,
-  RootActionsType
->
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, RootActionsType>
 
 // hooks
-export const useAppDispatch = () =>
-  useDispatch<ThunkDispatch<AppRootStateType, unknown, RootActionsType>>()
+export const useAppDispatch = () => useDispatch<ThunkDispatch<AppRootStateType, unknown, RootActionsType>>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 // @ts-ignore

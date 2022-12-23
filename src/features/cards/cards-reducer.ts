@@ -3,7 +3,14 @@ import { AxiosError } from 'axios'
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { cardsAPI, CreateCardType, UpdateCardValuesType } from './cards-api'
+import {
+  cardsAPI,
+  CardsResponseType,
+  CardType,
+  CreateCardType,
+  GetCardsParamsType,
+  UpdateCardValuesType,
+} from './cards-api'
 
 const initialState = {
   cards: [] as CardStateType[],
@@ -13,47 +20,51 @@ const initialState = {
   page: 1,
   pageCount: 5,
   packUserId: '',
+  sortCards: '0updated',
 }
 
-export const cardsReducer = (
-  state: InitialStateType = initialState,
-  action: CardsActionsType
-): InitialStateType => {
+export const cardsReducer = (state: InitialStateType = initialState, action: CardsActionsType): InitialStateType => {
   switch (action.type) {
     case cards_SET_CARDS:
       return {
         ...action.cards,
-        cards: action.cards.cards.map(({ updated, question, answer, grade }) => ({
+        cards: action.cards.cards.map(({ cardsPack_id, _id, updated, question, answer, grade }) => ({
+          cardsPack_id,
+          _id,
           answer,
           question,
           grade,
           updated: new Date(updated).toLocaleDateString(),
         })),
       }
+    case cards_CHANGE_PAGE_COUNT:
+      return { ...state, pageCount: action.pageCount }
+    case cards_CHANGE_PAGE:
+      return { ...state, page: action.page }
+    case cards_CHANGE_SORT:
+      return { ...state, sortCards: action.sortCards }
     default:
       return state
   }
 }
 
 // actions
-export const setCardsAC = (cards: CardsStateType) => ({ type: cards_SET_CARDS, cards } as const)
-//todo изменился тип с CreateCardType на CardStateType
-export const addCardAC = (card: CardStateType) =>
+export const setCardsAC = (cards: CardsResponseType) => ({ type: cards_SET_CARDS, cards } as const)
+
+export const changeCardsPageCountAC = (pageCount: number) =>
   ({
-    type: cards_ADD_CARD,
-    card,
+    type: cards_CHANGE_PAGE_COUNT,
+    pageCount,
   } as const)
-export const removeCardAC = (packId: string, cardId: string) =>
-  ({ type: cards_REMOVE_CARD, cardId } as const)
-export const updateCardAC = (values: UpdateCardValuesType) =>
-  ({ type: cards_UPDATE_CARD, values } as const)
+export const changeCardsPageAC = (page: number) => ({ type: cards_CHANGE_PAGE, page } as const)
+export const changeSortCardsAC = (sortCards: string) => ({ type: cards_CHANGE_SORT, sortCards } as const)
 
 // thunks
 export const fetchCardsTC =
-  (cardsPacks_id: string): AppThunkType =>
-  async (dispatch, getState) => {
+  (params: GetCardsParamsType): AppThunkType =>
+  async dispatch => {
     try {
-      const res = await cardsAPI.getCards({ cardsPack_id: cardsPacks_id })
+      const res = await cardsAPI.getCards({ cardsPack_id: params.cardsPack_id })
 
       dispatch(setCardsAC(res.data))
     } catch (e) {
@@ -63,12 +74,12 @@ export const fetchCardsTC =
     }
   }
 
-const addCardTC =
+export const addCardTC =
   (data: CreateCardType): AppThunkType =>
   async dispatch => {
     try {
       await cardsAPI.createCard(data)
-      dispatch(fetchCardsTC(data.cardsPack_id))
+      dispatch(fetchCardsTC({ cardsPack_id: data.cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -76,12 +87,12 @@ const addCardTC =
     }
   }
 
-const deleteCardTC =
+export const deleteCardTC =
   (cardsPack_id: string, cardId: string): AppThunkType =>
   async dispatch => {
     try {
       await cardsAPI.deleteCard(cardId)
-      dispatch(fetchCardsTC(cardsPack_id))
+      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -89,12 +100,12 @@ const deleteCardTC =
     }
   }
 
-const updateCardTC =
+export const updateCardTC =
   (cardsPack_id: string, payload: UpdateCardValuesType): AppThunkType =>
   async dispatch => {
     try {
       await cardsAPI.updateCard(payload)
-      dispatch(fetchCardsTC(cardsPack_id))
+      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -106,29 +117,14 @@ const updateCardTC =
 export type InitialStateType = typeof initialState
 export type CardsActionsType =
   | ReturnType<typeof setCardsAC>
-  | ReturnType<typeof addCardAC>
-  | ReturnType<typeof removeCardAC>
-  | ReturnType<typeof updateCardAC>
+  | ReturnType<typeof changeCardsPageCountAC>
+  | ReturnType<typeof changeCardsPageAC>
+  | ReturnType<typeof changeSortCardsAC>
 
-export type CardsStateType = {
-  cards: CardStateType[]
-  cardsTotalCount: number
-  maxGrade: number
-  minGrade: number
-  page: number
-  pageCount: number
-  packUserId: string
-}
-type CardStateType = {
-  question: string
-  answer: string
-  grade: number
-
-  updated: string
-}
+export type CardStateType = Pick<CardType, 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
-const cards_ADD_CARD = 'cards/ADD_CARD'
-const cards_REMOVE_CARD = 'cards/REMOVE_CARD'
-const cards_UPDATE_CARD = 'cards/UPDATE_CARD'
+const cards_CHANGE_PAGE_COUNT = 'cards/CHANGE_PAGE_COUNT'
+const cards_CHANGE_PAGE = 'cards/CHANGE_PAGE'
+const cards_CHANGE_SORT = 'cards/CHANGE_SORT'

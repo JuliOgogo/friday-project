@@ -35,13 +35,7 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
   return editMode ? (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <TextField
-          variant="standard"
-          label={'Nickname'}
-          value={title}
-          onChange={changeTitle}
-          autoFocus
-        />
+        <TextField variant="standard" label={'Nickname'} value={title} onChange={changeTitle} autoFocus />
         <Button variant="contained" onClick={activateViewMode} disabled={error}>
           Save
         </Button>
@@ -51,11 +45,7 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
   ) : (
     <div>
       <span>{props.value}</span>
-      <BorderColorOutlinedIcon
-        color="action"
-        sx={{ marginLeft: '5px', fontSize: '20px' }}
-        onClick={activateEditMode}
-      />
+      <BorderColorOutlinedIcon color="action" sx={{ marginLeft: '5px', fontSize: '20px' }} onClick={activateEditMode} />
     </div>
   )
 }

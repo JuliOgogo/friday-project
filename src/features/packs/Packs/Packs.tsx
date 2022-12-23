@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -14,7 +13,6 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
-import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
 import {
   cardPacksTotalCount,
@@ -62,8 +60,8 @@ export default function Packs() {
   const minValue = useAppSelector(minCardsNumber)
   const maxValue = useAppSelector(maxCardsNumber)
 
-  const [order, setOrder] = React.useState<Order>('asc')
-  const [orderBy, setOrderBy] = React.useState<keyof DomainPackType>('updated')
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
 
   const [searchParams, setSearchParams] = useSearchParams({
     page: '1',
@@ -109,9 +107,8 @@ export default function Packs() {
 
   const rows = packsCards
 
-  const handleClick = (id_cards: string) => {
-    navigate(`/cards`)
-    dispatch(fetchCardsTC(id_cards))
+  const handleClick = (id_pack: string) => {
+    navigate(`/packs/${id_pack}`)
   }
 
   return (
