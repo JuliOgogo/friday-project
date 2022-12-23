@@ -78,10 +78,9 @@ export const fetchPacksTC =
         sortPacks: paramsSearch?.sortPacks || undefined,
       }
 
-      console.log(params)
       const res = await packsAPI.getPacks(params)
 
-      console.log(res.data)
+
 
       dispatch(setPacksAC(res.data))
     } catch (e) {

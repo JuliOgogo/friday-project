@@ -26,7 +26,13 @@ import {
   fetchPacksTC,
   updatePackTC,
 } from '../packs-reducer'
-import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
+import {
+  cardPacksTotalCount,
+  packCount,
+  packPage,
+  packSelector,
+  sortPacks
+} from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 import style from './Pack.module.css'
@@ -66,7 +72,8 @@ export default function Packs() {
 
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
-  const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
+  const [searchParams, setSearchParams] = useSearchParams()
+
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
@@ -75,6 +82,8 @@ export default function Packs() {
     const isAsc = orderBy === property && order === 'asc'
 
     searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    setSearchParams(searchParams)
+    //setSearchParams({ ...searchParams,sortPacks: (isAsc ? 1 : 0) + property })
     dispatch(changeSortPacksAC((isAsc ? 1 : 0) + property))
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -84,26 +93,38 @@ export default function Packs() {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
+    setSearchParams(searchParams)
+   // setSearchParams({  page: newPage.toString() })
     dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set('pageCount', event.target.value.toString())
+    setSearchParams(searchParams)
+   //  setSearchParams({ ...searchParams,pageCount: event.target.value.toString() })
 
     dispatch(changePageCountAC(+event.target.value))
   }
 
-  const paramsSearch: any = {}
 
+  const paramsSearch: any = {}
   searchParams.forEach((key, value) => {
     paramsSearch[value] = key
   })
-
+  console.log(paramsSearch)
   useEffect(() => {
-    setSearchParams(searchParams)
+    if(searchParams.get('sortPacks')){
+      console.log(searchParams.get('sortPacks'))
+    }
 
+
+    setSearchParams(searchParams)
+  }, [searchParams])
+
+  useEffect(()=> {
+    setSearchParams(searchParams)
     dispatch(fetchPacksTC(paramsSearch))
-  }, [pageState, packCountState, sortPacksUse])
+  },[searchParams,pageState,packCountState,sortPacksUse])
 
   const rows = packsCards
 

@@ -18,7 +18,6 @@ export const CardsNumber = () => {
   const [value, setValue] = useState<number[]>([minValue, maxValue])
 
   const [searchParams, setSearchParams] = useSearchParams()
-
   useEffect(() => {
     if (searchParams.get('min') || searchParams.get('max')) {
       const minSearch = Number(searchParams.get('min'))
@@ -39,8 +38,8 @@ export const CardsNumber = () => {
 
     searchParams.set('min', value[0].toString())
     searchParams.set('max', value[1].toString())
-
-    setSearchParams({ ...searchParams, min: value[0].toString(), max: value[1].toString() })
+    searchParams.set('page', (1).toString())
+    setSearchParams(searchParams)
 
     dispatch(changeCardsNumberInPackAC(value[0], value[1]))
   }
