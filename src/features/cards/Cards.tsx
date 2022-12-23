@@ -91,7 +91,7 @@ export const Cards = () => {
   const cardsTotalCount = useAppSelector(cardsTotalCountSelector)
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
-  const cortCards = useAppSelector(cardSortCardsSelector)
+  const sortCards = useAppSelector(cardSortCardsSelector)
 
   const { id_pack } = useParams()
 
@@ -163,7 +163,7 @@ export const Cards = () => {
   //       sortCards: paramsSearch.sortCards,
   //     })
   //   )
-  // }, [cardPage, cardsPageCount, cortCards])
+  // }, [cardPage, cardsPageCount, sortCards])
 
   useEffect(() => {
     dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
@@ -195,7 +195,7 @@ export const Cards = () => {
                     <TableCell align="left">{new Date(row.updated).toLocaleDateString()}</TableCell>
                     <TableCell align="left">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
                     {row.user_id === userIdLogin ? (
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <div>
                           <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
                             <EditOutlinedIcon fontSize={'small'} />
