@@ -16,7 +16,7 @@ export const Search = () => {
           <SearchIcon />
         </IconButton>
         <InputBase
-          sx={{ ml: 1, flex: 1 }}
+          sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat' }}
           placeholder="Provide your text"
           inputProps={{ 'aria-label': 'Provide your text' }}
         />
