@@ -60,6 +60,7 @@ export type CardsResponseType = {
   page: number
   pageCount: number
   packUserId: string
+  sortCards: string
 }
 
 export type CardType = {

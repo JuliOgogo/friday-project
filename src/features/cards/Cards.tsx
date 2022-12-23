@@ -17,7 +17,14 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
 
-import { addCardTC, CardStateType, changeCardsPageAC, changeCardsPageCountAC, fetchCardsTC } from './cards-reducer'
+import {
+  addCardTC,
+  CardStateType,
+  changeCardsPageAC,
+  changeCardsPageCountAC,
+  changeSortCardsAC,
+  fetchCardsTC,
+} from './cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
 
 // column names
@@ -128,12 +135,12 @@ export const Cards = () => {
     const isAsc = orderBy === property && order === 'asc'
 
     searchParams.set('sortCards', (isAsc ? 1 : 0) + property)
-    // dispatch(changeSortCardsAC((isAsc ? 1 : 0) + property))
+    dispatch(changeSortCardsAC((isAsc ? 1 : 0) + property))
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, page: number) => {
+  const handleChangePage = (event: unknown, page: number) => {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
