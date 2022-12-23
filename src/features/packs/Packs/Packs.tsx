@@ -15,7 +15,14 @@ import { Column, EnhancedTableHead, Order } from '../../../common/components/Enh
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import { fetchCardsTC } from '../../cards/cards-reducer'
-import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
+import {
+  changePageAC,
+  changePageCountAC,
+  changeSortPacksAC,
+  deletePackTC,
+  DomainPackType,
+  fetchPacksTC,
+} from '../packs-reducer'
 import {
   cardPacksTotalCount,
   packCount,
@@ -112,6 +119,9 @@ export default function Packs() {
   const handleClick = (id_cards: string) => {
     navigate(`/cards`)
     dispatch(fetchCardsTC(id_cards))
+  }
+  const deletePack = (_id: string) => {
+    dispatch(deletePackTC(_id))
   }
 
   return (
