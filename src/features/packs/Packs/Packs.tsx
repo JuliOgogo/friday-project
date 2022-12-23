@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -14,15 +14,8 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
-import { fetchCardsTC } from '../../cards/cards-reducer'
 import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
-import {
-    cardPacksTotalCount,
-    packCount,
-    packPage,
-    packSelector,
-    sortPacks,
-} from '../packs-selector'
+import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 const columns: Column[] = [
@@ -49,19 +42,18 @@ const columns: Column[] = [
 ]
 
 export default function Packs() {
-    let navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    const packsCards = useAppSelector(packSelector)
-    const pageState = useAppSelector(packPage)
-    const packCountState = useAppSelector(packCount)
-    const cardPacksTotal = useAppSelector(cardPacksTotalCount)
-    const userIdLogin = useAppSelector(userId)
-    const sortPacksUse = useAppSelector(sortPacks)
+  let navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const packsCards = useAppSelector(packSelector)
+  const pageState = useAppSelector(packPage)
+  const packCountState = useAppSelector(packCount)
+  const cardPacksTotal = useAppSelector(cardPacksTotalCount)
+  const userIdLogin = useAppSelector(userId)
+  const sortPacksUse = useAppSelector(sortPacks)
 
-
-    const [order, setOrder] = useState<Order>('asc')
-    const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
-    const [searchParams, setSearchParams] = useSearchParams({pageCount: '5'})
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
+  const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
@@ -97,9 +89,8 @@ export default function Packs() {
   useEffect(() => {
     setSearchParams(searchParams)
 
-        dispatch(fetchPacksTC(paramsSearch))
-    }, [pageState, packCountState, sortPacksUse])
-
+    dispatch(fetchPacksTC(paramsSearch))
+  }, [pageState, packCountState, sortPacksUse])
 
   const rows = packsCards
 
