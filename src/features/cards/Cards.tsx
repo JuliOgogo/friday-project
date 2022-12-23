@@ -193,7 +193,6 @@ export const Cards = () => {
               columnsHead={columns}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
