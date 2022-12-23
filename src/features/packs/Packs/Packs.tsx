@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { useEffect } from 'react'
 
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
+import { IconButton, ListItemIcon } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -152,7 +156,26 @@ export default function Packs() {
                     <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
                     <TableCell align="right">{row.user_name}</TableCell>
                     <TableCell align="right">
-                      {row.user_id === userIdLogin ? <div>You</div> : <div> no you</div>}
+                      {row.user_id === userIdLogin ? (
+                        <div>
+                          <IconButton>
+                            <SchoolOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                          <IconButton>
+                            {' '}
+                            <EditOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                          <IconButton onClick={() => deletePack(row._id)}>
+                            <DeleteOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                        </div>
+                      ) : (
+                        <div>
+                          <ListItemIcon>
+                            <SchoolOutlinedIcon fontSize={'small'} />
+                          </ListItemIcon>
+                        </div>
+                      )}
                     </TableCell>
                   </TableRow>
                 )
