@@ -65,7 +65,7 @@ export const fetchCardsTC =
   (params: GetCardsParamsType): AppThunkType =>
   async dispatch => {
     try {
-      const res = await cardsAPI.getCards({ cardsPack_id: params.cardsPack_id })
+      const res = await cardsAPI.getCards(params)
 
       dispatch(setCardsAC(res.data))
     } catch (e) {
@@ -93,7 +93,7 @@ export const deleteCardTC =
   async dispatch => {
     try {
       await cardsAPI.deleteCard(cardId)
-      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
+      dispatch(fetchCardsTC({ cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -106,7 +106,7 @@ export const updateCardTC =
   async dispatch => {
     try {
       await cardsAPI.updateCard(card)
-      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
+      dispatch(fetchCardsTC({ cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 

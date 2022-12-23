@@ -20,14 +20,14 @@ export const HeaderTitle = () => {
   const title = myId === friendsId ? 'My Pack' : "Friend's Pack"
 
   const addNewCardHandler = () => {
-    dispatch(
-      addCardTC({
-        cardsPack_id: id_pack ? id_pack : '',
-        question: 'New Question',
-        answer: 'New Answer',
-        grade: 2,
-      })
-    )
+    let data = {
+      cardsPack_id: id_pack ? id_pack : '',
+      question: 'NEW QUESTION',
+      answer: 'ANSWER',
+      grade: 2,
+    }
+
+    dispatch(addCardTC(data))
   }
 
   return (

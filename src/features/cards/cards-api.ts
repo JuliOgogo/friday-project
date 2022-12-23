@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const instance = axios.create({
   // baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-  baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0/',
+  baseURL: process.env.REACT_APP_BACK_URL || 'https://neko-back.herokuapp.com/2.0',
 
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/cards/card' : 'https://neko-back.herokuapp.com/2.0/cards/card',
   withCredentials: true,
@@ -10,26 +10,10 @@ export const instance = axios.create({
 
 export const cardsAPI = {
   getCards(params: GetCardsParamsType) {
-    return instance.get<CardsResponseType>('/cards/card', {
-      params: {
-        cardsPack_id: params.cardsPack_id,
-        page: params.page,
-        pageCount: params.pageCount,
-        sortCards: params.sortCards,
-        min: params.min,
-        max: params.max,
-      },
-    })
+    return instance.get<CardsResponseType>('/cards/card', { params })
   },
   createCard(data: CreateCardType) {
-    return instance.post('/cards/card', {
-      card: {
-        cardsPack_id: data.cardsPack_id,
-        question: data.question,
-        answer: data.answer,
-        grade: data.grade,
-      },
-    })
+    return instance.post('/cards/card', { card: data })
   },
   deleteCard(cardId: string) {
     return instance.delete(`/cards/card?id=${cardId}`)
