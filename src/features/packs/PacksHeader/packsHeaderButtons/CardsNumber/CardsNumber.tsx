@@ -25,6 +25,7 @@ export const CardsNumber = () => {
 
     searchParams.set('min', value[0].toString())
     searchParams.set('max', value[1].toString())
+    searchParams.set('page', (1).toString())
     setSearchParams(searchParams)
   }
 
