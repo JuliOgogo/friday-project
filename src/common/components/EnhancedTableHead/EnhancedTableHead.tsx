@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
 
-import { DomainPackType } from '../../../features/packs/packs-reducer'
 import { CardStateType } from '../../../features/cards/cards-reducer'
+import { DomainPackType } from '../../../features/packs/packs-reducer'
 
 export type Order = 'asc' | 'desc'
 

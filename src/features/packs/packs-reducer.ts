@@ -79,8 +79,6 @@ export const fetchPacksTC =
 
       const res = await packsAPI.getPacks(params)
 
-
-
       dispatch(setPacksAC(res.data))
     } catch (e) {
       const err = e as Error | AxiosError
