@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Rating } from '@mui/material'
+import { Button, Rating, styled, tableCellClasses } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -33,6 +33,8 @@ interface Column {
   id: keyof CardStateType
   label: string
   numeric: boolean
+  minWidth: number
+  align: string
 }
 
 const columns: Column[] = [
@@ -41,24 +43,32 @@ const columns: Column[] = [
     numeric: false,
     disablePadding: true,
     label: 'Question',
+    minWidth: 170,
+    align: 'left',
   },
   {
     id: 'answer',
     numeric: true,
     disablePadding: false,
     label: 'Answer',
+    minWidth: 170,
+    align: 'left',
   },
   {
     id: 'updated',
     numeric: true,
     disablePadding: false,
     label: 'Last Updated',
+    minWidth: 170,
+    align: 'left',
   },
   {
     id: 'grade',
     numeric: true,
     disablePadding: false,
     label: 'Grade',
+    minWidth: 170,
+    align: 'left',
   },
 ]
 
@@ -70,6 +80,17 @@ interface EnhancedTableProps {
   rowCount: number
   columnsHead: Column[]
 }
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    fontFamily: 'Montserrat',
+  },
+}))
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
   const { order, orderBy, onRequestSort, columnsHead } = props
@@ -84,9 +105,14 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
         {columnsHead.map(column => (
           <TableCell
             key={column.id}
-            align={column.numeric ? 'right' : 'left'}
+            align={column.numeric ? 'left' : 'right'}
             padding={column.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === column.id ? order : false}
+            sx={{
+              backgroundColor: '#EFEFEF',
+              textAlign: 'left',
+              fontFamily: 'Montserrat',
+            }}
           >
             <TableSortLabel
               active={orderBy === column.id}
@@ -182,7 +208,7 @@ export const Cards = () => {
   }, [])
 
   return (
-    <div>
+    <div style={{ width: '1043px' }}>
       <Button variant={'contained'} sx={{ width: '100%', borderRadius: '30px' }} onClick={addNewCardHandler}>
         {'Add new Card'}
       </Button>
@@ -202,19 +228,23 @@ export const Cards = () => {
 
                 return (
                   <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row.cardsPack_id, row._id)}>
-                    <TableCell id={labelId} scope="row">
+                    <StyledTableCell id={labelId} scope="row">
                       {row.question}
-                    </TableCell>
-                    <TableCell align="right">{row.answer}</TableCell>
+                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.answer}</StyledTableCell>
                     {/*<TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>*/}
-                    <TableCell align="right">{row.updated}</TableCell>
-                    <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
+                    <StyledTableCell align="left">{row.updated}</StyledTableCell>
+                    <StyledTableCell align="left">
+                      {<Rating name="read-only" value={row.grade} readOnly />}
+                    </StyledTableCell>
                   </TableRow>
                 )
               })}
             </TableBody>
           </Table>
         </TableContainer>
+      </Paper>
+      <div>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -224,7 +254,7 @@ export const Cards = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
     </div>
   )
 }

@@ -76,6 +76,7 @@ export default function Packs() {
       fontFamily: 'Montserrat',
     },
   }))
+
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
       return
@@ -132,7 +133,7 @@ export default function Packs() {
   return (
     <div>
       <PacksHeader />
-      <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px', fontFamily: 'Montserrat, sans-serif' }}>
+      <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
             <EnhancedTableHead
