@@ -34,7 +34,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
           answer,
           question,
           grade,
-          updated: new Date(updated).toLocaleDateString(),
+          updated,
         })),
       }
     case cards_CHANGE_PAGE_COUNT:

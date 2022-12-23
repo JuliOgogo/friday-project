@@ -240,8 +240,7 @@ export const Cards = () => {
                       {row.question}
                     </TableCell>
                     <TableCell align="right">{row.answer}</TableCell>
-                    {/*<TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>*/}
-                    <TableCell align="right">{row.updated}</TableCell>
+                    <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
                     <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
                     <TableCell align="right">
                       {row.cardsPack_id === id_pack && (

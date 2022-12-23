@@ -71,8 +71,8 @@ export type CardType = {
   answer: string
   grade: number
   shots: number
-  created: string
-  updated: string
+  created: Date
+  updated: Date
 }
 
 export type CreateCardType = {
