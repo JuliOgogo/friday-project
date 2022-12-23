@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { IconButton, Rating } from '@mui/material'
-import { Button, Rating, styled, tableCellClasses } from '@mui/material'
-import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -42,26 +40,31 @@ const columnsCards: Column[] = [
     id: 'question',
     minWidth: 170,
     label: 'Question',
+    align: 'left',
   },
   {
     id: 'answer',
     minWidth: 100,
     label: 'Answer',
+    align: 'left',
   },
   {
     id: 'updated',
     minWidth: 170,
     label: 'Last Updated',
+    align: 'left',
   },
   {
     id: 'grade',
     minWidth: 170,
     label: 'Grade',
+    align: 'left',
   },
   {
     id: '_id',
     label: 'Action',
     minWidth: 170,
+    align: 'left',
   },
 ]
 
@@ -186,10 +189,10 @@ export const Cards = () => {
                     <TableCell id={labelId} scope="row" onClick={() => handleClick(row.cardsPack_id, row._id)}>
                       {row.question}
                     </TableCell>
-                    <TableCell align="right">{row.answer}</TableCell>
-                    <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
-                    <TableCell align="right">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="left">{row.answer}</TableCell>
+                    <TableCell align="left">{new Date(row.updated).toLocaleDateString()}</TableCell>
+                    <TableCell align="left">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
+                    <TableCell align="left">
                       {row.cardsPack_id === id_pack && (
                         <div>
                           <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
