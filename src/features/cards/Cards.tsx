@@ -163,7 +163,8 @@ export const Cards = () => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
   }
 
-  // for params
+  // useEffect for params
+
   // useEffect(() => {
   //   setSearchParams(searchParams)
   //
