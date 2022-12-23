@@ -26,7 +26,15 @@ import {
   fetchPacksTC,
   updatePackTC,
 } from '../packs-reducer'
-import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
+import {
+  cardPacksTotalCount,
+  maxCardsNumber,
+  minCardsNumber,
+  packCount,
+  packPage,
+  packSelector,
+  sortPacks,
+} from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 import style from './Pack.module.css'
@@ -63,6 +71,8 @@ export default function Packs() {
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
   const sortPacksUse = useAppSelector(sortPacks)
+  const minCardsValue = useAppSelector(minCardsNumber)
+  const maxCardsValue = useAppSelector(maxCardsNumber)
 
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
@@ -93,17 +103,22 @@ export default function Packs() {
     dispatch(changePageCountAC(+event.target.value))
   }
 
-  const paramsSearch: any = {}
-
-  searchParams.forEach((key, value) => {
-    paramsSearch[value] = key
-  })
+  let URLParams = {
+    packName: searchParams.get('packName') || undefined,
+    min: Number(searchParams.get('min')) || undefined,
+    max: Number(searchParams.get('max')) || undefined,
+    sortPacks: searchParams.get('sortPacks') || undefined,
+    page: Number(searchParams.get('page')) || undefined,
+    pageCount: Number(searchParams.get('pageCount')) || undefined,
+  }
 
   useEffect(() => {
     setSearchParams(searchParams)
+  }, [])
 
-    dispatch(fetchPacksTC(paramsSearch))
-  }, [pageState, packCountState, sortPacksUse])
+  useEffect(() => {
+    dispatch(fetchPacksTC(URLParams))
+  }, [pageState, packCountState, sortPacksUse, minCardsValue, maxCardsValue])
 
   const rows = packsCards
 

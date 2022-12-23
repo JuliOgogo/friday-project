@@ -10,7 +10,7 @@ const initialState = {
   cardPacks: [] as DomainPackType[],
   cardPacksTotalCount: 0,
   // количество колод
-  maxCardsCount: 0, // 53 значение, которое приходит с бэка по умолчанию
+  maxCardsCount: 53, // 53 значение, которое приходит с бэка по умолчанию
   minCardsCount: 0,
   page: 1, // выбранная страница
   pageCount: 5,
@@ -26,8 +26,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
       return {
         ...action.packs,
         /*maxCardsCount: state.maxCardsCount,
-                minCardsCount: state.minCardsCount,
-                sortPacks: state.sortPacks,*/
+                        minCardsCount: state.minCardsCount,
+                        sortPacks: state.sortPacks,*/
         cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
           _id,
           name,
@@ -70,6 +70,7 @@ export const fetchPacksTC =
   async dispatch => {
     try {
       let params = {
+        packName: paramsSearch?.packName || undefined,
         min: Number(paramsSearch?.min) || undefined,
         max: Number(paramsSearch?.max) || undefined,
         page: Number(paramsSearch?.page) || undefined,

@@ -27,6 +27,7 @@ export const packsAPI = {
 
 ///----------- types -----------\\\
 export type ParamsTemplateType = {
+  packName: string
   min: number
   max: number
   sortPacks: string

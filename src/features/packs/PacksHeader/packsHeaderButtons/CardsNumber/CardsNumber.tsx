@@ -4,7 +4,7 @@ import Slider from '@mui/material/Slider'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
-import { changeCardsNumberInPackAC } from '../../../packs-reducer'
+import { changeCardsNumberInPackAC, fetchPacksTC } from '../../../packs-reducer'
 import { maxCardsNumber, minCardsNumber } from '../../../packs-selector'
 import s2 from '../commonStyles.module.css'
 
@@ -19,17 +19,6 @@ export const CardsNumber = () => {
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  useEffect(() => {
-    if (searchParams.get('min') || searchParams.get('max')) {
-      const minSearch = Number(searchParams.get('min'))
-      const maxSearch = Number(searchParams.get('max'))
-
-      setValue([minSearch, maxSearch])
-    } else {
-      setValue([minValue, maxValue])
-    }
-  }, [searchParams, minValue, maxValue])
-
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[])
   }
@@ -40,9 +29,9 @@ export const CardsNumber = () => {
     searchParams.set('min', value[0].toString())
     searchParams.set('max', value[1].toString())
 
-    setSearchParams({ ...searchParams, min: value[0].toString(), max: value[1].toString() })
+    setSearchParams({ ...searchParams })
 
-    dispatch(changeCardsNumberInPackAC(value[0], value[1]))
+    dispatch(fetchPacksTC({ min: value[0], max: value[1] }))
   }
 
   return (
