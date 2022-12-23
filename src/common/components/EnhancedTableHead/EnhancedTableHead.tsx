@@ -16,7 +16,7 @@ export interface Column {
   id: keyof DomainPackType | keyof CardStateType
   label: string
   minWidth?: number
-  align?: 'right'
+  align?: 'left'
 }
 
 interface EnhancedTableProps {
@@ -44,6 +44,11 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
             sortDirection={orderBy === column.id ? order : false}
             align={column.align}
             style={{ minWidth: column.minWidth }}
+            sx={{
+              backgroundColor: '#EFEFEF',
+              textAlign: 'left',
+              fontFamily: 'Montserrat',
+            }}
           >
             <TableSortLabel
               active={orderBy === column.id}

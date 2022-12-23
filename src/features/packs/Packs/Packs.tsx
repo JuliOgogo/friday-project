@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
-import { IconButton } from '@mui/material'
+import { IconButton, styled, tableCellClasses } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -29,8 +29,6 @@ import {
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
-import style from './Pack.module.css'
-
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'cardsCount', label: 'Cards', minWidth: 100 },
@@ -38,19 +36,19 @@ const columns: Column[] = [
     id: 'updated',
     label: 'Last Updated',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'user_name',
     label: 'Created by',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'user_id',
     label: 'Action',
     minWidth: 170,
-    align: 'right',
+    align: 'left',
   },
 ]
 
@@ -66,6 +64,17 @@ export default function Packs() {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
   const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      fontFamily: 'Montserrat',
+    },
+  }))
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
@@ -141,20 +150,26 @@ export default function Packs() {
               orderBy={orderBy}
               rowCount={rows.length}
             />
+
             <TableBody>
               {rows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
                   <TableRow hover tabIndex={-1} key={row._id}>
-                    <TableCell id={labelId} scope="row" onClick={() => handleClick(row._id)}>
+                    <StyledTableCell
+                      id={labelId}
+                      scope="row"
+                      onClick={() => handleClick(row._id)}
+                      sx={{ cursor: 'pointer' }}
+                    >
                       {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.cardsCount}</TableCell>
+                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.cardsCount}</StyledTableCell>
                     {/*/ new Date(updated).toLocaleDateString()*/}
-                    <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
-                    <TableCell align="right">{row.user_name}</TableCell>
-                    <TableCell align="right">
+                    <StyledTableCell align="left">{new Date(row.updated).toLocaleDateString()}</StyledTableCell>
+                    <StyledTableCell align="left">{row.user_name}</StyledTableCell>
+                    <StyledTableCell align="left">
                       {row.user_id === userIdLogin ? (
                         <div>
                           <IconButton disabled={row.cardsCount === 0}>
@@ -168,31 +183,34 @@ export default function Packs() {
                           </IconButton>
                         </div>
                       ) : (
-                        <div className={style.learnButton}>
+                        <div>
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
                         </div>
                       )}
-                    </TableCell>
+                    </StyledTableCell>
                   </TableRow>
                 )
               })}
             </TableBody>
           </Table>
         </TableContainer>
+      </Paper>
+      <div>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          // количество карт в колоде cardPacksTotalCount
           count={cardPacksTotal}
+          component="div"
           rowsPerPage={packCountState}
           page={pageState ? pageState - 1 : 0}
-          //
+          rowsPerPageOptions={[5, 10, 25]}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            fontFamily: 'Montserrat',
+          }}
         />
-      </Paper>
+      </div>
     </div>
   )
 }

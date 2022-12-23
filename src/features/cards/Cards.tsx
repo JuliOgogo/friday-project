@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { IconButton, Rating } from '@mui/material'
+import { Button, Rating, styled, tableCellClasses } from '@mui/material'
+import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -62,6 +64,17 @@ const columnsCards: Column[] = [
     minWidth: 170,
   },
 ]
+
+/*const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    fontFamily: 'Montserrat',
+  },
+}))*/
 
 // Cards Table
 export const Cards = () => {
@@ -152,7 +165,7 @@ export const Cards = () => {
   }, [])
 
   return (
-    <div>
+    <div style={{ width: '1043px' }}>
       <CardsHeader />
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
@@ -194,6 +207,8 @@ export const Cards = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      </Paper>
+      <div>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -203,7 +218,7 @@ export const Cards = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
     </div>
   )
 }
