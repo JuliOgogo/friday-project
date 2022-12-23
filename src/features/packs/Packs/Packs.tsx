@@ -94,12 +94,13 @@ export default function Packs() {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
+    setSearchParams({ ...searchParams, page: newPage.toString() })
     dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set('pageCount', event.target.value.toString())
-
+    setSearchParams({ ...searchParams, pageCount: event.target.value.toString() })
     dispatch(changePageCountAC(+event.target.value))
   }
 
@@ -107,9 +108,9 @@ export default function Packs() {
     packName: searchParams.get('packName') || undefined,
     min: Number(searchParams.get('min')) || undefined,
     max: Number(searchParams.get('max')) || undefined,
-    sortPacks: searchParams.get('sortPacks') || undefined,
     page: Number(searchParams.get('page')) || undefined,
     pageCount: Number(searchParams.get('pageCount')) || undefined,
+    sortPacks: searchParams.get('sortPacks') || undefined,
   }
 
   useEffect(() => {

@@ -25,6 +25,7 @@ export const Search = () => {
 
   useEffect(() => {
     searchParams.set('packName', value.toString())
+    setSearchParams({ ...searchParams, packName: value })
     dispatch(fetchPacksTC({ packName: value }))
   }, [debouncedValue])
 

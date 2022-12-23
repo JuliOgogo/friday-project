@@ -25,9 +25,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
     case packs_SET_PACKS:
       return {
         ...action.packs,
-        /*maxCardsCount: state.maxCardsCount,
-                        minCardsCount: state.minCardsCount,
-                        sortPacks: state.sortPacks,*/
+        maxCardsCount: state.maxCardsCount,
+        minCardsCount: state.minCardsCount,
         cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
           _id,
           name,
@@ -39,7 +38,6 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
       }
     case packs_CHANGE_PAGE:
       return { ...state, page: action.page }
-
     case packs_CHANGE_PAGE_COUNT:
       return { ...state, pageCount: action.pageCount }
     case packs_CHANGE_CARDS_NUMBER_IN_PACK:

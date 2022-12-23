@@ -29,7 +29,7 @@ export const CardsNumber = () => {
     searchParams.set('min', value[0].toString())
     searchParams.set('max', value[1].toString())
 
-    setSearchParams({ ...searchParams })
+    setSearchParams({ ...searchParams, min: value[0].toString(), max: value[1].toString() })
 
     dispatch(fetchPacksTC({ min: value[0], max: value[1] }))
   }
