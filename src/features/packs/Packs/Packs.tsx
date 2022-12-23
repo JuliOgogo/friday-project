@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
@@ -84,7 +84,9 @@ export default function Packs() {
     }
     const isAsc = orderBy === property && order === 'asc'
 
-    searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    // searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    setSearchParams({ ...searchParams, sortPacks: (isAsc ? 1 : 0) + property })
+
     dispatch(changeSortPacksAC((isAsc ? 1 : 0) + property))
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -94,32 +96,32 @@ export default function Packs() {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
-    setSearchParams({ ...searchParams, page: newPage.toString() })
+    setSearchParams(searchParams)
     dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //  searchParams.set('pageCount', event.target.value.toString())
     searchParams.set('pageCount', event.target.value.toString())
-    setSearchParams({ ...searchParams, pageCount: event.target.value.toString() })
+    setSearchParams(searchParams)
     dispatch(changePageCountAC(+event.target.value))
   }
 
-  let URLParams = {
-    packName: searchParams.get('packName') || undefined,
-    min: Number(searchParams.get('min')) || undefined,
-    max: Number(searchParams.get('max')) || undefined,
-    page: Number(searchParams.get('page')) || undefined,
-    pageCount: Number(searchParams.get('pageCount')) || undefined,
-    sortPacks: searchParams.get('sortPacks') || undefined,
-  }
-
-  useEffect(() => {
-    setSearchParams(searchParams)
-  }, [])
+  let URLParams = useMemo(
+    () => ({
+      packName: searchParams.get('packName') || undefined,
+      min: Number(searchParams.get('min')) || undefined,
+      max: Number(searchParams.get('max')) || undefined,
+      page: Number(searchParams.get('page')) || undefined,
+      pageCount: Number(searchParams.get('pageCount')) || undefined,
+      sortPacks: searchParams.get('sortPacks') || undefined,
+    }),
+    [searchParams]
+  )
 
   useEffect(() => {
     dispatch(fetchPacksTC(URLParams))
-  }, [pageState, packCountState, sortPacksUse, minCardsValue, maxCardsValue])
+  }, [URLParams])
 
   const rows = packsCards
 

@@ -25,8 +25,9 @@ export const Search = () => {
 
   useEffect(() => {
     searchParams.set('packName', value.toString())
-    setSearchParams({ ...searchParams, packName: value })
-    dispatch(fetchPacksTC({ packName: value }))
+    setSearchParams(searchParams)
+    //dispatch(setInCommonParamsAC({packName: }))
+    // dispatch(fetchPacksTC())
   }, [debouncedValue])
 
   return (
