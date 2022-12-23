@@ -28,7 +28,13 @@ import {
   fetchCardsTC,
   updateCardTC,
 } from './cards-reducer'
-import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
+import {
+  cardPageSelector,
+  cardSortCardsSelector,
+  cardsPageCountSelector,
+  cardsSelector,
+  cardsTotalCountSelector,
+} from './cards-selector'
 import { CardsHeader } from './CardsHeader/CardsHeader'
 
 // column names
@@ -133,13 +139,13 @@ export const Cards = () => {
   const cardsTotalCount = useAppSelector(cardsTotalCountSelector)
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
+  const cortCards = useAppSelector(cardSortCardsSelector)
 
   const { id_pack } = useParams()
 
   // local state
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof CardStateType>('question')
-
   const [searchParams, setSearchParams] = useSearchParams({
     pageCount: '5',
   })
@@ -169,12 +175,12 @@ export const Cards = () => {
     dispatch(changeCardsPageCountAC(+event.target.value))
   }
 
-  // CHOOSE CARD
+  // choose card
   const handleClick = (id_pack: string, id_card: string) => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
   }
 
-  // DELETE AND UPDATE CARD
+  // delete and update card
   const deleteCard = (id_pack: string, id_card: string) => {
     dispatch(deleteCardTC(id_pack, id_card))
   }
@@ -182,17 +188,34 @@ export const Cards = () => {
     dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
 
-  useEffect(() => {
-    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
-  }, [])
+  const paramsSearch: any = {
+    sortCards: searchParams.get('sortCards') || undefined,
+    page: Number(searchParams.get('page')) || undefined,
+    pageCount: Number(searchParams.get('pageCount')) || undefined,
+  }
 
-  // useEffect for params
+  searchParams.forEach((key, value) => {
+    paramsSearch[value] = key
+  })
+
+  //useEffect for params
 
   // useEffect(() => {
   //   setSearchParams(searchParams)
   //
-  //   // dispatch(fetchCardsTC(cardPage, cardsPageCount))
-  // }, [cardPage, cardsPageCount])
+  //   dispatch(
+  //     fetchCardsTC({
+  //       cardsPack_id: id_pack ? id_pack : '',
+  //       page: paramsSearch.page,
+  //       pageCount: paramsSearch.pageCount,
+  //       sortCards: paramsSearch.sortCards,
+  //     })
+  //   )
+  // }, [cardPage, cardsPageCount, cortCards])
+
+  useEffect(() => {
+    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
+  }, [])
 
   return (
     <div>

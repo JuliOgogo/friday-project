@@ -7,4 +7,4 @@ export const cardsTotalCountSelector = (state: AppRootStateType) => state.cards.
 export const cardsPageCountSelector = (state: AppRootStateType) => state.cards.pageCount
 export const cardPageSelector = (state: AppRootStateType) => state.cards.page
 
-export const cardsPacksIdSelector = (state: AppRootStateType) => state.cards.packUserId
+export const cardSortCardsSelector = (state: AppRootStateType) => state.cards.sortCards
