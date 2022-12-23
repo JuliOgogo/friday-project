@@ -38,6 +38,8 @@ import {
 } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
+import style from './Pack.module.css'
+
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'cardsCount', label: 'Cards', minWidth: 100 },
@@ -120,10 +122,10 @@ export default function Packs() {
 
   const rows = packsCards
 
-  const handleClick = (id_cards: string) => {
-    navigate(`/cards`)
-    dispatch(fetchCardsTC(id_cards))
-  }
+  // const handleClick = (id_cards: string) => {
+  //   navigate(`/cards`)
+  //   dispatch(fetchCardsTC(id_cards))
+  // }
   const deletePack = (_id: string) => {
     dispatch(deletePackTC(_id))
   }
@@ -147,7 +149,8 @@ export default function Packs() {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
-                  <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
+                  // handleClick(row._id)
+                  <TableRow hover tabIndex={-1} key={row._id} onClick={() => {}}>
                     <TableCell id={labelId} scope="row">
                       {row.name}
                     </TableCell>
@@ -158,11 +161,10 @@ export default function Packs() {
                     <TableCell align="right">
                       {row.user_id === userIdLogin ? (
                         <div>
-                          <IconButton>
+                          <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
                           <IconButton>
-                            {' '}
                             <EditOutlinedIcon fontSize={'small'} />
                           </IconButton>
                           <IconButton onClick={() => deletePack(row._id)}>
@@ -170,10 +172,10 @@ export default function Packs() {
                           </IconButton>
                         </div>
                       ) : (
-                        <div>
-                          <ListItemIcon>
+                        <div className={style.learnButton}>
+                          <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
-                          </ListItemIcon>
+                          </IconButton>
                         </div>
                       )}
                     </TableCell>

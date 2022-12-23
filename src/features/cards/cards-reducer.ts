@@ -15,10 +15,7 @@ const initialState = {
   packUserId: '',
 }
 
-export const cardsReducer = (
-  state: InitialStateType = initialState,
-  action: CardsActionsType
-): InitialStateType => {
+export const cardsReducer = (state: InitialStateType = initialState, action: CardsActionsType): InitialStateType => {
   switch (action.type) {
     case cards_SET_CARDS:
       return {
@@ -43,10 +40,8 @@ export const addCardAC = (card: CardStateType) =>
     type: cards_ADD_CARD,
     card,
   } as const)
-export const removeCardAC = (packId: string, cardId: string) =>
-  ({ type: cards_REMOVE_CARD, cardId } as const)
-export const updateCardAC = (values: UpdateCardValuesType) =>
-  ({ type: cards_UPDATE_CARD, values } as const)
+export const removeCardAC = (packId: string, cardId: string) => ({ type: cards_REMOVE_CARD, cardId } as const)
+export const updateCardAC = (values: UpdateCardValuesType) => ({ type: cards_UPDATE_CARD, values } as const)
 
 // thunks
 export const fetchCardsTC =

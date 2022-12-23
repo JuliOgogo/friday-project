@@ -36,10 +36,7 @@ function Pages() {
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
       <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
 
-      <Route
-        path={PATH.PAGE404}
-        element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
-      />
+      <Route path={PATH.PAGE404} element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>} />
       <Route path={PATH.WRONG_PATH} element={<Navigate to={PATH.PAGE404} />} />
     </Routes>
   )

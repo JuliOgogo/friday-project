@@ -66,9 +66,7 @@ export const NewPassword: React.FC<NewPasswordRecoveryPropsType> = ({}) => {
             <div className={style.error}>{formik.errors.password}</div>
           ) : null}
 
-          <p className={style.textMessage}>
-            Create new password and we will send you further instructions to email
-          </p>
+          <p className={style.textMessage}>Create new password and we will send you further instructions to email</p>
 
           <Button
             type={'submit'}
