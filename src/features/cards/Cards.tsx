@@ -14,6 +14,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { userId } from '../auth/auth-selector'
 
 import {
   CardStateType,
@@ -85,6 +86,7 @@ export const Cards = () => {
   const dispatch = useAppDispatch()
 
   // selectors
+  const userIdLogin = useAppSelector(userId)
   const rows = useAppSelector(cardsSelector)
   const cardsTotalCount = useAppSelector(cardsTotalCountSelector)
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
@@ -192,8 +194,8 @@ export const Cards = () => {
                     <TableCell align="left">{row.answer}</TableCell>
                     <TableCell align="left">{new Date(row.updated).toLocaleDateString()}</TableCell>
                     <TableCell align="left">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
-                    <TableCell align="left">
-                      {row.cardsPack_id === id_pack && (
+                    {row.user_id === userIdLogin ? (
+                      <TableCell align="right">
                         <div>
                           <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
                             <EditOutlinedIcon fontSize={'small'} />
@@ -202,8 +204,10 @@ export const Cards = () => {
                             <DeleteOutlinedIcon fontSize={'small'} />
                           </IconButton>
                         </div>
-                      )}
-                    </TableCell>
+                      </TableCell>
+                    ) : (
+                      <TableCell align="right"></TableCell>
+                    )}
                   </TableRow>
                 )
               })}

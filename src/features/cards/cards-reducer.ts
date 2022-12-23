@@ -28,7 +28,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
     case cards_SET_CARDS:
       return {
         ...action.cards,
-        cards: action.cards.cards.map(({ cardsPack_id, _id, updated, question, answer, grade }) => ({
+        cards: action.cards.cards.map(({ user_id, cardsPack_id, _id, updated, question, answer, grade }) => ({
+          user_id,
           cardsPack_id,
           _id,
           answer,
@@ -121,7 +122,10 @@ export type CardsActionsType =
   | ReturnType<typeof changeCardsPageAC>
   | ReturnType<typeof changeSortCardsAC>
 
-export type CardStateType = Pick<CardType, 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'>
+export type CardStateType = Pick<
+  CardType,
+  'user_id' | 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'
+>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
