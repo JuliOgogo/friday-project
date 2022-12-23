@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { Button, IconButton, Rating } from '@mui/material'
+import { IconButton, Rating } from '@mui/material'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -20,7 +20,6 @@ import { useAppDispatch, useAppSelector } from '../../app/store'
 import { Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
 
 import {
-  addCardTC,
   CardStateType,
   changeCardsPageAC,
   changeCardsPageCountAC,
@@ -30,6 +29,7 @@ import {
   updateCardTC,
 } from './cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
+import { CardsHeader } from './CardsHeader/CardsHeader'
 
 // column names
 interface Column {
@@ -37,6 +37,7 @@ interface Column {
   id: keyof CardStateType
   label: string
   numeric: boolean
+  minWidth: number
 }
 
 const columns: Column[] = [
@@ -44,25 +45,36 @@ const columns: Column[] = [
     id: 'question',
     numeric: false,
     disablePadding: true,
+    minWidth: 170,
     label: 'Question',
   },
   {
     id: 'answer',
     numeric: true,
     disablePadding: false,
+    minWidth: 170,
     label: 'Answer',
   },
   {
     id: 'updated',
     numeric: true,
     disablePadding: false,
+    minWidth: 170,
     label: 'Last Updated',
   },
   {
     id: 'grade',
     numeric: true,
     disablePadding: false,
+    minWidth: 170,
     label: 'Grade',
+  },
+  {
+    id: '_id',
+    numeric: true,
+    label: 'Action',
+    disablePadding: false,
+    minWidth: 170,
   },
 ]
 
@@ -157,18 +169,7 @@ export const Cards = () => {
     dispatch(changeCardsPageCountAC(+event.target.value))
   }
 
-  // button onClick
-  const addNewCardHandler = () => {
-    dispatch(
-      addCardTC({
-        cardsPack_id: id_pack ? id_pack : '',
-        question: 'New Question',
-        answer: 'New Answer',
-        grade: 2,
-      })
-    )
-  }
-
+  // CHOOSE CARD
   const handleClick = (id_pack: string, id_card: string) => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
   }
@@ -181,6 +182,10 @@ export const Cards = () => {
     dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
 
+  useEffect(() => {
+    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
+  }, [])
+
   // useEffect for params
 
   // useEffect(() => {
@@ -189,15 +194,9 @@ export const Cards = () => {
   //   // dispatch(fetchCardsTC(cardPage, cardsPageCount))
   // }, [cardPage, cardsPageCount])
 
-  useEffect(() => {
-    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
-  }, [])
-
   return (
     <div>
-      <Button variant={'contained'} sx={{ width: '100%', borderRadius: '30px' }} onClick={addNewCardHandler}>
-        {'Add new Card'}
-      </Button>
+      <CardsHeader />
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
