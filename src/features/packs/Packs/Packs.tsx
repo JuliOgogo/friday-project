@@ -22,8 +22,6 @@ import {
     packPage,
     packSelector,
     sortPacks,
-    maxCardsNumber,
-    minCardsNumber,
 } from '../packs-selector'
 import {PacksHeader} from '../PacksHeader/PacksHeader'
 
@@ -59,13 +57,10 @@ export default function Packs() {
     const cardPacksTotal = useAppSelector(cardPacksTotalCount)
     const userIdLogin = useAppSelector(userId)
     const sortPacksUse = useAppSelector(sortPacks)
-    const minValue = useAppSelector(minCardsNumber)
-    const maxValue = useAppSelector(maxCardsNumber)
+
 
     const [order, setOrder] = React.useState<Order>('asc')
     const [orderBy, setOrderBy] = React.useState<keyof DomainPackType>('updated')
-
-    //{page: '1', pageCount: '5',}
     const [searchParams, setSearchParams] = useSearchParams({pageCount: '5'})
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
@@ -96,7 +91,7 @@ export default function Packs() {
     const paramsSearch: any = {}
 
     searchParams.forEach((key, value) => {
-        if(value === 'page'){
+        if (value === 'page') {
             paramsSearch[value] = Number(key)
         }
         paramsSearch[value] = key
