@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
 import { Button, Rating } from '@mui/material'
-import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import TableSortLabel from '@mui/material/TableSortLabel'
-import { visuallyHidden } from '@mui/utils'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/store'
-import { Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { Column, EnhancedTableHead, Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
 
 import {
   addCardTC,
@@ -28,84 +24,29 @@ import {
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from './cards-selector'
 
 // column names
-interface Column {
-  disablePadding: boolean
-  id: keyof CardStateType
-  label: string
-  numeric: boolean
-}
 
-const columns: Column[] = [
+const columnsCards: Column[] = [
   {
     id: 'question',
-    numeric: false,
-    disablePadding: true,
+    minWidth: 170,
     label: 'Question',
   },
   {
     id: 'answer',
-    numeric: true,
-    disablePadding: false,
+    minWidth: 100,
     label: 'Answer',
   },
   {
     id: 'updated',
-    numeric: true,
-    disablePadding: false,
+    minWidth: 170,
     label: 'Last Updated',
   },
   {
     id: 'grade',
-    numeric: true,
-    disablePadding: false,
+    minWidth: 170,
     label: 'Grade',
   },
 ]
-
-// Table Head
-interface EnhancedTableProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof CardStateType) => void
-  order: Order
-  orderBy: string
-  rowCount: number
-  columnsHead: Column[]
-}
-
-const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { order, orderBy, onRequestSort, columnsHead } = props
-
-  const createSortHandler = (property: keyof CardStateType) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        {columnsHead.map(column => (
-          <TableCell
-            key={column.id}
-            align={column.numeric ? 'right' : 'left'}
-            padding={column.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === column.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === column.id}
-              direction={orderBy === column.id ? order : 'asc'}
-              onClick={createSortHandler(column.id)}
-            >
-              {column.label}
-              {orderBy === column.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
 
 // Cards Table
 export const Cards = () => {
@@ -190,7 +131,7 @@ export const Cards = () => {
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
             <EnhancedTableHead
-              columnsHead={columns}
+              columnsHead={columnsCards}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
