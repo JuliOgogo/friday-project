@@ -11,5 +11,4 @@ export const PATH = {
   PACK: '/packs/:id_pack',
   CARD: '/packs/pack/:id_pack/card/:id_card',
   ADD_NEW_PACK: '/add-new-pack',
-  // CARDS: '/cards',
 }

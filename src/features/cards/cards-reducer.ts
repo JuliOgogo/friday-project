@@ -34,7 +34,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
           answer,
           question,
           grade,
-          updated: new Date(updated).toLocaleDateString(),
+          updated,
         })),
       }
     case cards_CHANGE_PAGE_COUNT:
@@ -101,10 +101,10 @@ export const deleteCardTC =
   }
 
 export const updateCardTC =
-  (cardsPack_id: string, payload: UpdateCardValuesType): AppThunkType =>
+  (cardsPack_id: string, card: UpdateCardValuesType): AppThunkType =>
   async dispatch => {
     try {
-      await cardsAPI.updateCard(payload)
+      await cardsAPI.updateCard(card)
       dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
