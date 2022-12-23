@@ -26,6 +26,7 @@ import {
   deletePackTC,
   DomainPackType,
   fetchPacksTC,
+  updatePackTC,
 } from '../packs-reducer'
 import {
   cardPacksTotalCount,
@@ -122,18 +123,23 @@ export default function Packs() {
 
   const rows = packsCards
 
-  // const handleClick = (id_cards: string) => {
-  //   navigate(`/cards`)
-  //   dispatch(fetchCardsTC(id_cards))
-  // }
+  const handleClick = (id_cards: string) => {
+    navigate(`/cards`)
+    dispatch(fetchCardsTC(id_cards))
+  }
+  // DELETE AND UPDATE PACK
   const deletePack = (_id: string) => {
     dispatch(deletePackTC(_id))
+  }
+  const updatePack = (name: string, pack_id: string) => {
+    let newName = 'new name'
+
+    dispatch(updatePackTC(newName, pack_id))
   }
 
   return (
     <div>
       <PacksHeader />
-
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -149,8 +155,14 @@ export default function Packs() {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
-                  // handleClick(row._id)
-                  <TableRow hover tabIndex={-1} key={row._id} onClick={() => {}}>
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={row._id}
+                    onClick={() => {
+                      handleClick(row._id)
+                    }}
+                  >
                     <TableCell id={labelId} scope="row">
                       {row.name}
                     </TableCell>
@@ -164,7 +176,7 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <IconButton>
+                          <IconButton onClick={() => updatePack(row.name, row._id)}>
                             <EditOutlinedIcon fontSize={'small'} />
                           </IconButton>
                           <IconButton onClick={() => deletePack(row._id)}>
