@@ -6,14 +6,10 @@ import InputBase from '@mui/material/InputBase'
 import Paper from '@mui/material/Paper'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch } from '../../../app/store'
-import { fetchPacksTC } from '../../../features/packs/packs-reducer'
 import s from '../../../features/packs/PacksHeader/packsHeaderButtons/commonStyles.module.css'
 import useDebounce from '../../hook/useDebounce'
 
 export const Search = () => {
-  const dispatch = useAppDispatch()
-
   const [value, setValue] = useState('')
   const debouncedValue = useDebounce<string>(value, 1000)
 
@@ -26,8 +22,6 @@ export const Search = () => {
   useEffect(() => {
     searchParams.set('packName', value.toString())
     setSearchParams(searchParams)
-    //dispatch(setInCommonParamsAC({packName: }))
-    // dispatch(fetchPacksTC())
   }, [debouncedValue])
 
   return (

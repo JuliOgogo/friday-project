@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Slider from '@mui/material/Slider'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../../../app/store'
-import { changeCardsNumberInPackAC, fetchPacksTC } from '../../../packs-reducer'
+import { useAppSelector } from '../../../../../app/store'
 import { maxCardsNumber, minCardsNumber } from '../../../packs-selector'
 import s2 from '../commonStyles.module.css'
 
 import s from './CardsNumber.module.css'
 
 export const CardsNumber = () => {
-  const dispatch = useAppDispatch()
-
   const minValue = useAppSelector(minCardsNumber)
   const maxValue = useAppSelector(maxCardsNumber)
   const [value, setValue] = useState<number[]>([minValue, maxValue])

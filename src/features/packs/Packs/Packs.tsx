@@ -26,15 +26,7 @@ import {
   fetchPacksTC,
   updatePackTC,
 } from '../packs-reducer'
-import {
-  cardPacksTotalCount,
-  maxCardsNumber,
-  minCardsNumber,
-  packCount,
-  packPage,
-  packSelector,
-  sortPacks,
-} from '../packs-selector'
+import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
 import style from './Pack.module.css'
@@ -70,9 +62,6 @@ export default function Packs() {
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
-  const sortPacksUse = useAppSelector(sortPacks)
-  const minCardsValue = useAppSelector(minCardsNumber)
-  const maxCardsValue = useAppSelector(maxCardsNumber)
 
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
@@ -84,8 +73,8 @@ export default function Packs() {
     }
     const isAsc = orderBy === property && order === 'asc'
 
-    // searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
-    setSearchParams({ ...searchParams, sortPacks: (isAsc ? 1 : 0) + property })
+    searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    setSearchParams(searchParams)
 
     dispatch(changeSortPacksAC((isAsc ? 1 : 0) + property))
     setOrder(isAsc ? 'desc' : 'asc')
@@ -97,11 +86,11 @@ export default function Packs() {
 
     searchParams.set('page', newPage.toString())
     setSearchParams(searchParams)
+
     dispatch(changePageAC(newPage))
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //  searchParams.set('pageCount', event.target.value.toString())
     searchParams.set('pageCount', event.target.value.toString())
     setSearchParams(searchParams)
     dispatch(changePageCountAC(+event.target.value))
