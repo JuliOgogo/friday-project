@@ -1,6 +1,10 @@
-import * as React from 'react'
+import React from 'react'
 import { useEffect, useState } from 'react'
 
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
+import { IconButton, ListItemIcon } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -17,6 +21,8 @@ import { Cards } from '../../cards/Cards'
 import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
+
+import style from './Pack.module.css'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -97,11 +103,19 @@ export default function Packs() {
   const handleClick = (id_pack: string) => {
     navigate(`/packs/${id_pack}`)
   }
+  // DELETE AND UPDATE PACK
+  const deletePack = (_id: string) => {
+    dispatch(deletePackTC(_id))
+  }
+  const updatePack = (name: string, pack_id: string) => {
+    let newName = 'new name'
+
+    dispatch(updatePackTC(newName, pack_id))
+  }
 
   return (
     <div>
       <PacksHeader />
-
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -126,7 +140,25 @@ export default function Packs() {
                     <TableCell align="right">{new Date(row.updated).toLocaleDateString()}</TableCell>
                     <TableCell align="right">{row.user_name}</TableCell>
                     <TableCell align="right">
-                      {row.user_id === userIdLogin ? <div>You</div> : <div> no you</div>}
+                      {row.user_id === userIdLogin ? (
+                        <div>
+                          <IconButton disabled={row.cardsCount === 0}>
+                            <SchoolOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                          <IconButton onClick={() => updatePack(row.name, row._id)}>
+                            <EditOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                          <IconButton onClick={() => deletePack(row._id)}>
+                            <DeleteOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                        </div>
+                      ) : (
+                        <div className={style.learnButton}>
+                          <IconButton disabled={row.cardsCount === 0}>
+                            <SchoolOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                        </div>
+                      )}
                     </TableCell>
                   </TableRow>
                 )
