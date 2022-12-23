@@ -9,7 +9,7 @@ export const instance = axios.create({
 })
 
 export const packsAPI = {
-  getPacks(params?: ParamsTemplateType) {
+  getPacks(params?: Partial<ParamsTemplateType>) {
     return instance.get<PacksType>('/cards/pack', { params: params })
   },
   createPack(name: string, privateCheckbox: boolean) {
@@ -27,12 +27,12 @@ export const packsAPI = {
 
 ///----------- types -----------\\\
 export type ParamsTemplateType = {
-  min?: number
-  max?: number
-  sortPacks?: string
-  page?: number
-  pageCount?: number
-  user_id?: string
+  min: number
+  max: number
+  sortPacks: string
+  page: number
+  pageCount: number
+  user_id: string
 }
 export type PacksType = {
   cardPacks: PackType[]
@@ -43,6 +43,7 @@ export type PacksType = {
   page: number // выбранная страница
   pageCount: number
   sortPacks: string
+  user_id: string
 }
 export type PackType = {
   cardsCount: number
