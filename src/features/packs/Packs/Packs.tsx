@@ -1,10 +1,9 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
-import { IconButton, ListItemIcon } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -18,7 +17,15 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
-import { changePageAC, changePageCountAC, changeSortPacksAC, DomainPackType, fetchPacksTC } from '../packs-reducer'
+import {
+  changePageAC,
+  changePageCountAC,
+  changeSortPacksAC,
+  deletePackTC,
+  DomainPackType,
+  fetchPacksTC,
+  updatePackTC,
+} from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
@@ -103,6 +110,7 @@ export default function Packs() {
   const handleClick = (id_pack: string) => {
     navigate(`/packs/${id_pack}`)
   }
+
   // DELETE AND UPDATE PACK
   const deletePack = (_id: string) => {
     dispatch(deletePackTC(_id))
@@ -131,8 +139,8 @@ export default function Packs() {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
-                  <TableRow hover tabIndex={-1} key={row._id} onClick={() => handleClick(row._id)}>
-                    <TableCell id={labelId} scope="row">
+                  <TableRow hover tabIndex={-1} key={row._id}>
+                    <TableCell id={labelId} scope="row" onClick={() => handleClick(row._id)}>
                       {row.name}
                     </TableCell>
                     <TableCell align="right">{row.cardsCount}</TableCell>
