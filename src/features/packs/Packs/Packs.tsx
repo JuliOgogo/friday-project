@@ -16,7 +16,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
-import { Cards } from '../../cards/Cards'
 import {
   changePageAC,
   changePageCountAC,

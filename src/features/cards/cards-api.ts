@@ -18,17 +18,17 @@ export const cardsAPI = {
   deleteCard(cardId: string) {
     return instance.delete(`/cards/card?id=${cardId}`)
   },
-  updateCard(payload: UpdateCardValuesType) {
-    return instance.put('/cards/card', { card: payload })
+  updateCard(values: UpdateCardValuesType) {
+    return instance.put('/cards/card', { card: values })
   },
 }
 
 // types
 
 export type GetCardsParamsType = {
+  cardsPack_id: string
   cardAnswer?: string
   cardQuestion?: string
-  cardsPack_id: string
   min?: number
   max?: number
   sortCards?: number
@@ -71,7 +71,4 @@ export type CreateCardType = {
   answerVideo?: string
 }
 
-export type UpdateCardValuesType = {
-  _id: string
-  question?: string
-}
+export type UpdateCardValuesType = Pick<CardType, '_id' | 'question'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
@@ -12,27 +12,12 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
-import { Column, EnhancedTableHead, Order } from '../../common/components/EnhancedTableHead/EnhancedTableHead'
-import { userId } from '../auth/auth-selector'
-
-import {
-  CardStateType,
-  changeCardsPageAC,
-  changeCardsPageCountAC,
-  changeSortCardsAC,
-  deleteCardTC,
-  fetchCardsTC,
-  updateCardTC,
-} from './cards-reducer'
-import {
-  cardPageSelector,
-  cardSortCardsSelector,
-  cardsPageCountSelector,
-  cardsSelector,
-  cardsTotalCountSelector,
-} from './cards-selector'
-import { CardsHeader } from './CardsHeader/CardsHeader'
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { userId } from '../../auth/auth-selector'
+import { CardStateType, changeSortCardsAC, deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
+import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
+import { CardsHeader } from '../CardsHeader/CardsHeader'
 
 // column names
 
@@ -64,7 +49,7 @@ const columnsCards: Column[] = [
   {
     id: '_id',
     label: 'Action',
-    minWidth: 170,
+    minWidth: 90,
     align: 'left',
   },
 ]
@@ -91,7 +76,6 @@ export const Cards = () => {
   const cardsTotalCount = useAppSelector(cardsTotalCountSelector)
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
-  const sortCards = useAppSelector(cardSortCardsSelector)
 
   const { id_pack } = useParams()
 
@@ -109,6 +93,7 @@ export const Cards = () => {
     const isAsc = orderBy === property && order === 'asc'
 
     searchParams.set('sortCards', (isAsc ? 1 : 0) + property)
+    setSearchParams(searchParams)
     dispatch(changeSortCardsAC((isAsc ? 1 : 0) + property))
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -118,13 +103,12 @@ export const Cards = () => {
     const newPage = page + 1
 
     searchParams.set('page', newPage.toString())
-    dispatch(changeCardsPageAC(newPage))
+    setSearchParams(searchParams)
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     searchParams.set('pageCount', event.target.value.toString())
-
-    dispatch(changeCardsPageCountAC(+event.target.value))
+    setSearchParams(searchParams)
   }
 
   // choose card
@@ -140,34 +124,19 @@ export const Cards = () => {
     dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
 
-  const paramsSearch: any = {
-    sortCards: searchParams.get('sortCards') || undefined,
-    page: Number(searchParams.get('page')) || undefined,
-    pageCount: Number(searchParams.get('pageCount')) || undefined,
-  }
-
-  searchParams.forEach((key, value) => {
-    paramsSearch[value] = key
-  })
-
-  //useEffect for params
-
-  // useEffect(() => {
-  //   setSearchParams(searchParams)
-  //
-  //   dispatch(
-  //     fetchCardsTC({
-  //       cardsPack_id: id_pack ? id_pack : '',
-  //       page: paramsSearch.page,
-  //       pageCount: paramsSearch.pageCount,
-  //       sortCards: paramsSearch.sortCards,
-  //     })
-  //   )
-  // }, [cardPage, cardsPageCount, sortCards])
+  let URLParams = useMemo(
+    () => ({
+      cardsPack_id: id_pack ? id_pack : '',
+      page: Number(searchParams.get('page')),
+      pageCount: Number(searchParams.get('pageCount')),
+      sortCards: Number(searchParams.get('sortCards')),
+    }),
+    [searchParams]
+  )
 
   useEffect(() => {
-    dispatch(fetchCardsTC({ cardsPack_id: id_pack ? id_pack : '' }))
-  }, [])
+    dispatch(fetchCardsTC(URLParams))
+  }, [URLParams])
 
   return (
     <div style={{ width: '1043px' }}>

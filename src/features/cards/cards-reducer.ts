@@ -122,10 +122,7 @@ export type CardsActionsType =
   | ReturnType<typeof changeCardsPageAC>
   | ReturnType<typeof changeSortCardsAC>
 
-export type CardStateType = Pick<
-  CardType,
-  'user_id' | 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'
->
+export type CardStateType = Omit<CardType, 'shots' | 'created'>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
