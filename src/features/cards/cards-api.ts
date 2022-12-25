@@ -31,7 +31,7 @@ export type GetCardsParamsType = {
   cardQuestion?: string
   min?: number
   max?: number
-  sortCards?: number
+  sortCards?: string
   page?: number
   pageCount?: number
 }
