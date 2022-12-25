@@ -63,8 +63,8 @@ export default function Packs() {
   const userIdLogin = useAppSelector(userId)
   let isInitialized = useAppSelector(isInitializedSelector)
   const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
-  const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
+  const [orderBy, setOrderBy] = useState<keyof DomainPackType >('updated')
+  const [searchParams, setSearchParams] = useSearchParams()
 
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -206,7 +206,7 @@ export default function Packs() {
           component="div"
           rowsPerPage={packCountState}
           page={pageState ? pageState - 1 : 0}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[4, 5, 10, 25]}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={{

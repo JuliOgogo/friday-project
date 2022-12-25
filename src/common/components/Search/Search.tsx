@@ -10,20 +10,29 @@ import s from '../../../features/packs/PacksHeader/packsHeaderButtons/commonStyl
 import useDebounce from '../../hook/useDebounce'
 
 export const Search = () => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<string>('')
   const debouncedValue = useDebounce<string>(value, 1000)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setValue(e.currentTarget.value)
-  }
+    const packNameSearch = e.currentTarget.value
 
+    setValue(packNameSearch)
+
+  }
   useEffect(() => {
-    searchParams.set('packName', value.toString())
-    searchParams.set('page', (1).toString())
-    setSearchParams(searchParams)
-  }, [debouncedValue])
+    if(debouncedValue){
+      searchParams.set('packName', debouncedValue)
+      searchParams.set('page', (1).toString())
+      setSearchParams(searchParams)
+    }
+    // if (searchParams.get('pageName')) {
+    //   const pageNameSearch = String(searchParams.get('pageName'))
+    //   setValue(pageNameSearch)
+    //
+    // }
+  }, [searchParams,debouncedValue])
 
   return (
     <div className={s.wrapper}>
@@ -33,7 +42,7 @@ export const Search = () => {
           <SearchIcon />
         </IconButton>
         <InputBase
-          value={value}
+          value={debouncedValue}
           onChange={onChangeHandler}
           sx={{ ml: 1, flex: 1 }}
           placeholder="Provide your text"
