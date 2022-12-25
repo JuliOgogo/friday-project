@@ -20,7 +20,6 @@ const initialState = {
   page: 1,
   pageCount: 5,
   packUserId: '',
-  sortCards: '0updated',
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsActionsType): InitialStateType => {
@@ -42,8 +41,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
       return { ...state, pageCount: action.pageCount }
     case cards_CHANGE_PAGE:
       return { ...state, page: action.page }
-    case cards_CHANGE_SORT:
-      return { ...state, sortCards: action.sortCards }
     default:
       return state
   }
@@ -58,7 +55,6 @@ export const changeCardsPageCountAC = (pageCount: number) =>
     pageCount,
   } as const)
 export const changeCardsPageAC = (page: number) => ({ type: cards_CHANGE_PAGE, page } as const)
-export const changeSortCardsAC = (sortCards: string) => ({ type: cards_CHANGE_SORT, sortCards } as const)
 
 // thunks
 export const fetchCardsTC =
@@ -120,7 +116,6 @@ export type CardsActionsType =
   | ReturnType<typeof setCardsAC>
   | ReturnType<typeof changeCardsPageCountAC>
   | ReturnType<typeof changeCardsPageAC>
-  | ReturnType<typeof changeSortCardsAC>
 
 export type CardStateType = Omit<CardType, 'shots' | 'created'>
 
@@ -128,4 +123,3 @@ export type CardStateType = Omit<CardType, 'shots' | 'created'>
 const cards_SET_CARDS = 'cards/SET_CARDS'
 const cards_CHANGE_PAGE_COUNT = 'cards/CHANGE_PAGE_COUNT'
 const cards_CHANGE_PAGE = 'cards/CHANGE_PAGE'
-const cards_CHANGE_SORT = 'cards/CHANGE_SORT'
