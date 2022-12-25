@@ -1,16 +1,16 @@
 import { AxiosError } from 'axios'
 
-import { SetAppErrorType, SetAppStatusType, SetIsInitializedAppType } from '../../app/app-reducer'
+import { SetAppErrorType, setAppStatusAC, SetAppStatusType, SetIsInitializedAppType } from '../../app/app-reducer'
 import { AppThunkType } from '../../app/store'
 import { errorUtils } from '../../common/utils/error-utils'
 
-import { packsAPI, PackType, ParamsTemplateType } from './packs-api'
+import {DomainPackType, packsAPI, PackType, ParamsTemplateType} from './packs-api'
 
 const initialState = {
   cardPacks: [] as DomainPackType[],
   cardPacksTotalCount: 0,
   // количество колод
-  maxCardsCount: 53, // 53 значение, которое приходит с бэка по умолчанию
+  maxCardsCount: 0, // 53 значение, которое приходит с бэка по умолчанию
   minCardsCount: 0,
   page: 1, // выбранная страница
   pageCount: 5,
@@ -18,24 +18,25 @@ const initialState = {
   user_id: '',
 }
 
-export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
+//export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
 
 export const packsReducer = (state: InitialStateType = initialState, action: PacksActionsType): InitialStateType => {
   switch (action.type) {
-    case packs_SET_PACKS:
-      return {
-        ...action.packs,
-        maxCardsCount: state.maxCardsCount,
-        minCardsCount: state.minCardsCount,
-        cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
-          _id,
-          name,
-          cardsCount,
-          updated,
-          user_name,
-          user_id,
-        })),
-      }
+      case packs_SET_PACKS:
+      return action.packs
+    // {
+    //     ...action.packs,
+    //     maxCardsCount: state.maxCardsCount,
+    //     minCardsCount: state.minCardsCount,
+    //     cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
+    //       _id,
+    //       name,
+    //       cardsCount,
+    //       updated,
+    //       user_name,
+    //       user_id,
+    //     })),
+    //   }
     case packs_CHANGE_PAGE:
       return { ...state, page: action.page }
     case packs_CHANGE_PAGE_COUNT:
@@ -65,21 +66,15 @@ export const changeSortPacksAC = (sortPacks: string) => ({ type: packs_CHANGE_SO
 // thunks
 export const fetchPacksTC =
   (paramsSearch?: Partial<ParamsTemplateType>): AppThunkType =>
-  async dispatch => {
+  async (dispatch ,getState)=> {
     try {
-      let params = {
-        packName: paramsSearch?.packName || undefined,
-        min: Number(paramsSearch?.min) || undefined,
-        max: Number(paramsSearch?.max) || undefined,
-        page: Number(paramsSearch?.page) || undefined,
-        pageCount: Number(paramsSearch?.pageCount) || undefined,
-        user_id: paramsSearch?.user_id || undefined,
-        sortPacks: paramsSearch?.sortPacks || undefined,
-      }
-
-      const res = await packsAPI.getPacks(params)
+      dispatch(setAppStatusAC('loading'))
+      const res = await packsAPI.getPacks(paramsSearch)
+        const state = getState().packs
+        console.log(state)
 
       dispatch(setPacksAC(res.data))
+      dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
       const err = e as Error | AxiosError
 

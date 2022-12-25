@@ -46,6 +46,7 @@ export type PacksType = {
   sortPacks: string
   user_id: string
 }
+export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
 export type PackType = {
   cardsCount: number
   created: Date

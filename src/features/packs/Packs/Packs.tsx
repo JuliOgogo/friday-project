@@ -22,12 +22,13 @@ import {
   changePageCountAC,
   changeSortPacksAC,
   deletePackTC,
-  DomainPackType,
   fetchPacksTC,
   updatePackTC,
 } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
+import {isInitializedSelector} from "../../../app/app-selector";
+import {DomainPackType} from "../packs-api";
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -60,10 +61,11 @@ export default function Packs() {
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
-
+  let isInitialized = useAppSelector(isInitializedSelector)
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
   const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -137,6 +139,7 @@ export default function Packs() {
     dispatch(updatePackTC(newName, pack_id))
   }
 
+
   return (
     <div>
       <PacksHeader />
@@ -147,7 +150,7 @@ export default function Packs() {
               columnsHead={columns}
               onRequestSort={handleRequestSort}
               order={order}
-              orderBy={orderBy}
+              orderBy={orderBy.toString()}
               rowCount={rows.length}
             />
 
