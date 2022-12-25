@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Slider from '@mui/material/Slider'
 import { useSearchParams } from 'react-router-dom'
@@ -28,6 +28,16 @@ export const CardsNumber = () => {
     searchParams.set('page', (1).toString())
     setSearchParams(searchParams)
   }
+
+  useEffect(() => {
+    if (searchParams.get('min') || searchParams.get('max')) {
+      const minSearch = Number(searchParams.get('min'))
+      const maxSearch = Number(searchParams.get('max'))
+      setValue([minSearch, maxSearch])
+    } else {
+      setValue([minValue, maxValue])
+    }
+  }, [searchParams, minValue, maxValue])
 
   return (
     <div className={s2.wrapper}>
