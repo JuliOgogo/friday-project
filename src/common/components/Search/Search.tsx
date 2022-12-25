@@ -19,20 +19,18 @@ export const Search = () => {
     const packNameSearch = e.currentTarget.value
 
     setValue(packNameSearch)
-
   }
   useEffect(() => {
-    if(debouncedValue){
+    if (debouncedValue) {
       searchParams.set('packName', debouncedValue)
       searchParams.set('page', (1).toString())
       setSearchParams(searchParams)
     }
-    // if (searchParams.get('pageName')) {
-    //   const pageNameSearch = String(searchParams.get('pageName'))
-    //   setValue(pageNameSearch)
-    //
-    // }
-  }, [searchParams,debouncedValue])
+    if (searchParams.get('packName')) {
+      const pageNameSearch = String(searchParams.get('packName'))
+      setValue(pageNameSearch)
+    }
+  }, [searchParams, debouncedValue])
 
   return (
     <div className={s.wrapper}>
@@ -42,7 +40,7 @@ export const Search = () => {
           <SearchIcon />
         </IconButton>
         <InputBase
-          value={debouncedValue}
+          value={value}
           onChange={onChangeHandler}
           sx={{ ml: 1, flex: 1 }}
           placeholder="Provide your text"
