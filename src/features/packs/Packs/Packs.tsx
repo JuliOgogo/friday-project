@@ -78,7 +78,7 @@ export default function Packs() {
     },
   }))
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType ) => {
     if (property === 'user_id') {
       return
     }

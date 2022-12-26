@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import Box from '@mui/material/Box'
 import TableCell from '@mui/material/TableCell'
@@ -21,8 +21,8 @@ export interface Column {
     align?: 'left'
 }
 
-interface EnhancedTableProps {
-    onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void
+interface EnhancedTableProps{
+    onRequestSort: (event: React.MouseEvent<unknown>, property:  any) => void
     order: Order
     orderBy: string
     rowCount: number
