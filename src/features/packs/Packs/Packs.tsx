@@ -15,7 +15,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import useModal from '../../../common/hook/useModal'
 import { userId } from '../../auth/auth-selector'
+import { PacksModal } from '../../modals/PacksModal/PacksModal'
 import {
   changePageAC,
   changePageCountAC,
@@ -23,7 +25,6 @@ import {
   deletePackTC,
   DomainPackType,
   fetchPacksTC,
-  updatePackTC,
 } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
@@ -63,6 +64,7 @@ export default function Packs() {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType>('updated')
   const [searchParams, setSearchParams] = useSearchParams({ pageCount: '5' })
+  const { isShowing, toggle } = useModal()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -130,11 +132,6 @@ export default function Packs() {
   const deletePack = (_id: string) => {
     dispatch(deletePackTC(_id))
   }
-  const updatePack = (name: string, pack_id: string) => {
-    let newName = 'new name'
-
-    dispatch(updatePackTC(newName, pack_id))
-  }
 
   return (
     <div>
@@ -160,7 +157,7 @@ export default function Packs() {
                       id={labelId}
                       scope="row"
                       onClick={() => handleClick(row._id)}
-                      sx={{ cursor: 'pointer' }}
+                      sx={{ cursor: 'pointer', wordWrap: 'break-word' }}
                     >
                       {row.name}
                     </StyledTableCell>
@@ -174,8 +171,15 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <IconButton onClick={() => updatePack(row.name, row._id)}>
-                            <EditOutlinedIcon fontSize={'small'} />
+                          {/*<IconButton onClick={() => updatePack(row.name, row._id)}>*/}
+                          {/*  <EditOutlinedIcon fontSize={'small'} />*/}
+                          {/*</IconButton>*/}
+                          <IconButton onClick={toggle}>
+                            {!isShowing ? (
+                              <EditOutlinedIcon fontSize={'small'} />
+                            ) : (
+                              <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} />
+                            )}
                           </IconButton>
                           <IconButton onClick={() => deletePack(row._id)}>
                             <DeleteOutlinedIcon fontSize={'small'} />

@@ -2,9 +2,8 @@ import React from 'react'
 
 import Button from '@mui/material/Button'
 
-import { CustomButton } from '../../../common/components/CustomButton/CustomButton'
 import { Search } from '../../../common/components/Search/Search'
-import { PATH } from '../../../common/routes/pathRoutesList'
+import useModal from '../../../common/hook/useModal'
 import { PacksModal } from '../../modals/PacksModal/PacksModal'
 
 import s from './PacksHeader.module.css'
@@ -13,6 +12,8 @@ import { ResetFiltersButton } from './packsHeaderButtons/ResetFiltersButton/Rese
 import { ShowMyAll } from './packsHeaderButtons/ShowMyAll/ShowMyAll'
 
 export const PacksHeader = () => {
+  const { isShowing, toggle } = useModal()
+
   return (
     <div className={s.packsHeader}>
       <div className={s.titleAndButton}>
@@ -20,8 +21,10 @@ export const PacksHeader = () => {
         {/*<Button variant={'contained'} sx={{ borderRadius: '30px' }} href={`#${PATH.ADD_NEW_PACK}`}>*/}
         {/*  Add new pack*/}
         {/*</Button>*/}
-
-        <PacksModal titleName={'Add new pack'} />
+        <Button variant={'contained'} sx={{ borderRadius: '30px' }} onClick={toggle}>
+          Add new pack
+        </Button>
+        {isShowing && <PacksModal titleName={'Add new pack'} open={isShowing} hide={toggle} />}
       </div>
       <div className={s.settingsWrapper}>
         <Search />

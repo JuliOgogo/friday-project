@@ -1,19 +1,22 @@
 import React, { FC } from 'react'
 
-import { Button, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import { useFormik } from 'formik'
+import { useParams } from 'react-router-dom'
 
 import { useAppDispatch } from '../../../app/store'
-import { CustomButton } from '../../../common/components/CustomButton/CustomButton'
 import style from '../../auth/login/loginForm/LoginForm.module.css'
-import { createPackTC } from '../../packs/packs-reducer'
+import { createPackTC, updatePackTC } from '../../packs/packs-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
+
+import { ButtonGroup } from './ButtonGroup'
 
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
 import { Title } from 'common/components/Title/Title'
 
-export const PacksModal: FC<PacksModalType> = ({ titleName }) => {
+export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide }) => {
   const dispatch = useAppDispatch()
+  const pack_id = useParams()
 
   const formik = useFormik({
     initialValues: {
@@ -32,13 +35,17 @@ export const PacksModal: FC<PacksModalType> = ({ titleName }) => {
       return errors
     },
     onSubmit: (values: { packName: string; private: boolean }) => {
-      dispatch(createPackTC(values.packName, values.private))
+      if (titleName === 'Add new pack') {
+        dispatch(createPackTC(values.packName, values.private))
+      } else if (titleName === 'Edit pack') {
+        dispatch(updatePackTC(values.packName, pack_id.toString()))
+      }
     },
   })
 
   return (
     <>
-      <BaseModal text={titleName}>
+      <BaseModal open={open}>
         <Title text={titleName} />
         <FormGroup>
           <div>
@@ -53,25 +60,13 @@ export const PacksModal: FC<PacksModalType> = ({ titleName }) => {
               control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
             />
           </div>
-          <Button
-            onClick={() => {
-              // onClose(false)
-            }}
-            sx={{ width: '170px', mt: '60px' }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
+
+          <ButtonGroup
+            hide={hide}
+            formikHandler={() => {
               formik.handleSubmit()
             }}
-            variant="contained"
-            type={'submit'}
-            color={'primary'}
-            sx={{ width: '170px' }}
-          >
-            Save
-          </Button>
+          />
         </FormGroup>
       </BaseModal>
     </>
@@ -80,10 +75,10 @@ export const PacksModal: FC<PacksModalType> = ({ titleName }) => {
 
 type PacksModalType = {
   titleName: string
+  open: boolean
+  hide: () => void
 }
 type FormikErrorType = {
   packName?: string
   private?: boolean
 }
-
-//onClose={handleOpen(false)}

@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 
 const style = {
@@ -16,14 +15,10 @@ const style = {
   p: 4,
 }
 
-export const BaseModal: FC<BaseModalType> = ({ children, text }) => {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(!open)
-
+export const BaseModal: FC<BaseModalType> = ({ children, open }) => {
   return (
     <div>
-      <Button onClick={handleOpen}>{text}</Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={open}>
         <Box sx={style}>{children}</Box>
       </Modal>
     </div>
@@ -32,5 +27,5 @@ export const BaseModal: FC<BaseModalType> = ({ children, text }) => {
 
 type BaseModalType = {
   children: React.ReactNode
-  text: string
+  open: boolean
 }
