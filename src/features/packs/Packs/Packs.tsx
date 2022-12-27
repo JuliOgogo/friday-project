@@ -9,7 +9,6 @@ import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -18,8 +17,6 @@ import { Column, EnhancedTableHead, Order } from '../../../common/components/Enh
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
 import {
-  changePageAC,
-  changePageCountAC,
   changeSortPacksAC,
   deletePackTC,
   fetchPacksTC,
@@ -27,8 +24,9 @@ import {
 } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
-import {isInitializedSelector} from "../../../app/app-selector";
-import {DomainPackType} from "../packs-api";
+import { isInitializedSelector } from '../../../app/app-selector'
+import { DomainPackType } from '../packs-api'
+import { PaginationTable } from '../../../common/components/TablePagination/TablePagination'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -63,9 +61,8 @@ export default function Packs() {
   const userIdLogin = useAppSelector(userId)
   let isInitialized = useAppSelector(isInitializedSelector)
   const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof DomainPackType >('updated')
+  const [orderBy, setOrderBy] = useState<keyof DomainPackType| ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
-
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -78,34 +75,20 @@ export default function Packs() {
     },
   }))
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType ) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DomainPackType) => {
     if (property === 'user_id') {
       return
     }
     const isAsc = orderBy === property && order === 'asc'
 
-    searchParams.set('sortPacks', (isAsc ? 1 : 0) + property)
+    searchParams.set('sortPacks', (isAsc ? 0 : 1) + property)
     setSearchParams(searchParams)
 
-    dispatch(changeSortPacksAC((isAsc ? 1 : 0) + property))
+    dispatch(changeSortPacksAC((isAsc ? 0 : 1) + property))
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
 
-  const handleChangePage = (event: unknown, page: number) => {
-    const newPage = page + 1
-
-    searchParams.set('page', newPage.toString())
-    setSearchParams(searchParams)
-
-    dispatch(changePageAC(newPage))
-  }
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    searchParams.set('pageCount', event.target.value.toString())
-    setSearchParams(searchParams)
-    dispatch(changePageCountAC(+event.target.value))
-  }
 
   let URLParams = useMemo(
     () => ({
@@ -123,7 +106,6 @@ export default function Packs() {
     dispatch(fetchPacksTC(URLParams))
   }, [URLParams])
 
-  const rows = packsCards
 
   const handleClick = (id_pack: string) => {
     navigate(`/packs/${id_pack}`)
@@ -139,7 +121,6 @@ export default function Packs() {
     dispatch(updatePackTC(newName, pack_id))
   }
 
-
   return (
     <div>
       <PacksHeader />
@@ -151,11 +132,11 @@ export default function Packs() {
               onRequestSort={handleRequestSort}
               order={order}
               orderBy={orderBy.toString()}
-              rowCount={rows.length}
+              rowCount={packsCards?.length}
             />
 
             <TableBody>
-              {rows.map((row, index) => {
+              {packsCards?.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
@@ -201,18 +182,19 @@ export default function Packs() {
         </TableContainer>
       </Paper>
       <div>
-        <TablePagination
-          count={cardPacksTotal}
-          component="div"
-          rowsPerPage={packCountState}
-          page={pageState ? pageState - 1 : 0}
-          rowsPerPageOptions={[4, 5, 10, 25]}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{
-            fontFamily: 'Montserrat',
-          }}
-        />
+        {/*<TablePagination*/}
+        {/*  count={cardPacksTotal}*/}
+        {/*  component="div"*/}
+        {/*  rowsPerPage={packCountState}*/}
+        {/*  page={pageState ? pageState - 1 : 0}*/}
+        {/*  rowsPerPageOptions={[4, 5, 10, 25]}*/}
+        {/*  onPageChange={handleChangePage}*/}
+        {/*  onRowsPerPageChange={handleChangeRowsPerPage}*/}
+        {/*  sx={{*/}
+        {/*    fontFamily: 'Montserrat',*/}
+        {/*  }}*/}
+        {/*/>*/}
+        <PaginationTable pageCount={packCountState} totalCount={cardPacksTotal} page={pageState} />
       </div>
     </div>
   )
