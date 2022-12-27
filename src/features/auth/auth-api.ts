@@ -24,17 +24,17 @@ export const authAPI = {
     // return instance.get("ping") //проверка пингуется или нет
   },
   logout() {
-    return instance.delete<LogoutResponseType>('/auth/me')
+    return instance.delete<LogoutForgotResponseType>('/auth/me')
   },
   forgot(email: string) {
-    return instance.post<ForgotResponseType>('/auth/forgot', {
+    return instance.post<LogoutForgotResponseType>('/auth/forgot', {
       email,
       form: 'test-front-admin <ai73a@yandex.by>',
       message: `<div style="background-color: limegreen; padding: 15px">password recovery link: <a href="http://localhost:3000/#/new-password/$token$">link</> </div>`,
     })
   },
   newPassword(payload: NewPasswordParamsType) {
-    return instance.post<ForgotResponseType>('/auth/set-new-password', payload)
+    return instance.post<LogoutForgotResponseType>('/auth/set-new-password', payload)
   },
   updateUser(data: { name: string; avatar: string }) {
     return instance.put<UpdatedUserResponseType>('/auth/me', data)
@@ -42,7 +42,7 @@ export const authAPI = {
 }
 
 ///----------- types -----------\\\
-export type LogoutResponseType = {
+export type LogoutForgotResponseType = {
   info: string
   error: string
 }
@@ -74,10 +74,6 @@ export type AuthResponseType = {
 }
 export type ResponseType = AuthResponseType & {
   error?: string
-}
-type ForgotResponseType = {
-  info: string
-  error: string
 }
 type NewPasswordParamsType = {
   password: string
