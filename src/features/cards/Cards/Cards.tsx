@@ -12,12 +12,13 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { CardStateType, deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
 import { CardsHeader } from '../CardsHeader/CardsHeader'
+
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
 
 // column names
 
