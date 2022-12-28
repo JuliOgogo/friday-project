@@ -19,7 +19,11 @@ export const PacksHeader = () => {
     <div className={s.packsHeader}>
       <div className={s.titleAndButton}>
         <div className={s.title}>Packs list</div>
-        <Button variant={'contained'} sx={{ borderRadius: '30px' }} onClick={toggle}>
+        <Button
+          variant={'contained'}
+          sx={{ borderRadius: '30px', fontFamily: 'Montserrat, sans-serif' }}
+          onClick={toggle}
+        >
           Add new pack
         </Button>
         <PacksModal titleName={'Add new pack'} open={isShowing} hide={toggle} />

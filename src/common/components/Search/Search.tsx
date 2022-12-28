@@ -43,7 +43,7 @@ export const Search = () => {
         <InputBase
           value={value}
           onChange={onChangeHandler}
-          sx={{ ml: 1, flex: 1 }}
+          sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat, sans-serif' }}
           placeholder="Provide your text"
           inputProps={{ 'aria-label': 'Provide your text' }}
         />

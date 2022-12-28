@@ -41,7 +41,7 @@ export const HeaderTitle = () => {
           Add new card
         </Button>
       ) : (
-        <Button variant={'contained'} sx={{ borderRadius: '30px' }}>
+        <Button variant={'contained'} sx={{ borderRadius: '30px', fontFamily: 'Montserrat, sans-serif' }}>
           Learn to pack
         </Button>
       )}

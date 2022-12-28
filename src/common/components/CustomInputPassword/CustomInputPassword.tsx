@@ -29,6 +29,10 @@ export const CustomInputPassword: React.FC<CustomInputPasswordPropsType> = ({ ..
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
+                style={{
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none',
+                }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
