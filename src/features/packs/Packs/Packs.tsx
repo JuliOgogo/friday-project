@@ -16,12 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
-import {
-  changeSortPacksAC,
-  deletePackTC,
-  fetchPacksTC,
-  updatePackTC,
-} from '../packs-reducer'
+import { changeSortPacksAC, deletePackTC, fetchPacksTC, updatePackTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 import { isInitializedSelector } from '../../../app/app-selector'
@@ -61,7 +56,7 @@ export default function Packs() {
   const userIdLogin = useAppSelector(userId)
   let isInitialized = useAppSelector(isInitializedSelector)
   const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof DomainPackType| ''>('')
+  const [orderBy, setOrderBy] = useState<keyof DomainPackType | ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -89,23 +84,37 @@ export default function Packs() {
     setOrderBy(property)
   }
 
+  let URLParam = useMemo(() => {
+    const paramsSearch: any = {}
+    searchParams.forEach((key, value) => {
+      paramsSearch[value] = key
+    })
+    return paramsSearch
+  }, [searchParams])
 
-  let URLParams = useMemo(
-    () => ({
-      packName: searchParams.get('packName') || undefined,
-      min: Number(searchParams.get('min')) || undefined,
-      max: Number(searchParams.get('max')) || undefined,
-      page: Number(searchParams.get('page')) || undefined,
-      pageCount: Number(searchParams.get('pageCount')) || undefined,
-      sortPacks: searchParams.get('sortPacks') || undefined,
-    }),
-    [searchParams]
-  )
+  // let URLParams = useMemo(
+  //   () => ({
+  //     packName: searchParams.get('packName') || undefined,
+  //     min: Number(searchParams.get('min')) || undefined,
+  //     max: Number(searchParams.get('max')) || undefined,
+  //     page: Number(searchParams.get('page')) || undefined,
+  //     pageCount: Number(searchParams.get('pageCount')) || undefined,
+  //     sortPacks: searchParams.get('sortPacks') || undefined,
+  //   }),
+  //   [searchParams]
+  // )
+  // console.log('order',order)
+  useEffect(() => {
+    let orderParam = searchParams.get('sortPacks')
+    if (orderParam) {
+      setOrderBy(orderParam.substring(1) as keyof DomainPackType)
+      setOrder(Number(orderParam.at(0)) ? 'asc' : 'desc')
+    }
+  }, [searchParams, order, orderBy])
 
   useEffect(() => {
-    dispatch(fetchPacksTC(URLParams))
-  }, [URLParams])
-
+    dispatch(fetchPacksTC(URLParam))
+  }, [URLParam])
 
   const handleClick = (id_pack: string) => {
     navigate(`/packs/${id_pack}`)
