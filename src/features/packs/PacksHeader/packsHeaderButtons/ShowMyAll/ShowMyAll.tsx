@@ -12,8 +12,22 @@ export const ShowMyAll = () => {
     <div className={s2.wrapper}>
       <div className={s2.text}>Show packs cards</div>
       <ButtonGroup variant="contained" aria-label="outlined primary button group">
-        <Button className={s.button}>My</Button>
-        <Button className={s.button}>All</Button>
+        <Button
+          className={s.button}
+          style={{
+            fontFamily: 'Montserrat, sans-serif',
+          }}
+        >
+          My
+        </Button>
+        <Button
+          className={s.button}
+          style={{
+            fontFamily: 'Montserrat, sans-serif',
+          }}
+        >
+          All
+        </Button>
       </ButtonGroup>
     </div>
   )

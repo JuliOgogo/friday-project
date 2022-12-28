@@ -15,7 +15,14 @@ export const PacksHeader = () => {
     <div className={s.packsHeader}>
       <div className={s.titleAndButton}>
         <div className={s.title}>Packs list</div>
-        <Button variant={'contained'} sx={{ borderRadius: '30px' }} href={`#${PATH.ADD_NEW_PACK}`}>
+        <Button
+          variant={'contained'}
+          sx={{
+            borderRadius: '30px',
+            fontFamily: 'Montserrat, sans-serif',
+          }}
+          href={`#${PATH.ADD_NEW_PACK}`}
+        >
           Add new pack
         </Button>
       </div>
