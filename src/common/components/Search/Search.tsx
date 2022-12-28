@@ -10,8 +10,8 @@ import s from '../../../features/packs/PacksHeader/packsHeaderButtons/commonStyl
 import useDebounce from '../../hook/useDebounce'
 
 export const Search = () => {
-  const [value, setValue] = useState<string>('')
-  const debouncedValue = useDebounce<string>(value, 1000)
+  const [value, setValue] = useState<string>()
+  const debouncedValue = useDebounce<string>(value!, 1000)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -19,17 +19,27 @@ export const Search = () => {
     const packNameSearch = e.currentTarget.value
 
     setValue(packNameSearch)
+    if (searchParams.get('page')) {
+      searchParams.set('page', (1).toString())
+    }
+    if (debouncedValue) {
+      searchParams.delete('packName')
+    }
   }
 
   useEffect(() => {
-    if (debouncedValue) {
-      searchParams.set('packName', debouncedValue)
+    if (value) {
+      searchParams.set('packName', value)
       setSearchParams(searchParams)
     }
     if (searchParams.get('packName')) {
       const pageNameSearch = String(searchParams.get('packName'))
 
       setValue(pageNameSearch)
+    }
+    if (!value) {
+      searchParams.delete('packName')
+      setSearchParams(searchParams)
     }
   }, [searchParams, debouncedValue])
 
