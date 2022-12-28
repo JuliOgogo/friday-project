@@ -13,12 +13,14 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
-import { CardStateType, deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
+import { DeleteModal } from '../../modals/DeleteModal/DeleteModal'
+import { CardStateType, fetchCardsTC, updateCardTC } from '../cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
 import { CardsHeader } from '../CardsHeader/CardsHeader'
 
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
+import useModal from 'common/hook/useModal'
 
 // column names
 
@@ -78,6 +80,7 @@ export const Cards = () => {
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
 
+  const { isShowing, toggle } = useModal()
   const { id_pack } = useParams()
 
   // local state
@@ -117,9 +120,9 @@ export const Cards = () => {
   }
 
   // delete and update card
-  const deleteCard = (id_pack: string, id_card: string) => {
-    dispatch(deleteCardTC(id_pack, id_card))
-  }
+  // const deleteCard = (id_pack: string, id_card: string) => {
+  //   dispatch(deleteCardTC(id_pack, id_card))
+  // }
   const updateCard = (id_pack: string, id_card: string) => {
     dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
@@ -169,8 +172,16 @@ export const Cards = () => {
                           <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
                             <EditOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <IconButton onClick={() => deleteCard(row.cardsPack_id, row._id)}>
+                          <IconButton onClick={toggle}>
                             <DeleteOutlinedIcon fontSize={'small'} />
+                            <DeleteModal
+                              titleName={'Delete Card'}
+                              open={isShowing}
+                              hide={toggle}
+                              id_pack={row.cardsPack_id}
+                              id_card={row._id}
+                              name={row.question}
+                            />
                           </IconButton>
                         </div>
                       </TableCell>

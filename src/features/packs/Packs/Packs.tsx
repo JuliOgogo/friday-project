@@ -12,17 +12,19 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { isInitializedSelector } from '../../../app/app-selector'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
-import { PaginationTable } from '../../../common/components/PaginationTable/PaginationTable'
-import useModal from '../../../common/hook/useModal'
 import { userId } from '../../auth/auth-selector'
+import { DeleteModal } from '../../modals/DeleteModal/DeleteModal'
 import { PacksModal } from '../../modals/PacksModal/PacksModal'
 import { DomainPackType } from '../packs-api'
-import { changeSortPacksAC, deletePackTC, fetchPacksTC } from '../packs-reducer'
+import { changeSortPacksAC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
+
+import { isInitializedSelector } from 'app/app-selector'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
+import { PaginationTable } from 'common/components/PaginationTable/PaginationTable'
+import useModal from 'common/hook/useModal'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -125,10 +127,10 @@ export default function Packs() {
     navigate(`/packs/${id_pack}`)
   }
 
-  // DELETE AND UPDATE PACK
-  const deletePack = (_id: string) => {
-    dispatch(deletePackTC(_id))
-  }
+  // const iconButtonHandler = (e: any) => {
+  //   e.stopPropagation()
+  //   toggle()
+  // }
 
   return (
     <div>
@@ -172,8 +174,15 @@ export default function Packs() {
                             <EditOutlinedIcon fontSize={'small'} />
                             <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} id_pack={row._id} />
                           </IconButton>
-                          <IconButton onClick={() => deletePack(row._id)}>
+                          <IconButton onClick={toggle}>
                             <DeleteOutlinedIcon fontSize={'small'} />
+                            <DeleteModal
+                              titleName={'Delete Pack'}
+                              open={isShowing}
+                              hide={toggle}
+                              id_pack={row._id}
+                              name={row.name}
+                            />
                           </IconButton>
                         </div>
                       ) : (
