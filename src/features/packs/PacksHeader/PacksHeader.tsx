@@ -30,7 +30,6 @@ export const PacksHeader = () => {
         <CardsNumber />
         <ResetFiltersButton />
       </div>
-      ;
     </div>
   )
 }

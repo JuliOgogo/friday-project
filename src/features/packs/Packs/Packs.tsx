@@ -18,18 +18,9 @@ import { Column, EnhancedTableHead, Order } from '../../../common/components/Enh
 import { PaginationTable } from '../../../common/components/PaginationTable/PaginationTable'
 import useModal from '../../../common/hook/useModal'
 import { userId } from '../../auth/auth-selector'
-import { Cards } from '../../cards/Cards'
-import { DomainPackType } from '../packs-api'
-import { changeSortPacksAC, deletePackTC, fetchPacksTC, updatePackTC } from '../packs-reducer'
 import { PacksModal } from '../../modals/PacksModal/PacksModal'
-import {
-  changePageAC,
-  changePageCountAC,
-  changeSortPacksAC,
-  deletePackTC,
-  DomainPackType,
-  fetchPacksTC,
-} from '../packs-reducer'
+import { DomainPackType } from '../packs-api'
+import { changeSortPacksAC, deletePackTC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 
@@ -57,18 +48,18 @@ const columns: Column[] = [
 ]
 
 export default function Packs() {
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const packsCards = useAppSelector(packSelector)
   const pageState = useAppSelector(packPage)
   const packCountState = useAppSelector(packCount)
   const cardPacksTotal = useAppSelector(cardPacksTotalCount)
   const userIdLogin = useAppSelector(userId)
-  let isInitialized = useAppSelector(isInitializedSelector)
+  const isInitialized = useAppSelector(isInitializedSelector)
   const [order, setOrder] = useState<Order>('asc')
-  const { isShowing, toggle } = useModal()
   const [orderBy, setOrderBy] = useState<keyof DomainPackType | ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
+  const { isShowing, toggle } = useModal()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
