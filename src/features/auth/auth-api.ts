@@ -1,5 +1,6 @@
-import {instance} from "../../common/instance/instance";
-import {AxiosError} from "axios";
+import { AxiosError } from 'axios'
+
+import { instance } from '../../common/instance/instance'
 
 export const authAPI = {
   me() {

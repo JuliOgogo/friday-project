@@ -20,14 +20,15 @@ export const Search = () => {
 
     setValue(packNameSearch)
   }
+
   useEffect(() => {
     if (debouncedValue) {
       searchParams.set('packName', debouncedValue)
-      searchParams.set('page', (1).toString())
       setSearchParams(searchParams)
     }
     if (searchParams.get('packName')) {
       const pageNameSearch = String(searchParams.get('packName'))
+
       setValue(pageNameSearch)
     }
   }, [searchParams, debouncedValue])

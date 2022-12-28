@@ -12,16 +12,16 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import { isInitializedSelector } from '../../../app/app-selector'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
+import { PaginationTable } from '../../../common/components/PaginationTable/PaginationTable'
 import { userId } from '../../auth/auth-selector'
 import { Cards } from '../../cards/Cards'
+import { DomainPackType } from '../packs-api'
 import { changeSortPacksAC, deletePackTC, fetchPacksTC, updatePackTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
-import { isInitializedSelector } from '../../../app/app-selector'
-import { DomainPackType } from '../packs-api'
-import { PaginationTable } from '../../../common/components/TablePagination/TablePagination'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -86,9 +86,11 @@ export default function Packs() {
 
   let URLParam = useMemo(() => {
     const paramsSearch: any = {}
+
     searchParams.forEach((key, value) => {
       paramsSearch[value] = key
     })
+
     return paramsSearch
   }, [searchParams])
 
@@ -106,6 +108,7 @@ export default function Packs() {
   // console.log('order',order)
   useEffect(() => {
     let orderParam = searchParams.get('sortPacks')
+
     if (orderParam) {
       setOrderBy(orderParam.substring(1) as keyof DomainPackType)
       setOrder(Number(orderParam.at(0)) ? 'asc' : 'desc')
@@ -191,7 +194,7 @@ export default function Packs() {
         </TableContainer>
       </Paper>
       <div>
-        {/*<TablePagination*/}
+        {/*<PaginationTable*/}
         {/*  count={cardPacksTotal}*/}
         {/*  component="div"*/}
         {/*  rowsPerPage={packCountState}*/}

@@ -10,7 +10,6 @@ import { visuallyHidden } from '@mui/utils'
 import { CardStateType } from '../../../features/cards/cards-reducer'
 import { DomainPackType } from '../../../features/packs/packs-api'
 
-
 export type Order = 'asc' | 'desc'
 
 export interface Column {

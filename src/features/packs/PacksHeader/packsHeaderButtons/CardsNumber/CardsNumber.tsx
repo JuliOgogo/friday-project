@@ -33,6 +33,7 @@ export const CardsNumber = () => {
     if (searchParams.get('min') || searchParams.get('max')) {
       const minSearch = Number(searchParams.get('min'))
       const maxSearch = Number(searchParams.get('max'))
+
       setValue([minSearch, maxSearch])
     } else {
       setValue([minValue, maxValue])

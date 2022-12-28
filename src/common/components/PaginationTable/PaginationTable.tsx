@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { useSearchParams } from 'react-router-dom'
 import TablePagination from '@mui/material/TablePagination'
+import { useSearchParams } from 'react-router-dom'
 
 interface PaginationTable {
   pageCount: number
@@ -9,11 +9,11 @@ interface PaginationTable {
   page: number
 }
 
+// eslint-disable-next-line no-redeclare
 export function PaginationTable(props: PaginationTable) {
   const [rowPerPageState, setRowPerPage] = useState<number>(4)
   const [page, setPage] = useState<number>(1)
   const totalCount = props.totalCount
-
 
   const [searchParams, setSearchParams] = useSearchParams()
   //  const packCountState = useAppSelector(packCount)
@@ -32,17 +32,20 @@ export function PaginationTable(props: PaginationTable) {
     setSearchParams(searchParams)
     setRowPerPage(+event.target.value)
   }
+
   useEffect(() => {
     if (searchParams.get('page')) {
       const pageParams = Number(searchParams.get('page'))
+
       setPage(pageParams)
     } else {
       setPage(page)
     }
     if (searchParams.get('pageCount')) {
       const pageCountParam = Number(searchParams.get('pageCount'))
+
       setRowPerPage(pageCountParam)
-    }else {
+    } else {
       setRowPerPage(rowPerPageState)
     }
   }, [searchParams, rowPerPageState, page])
@@ -53,7 +56,7 @@ export function PaginationTable(props: PaginationTable) {
       component="div"
       rowsPerPage={rowPerPageState}
       page={page ? page - 1 : 0}
-      rowsPerPageOptions={[ 4, 5, 10, 25]}
+      rowsPerPageOptions={[4, 5, 10, 25]}
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
       sx={{
