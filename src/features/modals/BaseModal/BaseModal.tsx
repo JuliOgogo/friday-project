@@ -17,11 +17,16 @@ const style = {
 
 export const BaseModal: FC<BaseModalType> = ({ children, open }) => {
   return (
-    <div>
-      <Modal open={open}>
-        <Box sx={style}>{children}</Box>
-      </Modal>
-    </div>
+    <Modal open={open}>
+      <Box
+        onClick={e => {
+          e.stopPropagation()
+        }}
+        sx={style}
+      >
+        {children}
+      </Box>
+    </Modal>
   )
 }
 

@@ -171,15 +171,9 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          {/*<IconButton onClick={() => updatePack(row.name, row._id)}>*/}
-                          {/*  <EditOutlinedIcon fontSize={'small'} />*/}
-                          {/*</IconButton>*/}
                           <IconButton onClick={toggle}>
-                            {!isShowing ? (
-                              <EditOutlinedIcon fontSize={'small'} />
-                            ) : (
-                              <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} />
-                            )}
+                            <EditOutlinedIcon fontSize={'small'} />
+                            <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} id_pack={row._id} />
                           </IconButton>
                           <IconButton onClick={() => deletePack(row._id)}>
                             <DeleteOutlinedIcon fontSize={'small'} />
