@@ -20,7 +20,6 @@ const initialState = {
   page: 1,
   pageCount: 5,
   packUserId: '',
-  sortCards: '0updated',
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsActionsType): InitialStateType => {
@@ -42,8 +41,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
       return { ...state, pageCount: action.pageCount }
     case cards_CHANGE_PAGE:
       return { ...state, page: action.page }
-    case cards_CHANGE_SORT:
-      return { ...state, sortCards: action.sortCards }
     default:
       return state
   }
@@ -58,14 +55,13 @@ export const changeCardsPageCountAC = (pageCount: number) =>
     pageCount,
   } as const)
 export const changeCardsPageAC = (page: number) => ({ type: cards_CHANGE_PAGE, page } as const)
-export const changeSortCardsAC = (sortCards: string) => ({ type: cards_CHANGE_SORT, sortCards } as const)
 
 // thunks
 export const fetchCardsTC =
   (params: GetCardsParamsType): AppThunkType =>
   async dispatch => {
     try {
-      const res = await cardsAPI.getCards({ cardsPack_id: params.cardsPack_id })
+      const res = await cardsAPI.getCards(params)
 
       dispatch(setCardsAC(res.data))
     } catch (e) {
@@ -93,7 +89,7 @@ export const deleteCardTC =
   async dispatch => {
     try {
       await cardsAPI.deleteCard(cardId)
-      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
+      dispatch(fetchCardsTC({ cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -106,7 +102,7 @@ export const updateCardTC =
   async dispatch => {
     try {
       await cardsAPI.updateCard(card)
-      dispatch(fetchCardsTC({ cardsPack_id: cardsPack_id }))
+      dispatch(fetchCardsTC({ cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError
 
@@ -120,15 +116,10 @@ export type CardsActionsType =
   | ReturnType<typeof setCardsAC>
   | ReturnType<typeof changeCardsPageCountAC>
   | ReturnType<typeof changeCardsPageAC>
-  | ReturnType<typeof changeSortCardsAC>
 
-export type CardStateType = Pick<
-  CardType,
-  'user_id' | 'cardsPack_id' | '_id' | 'question' | 'answer' | 'grade' | 'updated'
->
+export type CardStateType = Omit<CardType, 'shots' | 'created'>
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'
 const cards_CHANGE_PAGE_COUNT = 'cards/CHANGE_PAGE_COUNT'
 const cards_CHANGE_PAGE = 'cards/CHANGE_PAGE'
-const cards_CHANGE_SORT = 'cards/CHANGE_SORT'

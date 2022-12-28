@@ -2,44 +2,28 @@ import { instance } from '../../common/instance/instance'
 
 export const cardsAPI = {
   getCards(params: GetCardsParamsType) {
-    return instance.get<CardsResponseType>('/cards/card', {
-      params: {
-        cardsPack_id: params.cardsPack_id,
-        page: params.page,
-        pageCount: params.pageCount,
-        sortCards: params.sortCards,
-        min: params.min,
-        max: params.max,
-      },
-    })
+    return instance.get<CardsResponseType>('/cards/card', { params })
   },
   createCard(data: CreateCardType) {
-    return instance.post('/cards/card', {
-      card: {
-        cardsPack_id: data.cardsPack_id,
-        question: data.question,
-        answer: data.answer,
-        grade: data.grade,
-      },
-    })
+    return instance.post('/cards/card', { card: data })
   },
   deleteCard(cardId: string) {
     return instance.delete(`/cards/card?id=${cardId}`)
   },
-  updateCard(payload: UpdateCardValuesType) {
-    return instance.put('/cards/card', { card: payload })
+  updateCard(values: UpdateCardValuesType) {
+    return instance.put('/cards/card', { card: values })
   },
 }
 
 // types
 
 export type GetCardsParamsType = {
+  cardsPack_id: string
   cardAnswer?: string
   cardQuestion?: string
-  cardsPack_id: string
   min?: number
   max?: number
-  sortCards?: number
+  sortCards?: string
   page?: number
   pageCount?: number
 }
@@ -52,7 +36,6 @@ export type CardsResponseType = {
   page: number
   pageCount: number
   packUserId: string
-  sortCards: string
 }
 
 export type CardType = {
@@ -79,7 +62,4 @@ export type CreateCardType = {
   answerVideo?: string
 }
 
-export type UpdateCardValuesType = {
-  _id: string
-  question?: string
-}
+export type UpdateCardValuesType = Pick<CardType, '_id' | 'question'>

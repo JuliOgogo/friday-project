@@ -1,4 +1,4 @@
-import { AppRootStateType } from '../../app/store'
+import { AppRootStateType } from 'app/store'
 
 export const cardsSelector = (state: AppRootStateType) => state.cards.cards
 export const packUserId = (state: AppRootStateType) => state.cards.packUserId
@@ -6,5 +6,3 @@ export const packUserId = (state: AppRootStateType) => state.cards.packUserId
 export const cardsTotalCountSelector = (state: AppRootStateType) => state.cards.cardsTotalCount
 export const cardsPageCountSelector = (state: AppRootStateType) => state.cards.pageCount
 export const cardPageSelector = (state: AppRootStateType) => state.cards.page
-
-export const cardSortCardsSelector = (state: AppRootStateType) => state.cards.sortCards
