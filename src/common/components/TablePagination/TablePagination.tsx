@@ -36,10 +36,14 @@ export function PaginationTable(props: PaginationTable) {
     if (searchParams.get('page')) {
       const pageParams = Number(searchParams.get('page'))
       setPage(pageParams)
+    } else {
+      setPage(page)
     }
     if (searchParams.get('pageCount')) {
       const pageCountParam = Number(searchParams.get('pageCount'))
       setRowPerPage(pageCountParam)
+    }else {
+      setRowPerPage(rowPerPageState)
     }
   }, [searchParams, rowPerPageState, page])
 
