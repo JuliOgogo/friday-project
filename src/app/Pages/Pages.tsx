@@ -11,7 +11,6 @@ import { Registration } from '../../features/auth/registration/Registration'
 import { Card } from '../../features/cards/Cards/Card/Card'
 import { Cards } from '../../features/cards/Cards/Cards'
 import { Learn } from '../../features/learn/Learn'
-import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
 import Packs from '../../features/packs/Packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
@@ -38,7 +37,6 @@ function Pages() {
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.FORGOT_PASS} element={<ForgotPassword />} />
       <Route path={PATH.NEW_PASS} element={<NewPassword />} />
-      <Route path={PATH.ADD_NEW_PACK} element={<AddNewPack />} />
 
       <Route path={PATH.PAGE404} element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>} />
       <Route path={PATH.WRONG_PATH} element={<Navigate to={PATH.PAGE404} />} />
