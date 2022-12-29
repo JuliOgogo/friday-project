@@ -9,6 +9,7 @@ import { CardType } from '../../cards/cards-api'
 import { addCardTC, updateCardTC } from '../../cards/cards-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
+import s from '../Modal.module.css'
 
 import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
@@ -74,35 +75,15 @@ export const CardsModal: FC<CardsModalType> = ({
   return (
     <>
       <BaseModal open={open}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '400px',
-            height: '70px',
-          }}
-        >
+        <div className={s.head}>
           <Title text={titleName} />
-          <IconButton
-            onClick={hide}
-            style={{
-              backgroundColor: 'transparent',
-              boxShadow: 'none',
-            }}
-          >
+          <IconButton onClick={hide} className={s.iconButton}>
             <CloseIcon fontSize={'large'} />
           </IconButton>
         </div>
         <hr />
         <FormGroup>
-          <InputLabel
-            style={{
-              fontFamily: 'Montserrat, sans-serif',
-            }}
-          >
-            Choose a question format
-          </InputLabel>
+          <InputLabel className={s.label}>Choose a question format</InputLabel>
           <Select value={itemName} label="Choose a question format" onChange={handleChange}>
             {menuItems.map((i, index) => (
               <MenuItem key={index} value={i}>

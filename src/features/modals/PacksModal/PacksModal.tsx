@@ -4,10 +4,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 
-import style from '../../auth/login/loginForm/LoginForm.module.css'
 import { createPackTC, updatePackTC } from '../../packs/packs-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
+import s from '../Modal.module.css'
 
 import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
@@ -47,38 +47,14 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
   return (
     <>
       <BaseModal open={open}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '400px',
-            height: '70px',
-          }}
-        >
+        <div className={s.head}>
           <Title text={titleName} />
-          <IconButton
-            onClick={hide}
-            style={{
-              backgroundColor: 'transparent',
-              boxShadow: 'none',
-            }}
-          >
-            <CloseIcon
-              fontSize={'large'}
-              style={{
-                width: '30px',
-              }}
-            />
+          <IconButton onClick={hide} className={s.iconButton}>
+            <CloseIcon fontSize={'large'} style={{ width: '30px' }} />
           </IconButton>
         </div>
         <hr />
-        <div
-          style={{
-            display: 'flex',
-            flexFlow: 'column wrap',
-          }}
-        >
+        <div className={s.body}>
           <FormGroup>
             <CustomInput
               label={'Name pack'}
@@ -86,9 +62,9 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
               helperText={formik.touched.packName && formik.errors.packName}
               {...formik.getFieldProps('packName')}
             />
-            <div className={style.checkboxPrivate}>
+            <div className={s.checkboxPrivate}>
               <FormControlLabel
-                label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
+                label={<Typography className={s.checkbox}>Private pack</Typography>}
                 control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
               />
             </div>

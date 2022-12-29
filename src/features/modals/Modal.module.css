@@ -1,0 +1,34 @@
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 70px;
+}
+
+.iconButton {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.body {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.checkboxPrivate {
+    margin-top: 20px;
+
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.checkbox {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.label {
+    font-family: 'Montserrat', sans-serif;
+    word-wrap: break-word;
+}
