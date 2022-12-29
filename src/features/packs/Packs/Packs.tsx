@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { IconButton, styled, tableCellClasses } from '@mui/material'
 import Paper from '@mui/material/Paper'
@@ -13,8 +11,8 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
-import { DeleteModal } from '../../modals/DeleteModal/DeleteModal'
-import { PacksModal } from '../../modals/PacksModal/PacksModal'
+import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
+import { EditPackIcon } from '../../modals/PacksModal/EditPacksIcon/EditPackIcon'
 import { DomainPackType } from '../packs-api'
 import { changeSortPacksAC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
@@ -24,7 +22,6 @@ import { isInitializedSelector } from 'app/app-selector'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
 import { PaginationTable } from 'common/components/PaginationTable/PaginationTable'
-import useModal from 'common/hook/useModal'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -61,7 +58,6 @@ export default function Packs() {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType | ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
-  const { isShowing, toggle } = useModal()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -127,11 +123,6 @@ export default function Packs() {
     navigate(`/packs/${id_pack}`)
   }
 
-  // const iconButtonHandler = (e: any) => {
-  //   e.stopPropagation()
-  //   toggle()
-  // }
-
   return (
     <div>
       <PacksHeader />
@@ -170,20 +161,8 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <IconButton onClick={toggle}>
-                            <EditOutlinedIcon fontSize={'small'} />
-                            <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} id_pack={row._id} />
-                          </IconButton>
-                          <IconButton onClick={toggle}>
-                            <DeleteOutlinedIcon fontSize={'small'} />
-                            <DeleteModal
-                              titleName={'Delete Pack'}
-                              open={isShowing}
-                              hide={toggle}
-                              id_pack={row._id}
-                              name={row.name}
-                            />
-                          </IconButton>
+                          <EditPackIcon id_pack={row._id} />
+                          <DeleteModalIcon titleName={'Delete Pack'} id_pack={row._id} name={row.name} />
                         </div>
                       ) : (
                         <div>

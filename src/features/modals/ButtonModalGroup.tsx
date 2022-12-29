@@ -2,8 +2,8 @@ import React, { FC } from 'react'
 
 import { Button } from '@mui/material'
 
-export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, deleteButton }) => {
-  const colorButton = deleteButton ? 'error' : 'primary'
+export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, isDelete }) => {
+  const colorButton = isDelete ? 'error' : 'primary'
 
   return (
     <div>
@@ -17,7 +17,7 @@ export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, de
         color={colorButton}
         sx={{ width: '130px', mt: '60px', ml: '130px', textAlign: 'right' }}
       >
-        {deleteButton ? 'Delete' : 'Save'}
+        {isDelete ? 'Delete' : 'Save'}
       </Button>
     </div>
   )
@@ -26,5 +26,5 @@ export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, de
 type ButtonGroupType = {
   hide: () => void
   onClickHandler: () => void
-  deleteButton?: boolean
+  isDelete?: boolean
 }

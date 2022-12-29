@@ -1,5 +1,8 @@
 import React, { FC } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
+import { IconButton } from '@mui/material'
+
 import { deleteCardTC } from '../../cards/cards-reducer'
 import { deletePackTC } from '../../packs/packs-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
@@ -27,9 +30,12 @@ export const DeleteModal: FC<DeleteModalType> = ({ titleName, open, name, hide, 
     <>
       <BaseModal open={open}>
         <Title text={titleName} />
+        <IconButton>
+          <CloseIcon fontSize={'large'} onClick={hide} />
+        </IconButton>
         <hr />
         <p>{`Do you really want to remove '${name}'? ${message}`} </p>
-        <ButtonModalGroup hide={hide} deleteButton={true} onClickHandler={deleteHandler} />
+        <ButtonModalGroup hide={hide} isDelete={true} onClickHandler={deleteHandler} />
       </BaseModal>
     </>
   )

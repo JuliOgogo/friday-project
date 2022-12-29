@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 
-import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { Checkbox, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 
 import style from '../../auth/login/loginForm/LoginForm.module.css'
@@ -46,6 +47,9 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
     <>
       <BaseModal open={open}>
         <Title text={titleName} />
+        <IconButton>
+          <CloseIcon fontSize={'large'} onClick={hide} />
+        </IconButton>
         <FormGroup>
           <div>
             <CustomInput
