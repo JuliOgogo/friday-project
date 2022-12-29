@@ -6,8 +6,25 @@ export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, is
   const colorButton = isDelete ? 'error' : 'primary'
 
   return (
-    <div>
-      <Button onClick={hide} sx={{ width: '130px', mt: '60px', textAlign: 'left' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Button
+        onClick={hide}
+        sx={{
+          width: '127px',
+          color: '#000000',
+          background: '#FCFCFC',
+          boxShadow: '0px 2px 10px rgba(109, 109, 109, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.3)',
+          borderRadius: '50px',
+          fontFamily: 'Montserrat, sans-serif',
+          mt: '60px',
+        }}
+      >
         Cancel
       </Button>
       <Button
@@ -15,7 +32,13 @@ export const ButtonModalGroup: FC<ButtonGroupType> = ({ hide, onClickHandler, is
         variant="contained"
         type={'submit'}
         color={colorButton}
-        sx={{ width: '130px', mt: '60px', ml: '130px', textAlign: 'right' }}
+        sx={{
+          width: '127px',
+          borderRadius: '50px',
+          fontFamily: 'Montserrat, sans-serif',
+          fontWeight: '300',
+          mt: '60px',
+        }}
       >
         {isDelete ? 'Delete' : 'Save'}
       </Button>
