@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
 
-import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { Checkbox, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 
-import { useAppDispatch } from '../../../app/store'
 import style from '../../auth/login/loginForm/LoginForm.module.css'
 import { createPackTC, updatePackTC } from '../../packs/packs-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
+import { ButtonModalGroup } from '../ButtonModalGroup'
 
-import { ButtonGroup } from './ButtonGroup'
-
+import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
 import { Title } from 'common/components/Title/Title'
 
@@ -47,6 +47,10 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
     <>
       <BaseModal open={open}>
         <Title text={titleName} />
+        <IconButton>
+          <CloseIcon fontSize={'large'} onClick={hide} />
+        </IconButton>
+        <hr />
         <FormGroup>
           <div>
             <CustomInput
@@ -55,15 +59,17 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
               helperText={formik.touched.packName && formik.errors.packName}
               {...formik.getFieldProps('packName')}
             />
-            <FormControlLabel
-              label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
-              control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
-            />
+            <div style={{ paddingTop: '20px', textAlign: 'left' }}>
+              <FormControlLabel
+                label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
+                control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
+              />
+            </div>
           </div>
 
-          <ButtonGroup
+          <ButtonModalGroup
             hide={hide}
-            formikHandler={() => {
+            onClickHandler={() => {
               formik.handleSubmit()
             }}
           />

@@ -62,4 +62,4 @@ export type CreateCardType = {
   answerVideo?: string
 }
 
-export type UpdateCardValuesType = Pick<CardType, '_id' | 'question'>
+export type UpdateCardValuesType = Pick<CardType, '_id' | 'question' | 'answer'>

@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { IconButton, styled, tableCellClasses } from '@mui/material'
 import Paper from '@mui/material/Paper'
@@ -12,17 +10,18 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { isInitializedSelector } from '../../../app/app-selector'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
-import { PaginationTable } from '../../../common/components/PaginationTable/PaginationTable'
-import useModal from '../../../common/hook/useModal'
 import { userId } from '../../auth/auth-selector'
-import { PacksModal } from '../../modals/PacksModal/PacksModal'
+import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
+import { EditPackIcon } from '../../modals/PacksModal/EditPackIcon/EditPackIcon'
 import { DomainPackType } from '../packs-api'
-import { changeSortPacksAC, deletePackTC, fetchPacksTC } from '../packs-reducer'
+import { changeSortPacksAC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
+
+import { isInitializedSelector } from 'app/app-selector'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
+import { PaginationTable } from 'common/components/PaginationTable/PaginationTable'
 
 const columns: Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -59,7 +58,6 @@ export default function Packs() {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof DomainPackType | ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
-  const { isShowing, toggle } = useModal()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -125,11 +123,6 @@ export default function Packs() {
     navigate(`/packs/${id_pack}`)
   }
 
-  // DELETE AND UPDATE PACK
-  const deletePack = (_id: string) => {
-    dispatch(deletePackTC(_id))
-  }
-
   return (
     <div>
       <PacksHeader />
@@ -168,13 +161,8 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <IconButton onClick={toggle}>
-                            <EditOutlinedIcon fontSize={'small'} />
-                            <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} id_pack={row._id} />
-                          </IconButton>
-                          <IconButton onClick={() => deletePack(row._id)}>
-                            <DeleteOutlinedIcon fontSize={'small'} />
-                          </IconButton>
+                          <EditPackIcon id_pack={row._id} />
+                          <DeleteModalIcon titleName={'Delete Pack'} id_pack={row._id} name={row.name} />
                         </div>
                       ) : (
                         <div>

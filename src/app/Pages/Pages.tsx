@@ -31,7 +31,6 @@ function Pages() {
         <Route path={PATH.PACK} element={<Cards />} />
         <Route path={PATH.CARD} element={<Card />} />
         <Route path={PATH.LEARN} element={<Learn />} />
-        {/*<Route path={PATH.CARDS} element={<Cards />} />*/}
       </Route>
 
       <Route index path={PATH.START_PAGE} element={<Profile />} />

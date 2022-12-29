@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { IconButton, Rating } from '@mui/material'
+import { Rating } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,7 +11,9 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
-import { CardStateType, deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
+import { EditCardIcon } from '../../modals/CardsModal/EditCardIcon/EditCardIcon'
+import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
+import { CardStateType, fetchCardsTC } from '../cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
 import { CardsHeader } from '../CardsHeader/CardsHeader'
 
@@ -111,17 +111,8 @@ export const Cards = () => {
     setSearchParams(searchParams)
   }
 
-  // choose card
   const handleClick = (id_pack: string, id_card: string) => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
-  }
-
-  // delete and update card
-  const deleteCard = (id_pack: string, id_card: string) => {
-    dispatch(deleteCardTC(id_pack, id_card))
-  }
-  const updateCard = (id_pack: string, id_card: string) => {
-    dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
 
   let URLParams = useMemo(
@@ -166,12 +157,13 @@ export const Cards = () => {
                     {row.user_id === userIdLogin ? (
                       <TableCell align="left">
                         <div>
-                          <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
-                            <EditOutlinedIcon fontSize={'small'} />
-                          </IconButton>
-                          <IconButton onClick={() => deleteCard(row.cardsPack_id, row._id)}>
-                            <DeleteOutlinedIcon fontSize={'small'} />
-                          </IconButton>
+                          <EditCardIcon id_pack={row.cardsPack_id} id_card={row._id} />
+                          <DeleteModalIcon
+                            titleName={'Delete Card'}
+                            id_pack={row.cardsPack_id}
+                            id_card={row._id}
+                            name={row.question}
+                          />
                         </div>
                       </TableCell>
                     ) : (
