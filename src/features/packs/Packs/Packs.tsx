@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import { PATH } from '../../../common/routes/pathRoutesList'
 import { userId } from '../../auth/auth-selector'
 import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
 import { EditPackIcon } from '../../modals/PacksModal/EditPackIcon/EditPackIcon'
@@ -158,7 +159,7 @@ export default function Packs() {
                     <StyledTableCell align="left">
                       {row.user_id === userIdLogin ? (
                         <div>
-                          <IconButton disabled={row.cardsCount === 0}>
+                          <IconButton disabled={row.cardsCount === 0} href={`#${PATH.LEARN}`}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
                           <EditPackIcon id_pack={row._id} packName={row.name} />
