@@ -46,34 +46,59 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
   return (
     <>
       <BaseModal open={open}>
-        <Title text={titleName} />
-        <IconButton>
-          <CloseIcon fontSize={'large'} onClick={hide} />
-        </IconButton>
-        <hr />
-        <FormGroup>
-          <div>
-            <CustomInput
-              label={'Name pack'}
-              error={!!formik.errors.packName && formik.touched.packName}
-              helperText={formik.touched.packName && formik.errors.packName}
-              {...formik.getFieldProps('packName')}
-            />
-            <div style={{ paddingTop: '20px', textAlign: 'left' }}>
-              <FormControlLabel
-                label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
-                control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
-              />
-            </div>
-          </div>
-
-          <ButtonModalGroup
-            hide={hide}
-            onClickHandler={() => {
-              formik.handleSubmit()
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Title text={titleName} />
+          <IconButton
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
             }}
-          />
-        </FormGroup>
+          >
+            <CloseIcon
+              fontSize={'large'}
+              onClick={hide}
+              style={{
+                width: '30px',
+              }}
+            />
+          </IconButton>
+        </div>
+        <hr />
+        <div
+          style={{
+            display: 'flex',
+            flexFlow: 'column wrap',
+          }}
+        >
+          <FormGroup>
+            <div>
+              <CustomInput
+                label={'Name pack'}
+                error={!!formik.errors.packName && formik.touched.packName}
+                helperText={formik.touched.packName && formik.errors.packName}
+                {...formik.getFieldProps('packName')}
+              />
+              <div className={style.checkboxPrivate}>
+                <FormControlLabel
+                  label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
+                  control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
+                />
+              </div>
+            </div>
+            <ButtonModalGroup
+              hide={hide}
+              onClickHandler={() => {
+                formik.handleSubmit()
+              }}
+            />
+          </FormGroup>
+        </div>
       </BaseModal>
     </>
   )
