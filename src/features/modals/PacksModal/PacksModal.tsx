@@ -51,6 +51,8 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            width: '400px',
+            height: '70px',
           }}
         >
           <Title text={titleName} />
