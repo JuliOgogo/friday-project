@@ -10,11 +10,11 @@ import { NewPassword } from '../../features/auth/password/NewPassword'
 import { Registration } from '../../features/auth/registration/Registration'
 import { Card } from '../../features/cards/Cards/Card/Card'
 import { Cards } from '../../features/cards/Cards/Cards'
+import { Learn } from '../../features/learn/Learn'
 import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
 import Packs from '../../features/packs/Packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
-import { Learn } from '../../features/learn/Learn'
 
 function Pages() {
   const PrivateRoutes = () => {
