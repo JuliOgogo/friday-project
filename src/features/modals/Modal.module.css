@@ -32,3 +32,8 @@
     font-family: 'Montserrat', sans-serif;
     word-wrap: break-word;
 }
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
