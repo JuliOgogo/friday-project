@@ -58,6 +58,7 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
         >
           <Title text={titleName} />
           <IconButton
+            onClick={hide}
             style={{
               backgroundColor: 'transparent',
               boxShadow: 'none',
@@ -65,7 +66,6 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
           >
             <CloseIcon
               fontSize={'large'}
-              onClick={hide}
               style={{
                 width: '30px',
               }}

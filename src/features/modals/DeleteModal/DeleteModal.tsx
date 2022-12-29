@@ -38,12 +38,13 @@ export const DeleteModal: FC<DeleteModalType> = ({ titleName, open, name, hide, 
         >
           <Title text={titleName} />
           <IconButton
+            onClick={hide}
             style={{
               backgroundColor: 'transparent',
               boxShadow: 'none',
             }}
           >
-            <CloseIcon fontSize={'large'} onClick={hide} />
+            <CloseIcon fontSize={'large'} />
           </IconButton>
         </div>
         <hr />

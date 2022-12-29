@@ -85,12 +85,13 @@ export const CardsModal: FC<CardsModalType> = ({
         >
           <Title text={titleName} />
           <IconButton
+            onClick={hide}
             style={{
               backgroundColor: 'transparent',
               boxShadow: 'none',
             }}
           >
-            <CloseIcon fontSize={'large'} onClick={hide} />
+            <CloseIcon fontSize={'large'} />
           </IconButton>
         </div>
         <hr />
