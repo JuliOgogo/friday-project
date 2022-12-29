@@ -29,12 +29,31 @@ export const DeleteModal: FC<DeleteModalType> = ({ titleName, open, name, hide, 
   return (
     <>
       <BaseModal open={open}>
-        <Title text={titleName} />
-        <IconButton>
-          <CloseIcon fontSize={'large'} onClick={hide} />
-        </IconButton>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Title text={titleName} />
+          <IconButton
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            }}
+          >
+            <CloseIcon fontSize={'large'} onClick={hide} />
+          </IconButton>
+        </div>
         <hr />
-        <p>{`Do you really want to remove '${name}'? ${message}`} </p>
+        <p
+          style={{
+            fontFamily: 'Montserrat, sans-serif',
+          }}
+        >
+          {`Do you really want to remove '${name}'? ${message}`}{' '}
+        </p>
         <ButtonModalGroup hide={hide} isDelete={true} onClickHandler={deleteHandler} />
       </BaseModal>
     </>

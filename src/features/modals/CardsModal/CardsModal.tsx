@@ -74,13 +74,34 @@ export const CardsModal: FC<CardsModalType> = ({
   return (
     <>
       <BaseModal open={open}>
-        <Title text={titleName} />
-        <IconButton>
-          <CloseIcon fontSize={'large'} onClick={hide} />
-        </IconButton>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '400px',
+            height: '70px',
+          }}
+        >
+          <Title text={titleName} />
+          <IconButton
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            }}
+          >
+            <CloseIcon fontSize={'large'} onClick={hide} />
+          </IconButton>
+        </div>
         <hr />
         <FormGroup>
-          <InputLabel>Choose a question format</InputLabel>
+          <InputLabel
+            style={{
+              fontFamily: 'Montserrat, sans-serif',
+            }}
+          >
+            Choose a question format
+          </InputLabel>
           <Select value={itemName} label="Choose a question format" onChange={handleChange}>
             {menuItems.map((i, index) => (
               <MenuItem key={index} value={i}>

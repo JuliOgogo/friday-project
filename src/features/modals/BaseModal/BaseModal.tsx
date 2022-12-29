@@ -8,11 +8,13 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '395px',
+  // width: 400,
+  // height: 300,
   bgcolor: 'background.paper',
-  border: '1px solid #000',
+  borderRadius: 2,
   boxShadow: 24,
   p: 4,
+  boxSizing: 'border - box',
 }
 
 export const BaseModal: FC<BaseModalType> = ({ children, open }) => {

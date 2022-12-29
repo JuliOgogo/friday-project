@@ -1,61 +1,68 @@
 .error {
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 600 !important;
-  color: #b31232;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+    color: #b31232;
 }
 
 .checkbox {
-  padding-top: 20px;
+    padding-top: 20px;
 
-  text-align: left;
+    text-align: left;
+}
+
+.checkboxPrivate {
+    margin-top: 20px;
+
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
 }
 
 .checkboxRemember {
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 600 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
 }
 
 .linkPassword {
-  display: inline-block;
+    display: inline-block;
 
-  width: 100%;
-  margin-top: 30px;
+    width: 100%;
+    margin-top: 30px;
 
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  color: black;
-  text-align: right;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: black;
+    text-align: right;
 }
 
 .linkPassword a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .linkPassword a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .textRegister {
-  margin-top: 20px;
-  margin-bottom: 25px;
+    margin-top: 20px;
+    margin-bottom: 25px;
 
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  color: gray;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: gray;
 }
 
 .linkRegister {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  font-style: normal;
-  line-height: 17px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 17px;
 }
 
 .linkRegister a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .linkRegister a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }

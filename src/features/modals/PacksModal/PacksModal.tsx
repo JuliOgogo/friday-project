@@ -47,34 +47,59 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
   return (
     <>
       <BaseModal open={open}>
-        <Title text={titleName} />
-        <IconButton>
-          <CloseIcon fontSize={'large'} onClick={hide} />
-        </IconButton>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '400px',
+            height: '70px',
+          }}
+        >
+          <Title text={titleName} />
+          <IconButton
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+            }}
+          >
+            <CloseIcon
+              fontSize={'large'}
+              onClick={hide}
+              style={{
+                width: '30px',
+              }}
+            />
+          </IconButton>
+        </div>
         <hr />
-        <FormGroup>
-          <div>
+        <div
+          style={{
+            display: 'flex',
+            flexFlow: 'column wrap',
+          }}
+        >
+          <FormGroup>
             <CustomInput
               label={'Name pack'}
               error={!!formik.errors.packName && formik.touched.packName}
               helperText={formik.touched.packName && formik.errors.packName}
               {...formik.getFieldProps('packName')}
             />
-            <div style={{ paddingTop: '20px', textAlign: 'left' }}>
+            <div className={style.checkboxPrivate}>
               <FormControlLabel
                 label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
                 control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
               />
             </div>
-          </div>
-
-          <ButtonModalGroup
-            hide={hide}
-            onClickHandler={() => {
-              formik.handleSubmit()
-            }}
-          />
-        </FormGroup>
+            <ButtonModalGroup
+              hide={hide}
+              onClickHandler={() => {
+                formik.handleSubmit()
+              }}
+            />
+          </FormGroup>
+        </div>
       </BaseModal>
     </>
   )
