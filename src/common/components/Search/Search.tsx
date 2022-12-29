@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
 import IconButton from '@mui/material/IconButton'
@@ -12,6 +12,7 @@ import useDebounce from '../../hook/useDebounce'
 export const Search = () => {
   const [value, setValue] = useState<string>()
   const debouncedValue = useDebounce<string>(value!, 1000)
+  // let ref = useRef()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -23,6 +24,7 @@ export const Search = () => {
       searchParams.set('page', (1).toString())
     }
     if (debouncedValue) {
+      e.preventDefault()
       searchParams.delete('packName')
     }
   }
@@ -53,6 +55,7 @@ export const Search = () => {
         <InputBase
           value={value}
           onChange={onChangeHandler}
+          // ref={ref}
           sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat, sans-serif' }}
           placeholder="Provide your text"
           inputProps={{ 'aria-label': 'Provide your text' }}
