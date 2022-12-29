@@ -22,7 +22,7 @@
     text-align: center;
 }
 
-.question {
+.questionOrAnswer {
     margin-bottom: 13px;
 
     font-size: 16px;
@@ -42,8 +42,4 @@
     text-align: center;
 
     opacity: 0.5;
-}
-
-.select {
-    padding: 0 20px;
 }

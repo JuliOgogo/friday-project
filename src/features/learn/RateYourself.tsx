@@ -1,25 +1,33 @@
 import React from 'react'
 
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { useFormik } from 'formik'
+
+import s from './Learn.module.css'
 
 type RateYourselfType = {
   setIsAnswered: (isAnswered: boolean) => void
 }
 
 export const RateYourself = (props: RateYourselfType) => {
+  const formik = useFormik({
+    initialValues: {
+      value: '',
+    },
+    validate: () => {},
+    onSubmit: () => {},
+  })
+
   const onClickHandler = (value: boolean) => {
     props.setIsAnswered(value)
   }
 
   return (
     <div style={{ padding: '0 20px' }}>
+      <div className={s.questionOrAnswer}>Answer:</div>
       <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Rate yourself:</FormLabel>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="Knew the answer"
-          name="radio-buttons-group"
-        >
+        <FormLabel>Rate yourself:</FormLabel>
+        <RadioGroup defaultValue="Knew the answer" name="radio-buttons-group">
           <FormControlLabel value="Did not know" control={<Radio />} label="Did not know" />
           <FormControlLabel value="Forgot" control={<Radio />} label="Forgot" />
           <FormControlLabel value="A lot of thought" control={<Radio />} label="A lot of thought" />

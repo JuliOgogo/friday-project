@@ -19,7 +19,7 @@ export const Learn: React.FC<LearnPropsType> = ({}) => {
     <div>
       <div className={s.title}>Learn {packName}</div>
       <Paper elevation={3} className={s.learn}>
-        <div className={s.question}>Question:</div>
+        <div className={s.questionOrAnswer}>Question:</div>
         <div className={s.counter}>Количество попыток ответов на вопрос: {counter}</div>
 
         {isAnswered ? (
