@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
 import IconButton from '@mui/material/IconButton'
@@ -9,10 +9,13 @@ import { useSearchParams } from 'react-router-dom'
 import s from '../../../features/packs/PacksHeader/packsHeaderButtons/commonStyles.module.css'
 import useDebounce from '../../hook/useDebounce'
 
-export const Search = () => {
+type SearchType = {
+  searchParamName: string
+}
+export const Search = (props: SearchType) => {
+  let { searchParamName } = props
   const [value, setValue] = useState<string>()
   const debouncedValue = useDebounce<string>(value!, 1000)
-  // let ref = useRef()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -20,30 +23,34 @@ export const Search = () => {
     const packNameSearch = e.currentTarget.value
 
     setValue(packNameSearch)
+
     if (searchParams.get('page')) {
       searchParams.set('page', (1).toString())
     }
-    if (debouncedValue) {
-      e.preventDefault()
-      searchParams.delete('packName')
+    if (!value) {
+      searchParams.delete(searchParamName)
     }
   }
 
   useEffect(() => {
-    if (value) {
-      searchParams.set('packName', value)
-      setSearchParams(searchParams)
-    }
-    if (searchParams.get('packName')) {
-      const pageNameSearch = String(searchParams.get('packName'))
+    if (searchParams.get(searchParamName)) {
+      const pageNameSearch = String(searchParams.get(searchParamName))
 
       setValue(pageNameSearch)
     }
-    if (!value) {
-      searchParams.delete('packName')
+  }, [])
+
+  useEffect(() => {
+    if (value) {
+      searchParams.set(searchParamName, value)
       setSearchParams(searchParams)
     }
-  }, [searchParams, debouncedValue])
+
+    if (!debouncedValue) {
+      searchParams.delete(searchParamName)
+      setSearchParams(searchParams)
+    }
+  }, [debouncedValue])
 
   return (
     <div className={s.wrapper}>
@@ -55,7 +62,6 @@ export const Search = () => {
         <InputBase
           value={value}
           onChange={onChangeHandler}
-          // ref={ref}
           sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat, sans-serif' }}
           placeholder="Provide your text"
           inputProps={{ 'aria-label': 'Provide your text' }}

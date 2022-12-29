@@ -29,7 +29,7 @@ export const PacksHeader = () => {
         <PacksModal titleName={'Add new pack'} open={isShowing} hide={toggle} />
       </div>
       <div className={s.settingsWrapper}>
-        <Search />
+        <Search searchParamName={'packName'} />
         <ShowMyAll />
         <CardsNumber />
         <ResetFiltersButton />

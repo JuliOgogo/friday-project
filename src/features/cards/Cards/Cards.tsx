@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
@@ -13,12 +13,13 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
-import { CardStateType, deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
+import { deleteCardTC, fetchCardsTC, updateCardTC } from '../cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
 import { CardsHeader } from '../CardsHeader/CardsHeader'
+import { HeadTablePacks } from '../HeadTableCards/HeadTableCards'
 
 import { useAppDispatch, useAppSelector } from 'app/store'
-import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
+import { Column } from 'common/components/EnhancedTableHead/EnhancedTableHead'
 
 // column names
 
@@ -81,23 +82,21 @@ export const Cards = () => {
   const { id_pack } = useParams()
 
   // local state
-  const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof CardStateType>('question')
-  const [searchParams, setSearchParams] = useSearchParams({
-    pageCount: '5',
-  })
+  // const [order, setOrder] = useState<Order>('asc')
+  // const [orderBy, setOrderBy] = useState<keyof CardStateType>('question')
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CardStateType) => {
-    if (property === 'cardsPack_id') {
-      return
-    }
-    const isAsc = orderBy === property && order === 'asc'
-
-    searchParams.set('sortCards', (isAsc ? 1 : 0) + property)
-    setSearchParams(searchParams)
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
+  // const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof CardStateType) => {
+  //   if (property === 'cardsPack_id') {
+  //     return
+  //   }
+  //   const isAsc = orderBy === property && order === 'asc'
+  //
+  //   searchParams.set('sortCards', (isAsc ? 1 : 0) + property)
+  //   setSearchParams(searchParams)
+  //   setOrder(isAsc ? 'desc' : 'asc')
+  //   setOrderBy(property)
+  // }
 
   const handleChangePage = (event: unknown, page: number) => {
     const newPage = page + 1
@@ -144,13 +143,7 @@ export const Cards = () => {
       <Paper sx={{ width: '100%', overflow: 'hidden', mt: '60px' }}>
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
-            <EnhancedTableHead
-              columnsHead={columnsCards}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
+            <HeadTablePacks columns={columnsCards} packsCards={rows.length} />
             <TableBody>
               {rows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`
