@@ -13,12 +13,12 @@ import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
 import { Title } from 'common/components/Title/Title'
 
-export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack }) => {
+export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack, packName }) => {
   const dispatch = useAppDispatch()
 
   const formik = useFormik({
     initialValues: {
-      packName: '',
+      packName: packName ? packName : '',
       private: false,
     },
     validate: (values: { packName: string; private: boolean }) => {
@@ -34,6 +34,7 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
     },
     onSubmit: (values: { packName: string; private: boolean }) => {
       if (titleName === 'Add new pack') {
+        formik.resetForm()
         dispatch(createPackTC(values.packName, values.private))
         hide()
       } else if (titleName === 'Edit pack') {
@@ -84,6 +85,7 @@ type PacksModalType = {
   open: boolean
   hide: () => void
   id_pack?: string
+  packName?: string
 }
 type FormikErrorType = {
   packName?: string

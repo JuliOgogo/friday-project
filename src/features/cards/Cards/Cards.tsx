@@ -157,7 +157,12 @@ export const Cards = () => {
                     {row.user_id === userIdLogin ? (
                       <TableCell align="left">
                         <div>
-                          <EditCardIcon id_pack={row.cardsPack_id} id_card={row._id} />
+                          <EditCardIcon
+                            id_pack={row.cardsPack_id}
+                            id_card={row._id}
+                            cardQuestion={row.question}
+                            cardAnswer={row.answer}
+                          />
                           <DeleteModalIcon
                             titleName={'Delete Card'}
                             id_pack={row.cardsPack_id}

@@ -14,9 +14,18 @@ import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
 import { Title } from 'common/components/Title/Title'
 
-export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, open, hide }) => {
+export const CardsModal: FC<CardsModalType> = ({
+  titleName,
+  id_pack,
+  id_card,
+  open,
+  hide,
+  cardQuestion,
+  cardAnswer,
+}) => {
   const dispatch = useAppDispatch()
-  const [itemName, setItemName] = useState('')
+  const [itemName, setItemName] = useState('Text')
+  const menuItems = ['Text', 'Image', 'Video']
 
   const handleChange = (event: SelectChangeEvent) => {
     setItemName(event.target.value as string)
@@ -24,8 +33,8 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
 
   const formik = useFormik({
     initialValues: {
-      question: '',
-      answer: '',
+      question: cardQuestion ? cardQuestion : '',
+      answer: cardAnswer ? cardAnswer : '',
     },
     validate: (values: ValuesType) => {
       const errors: FormikErrorType = {}
@@ -60,7 +69,6 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
       }
     },
   })
-  // const menuItems = ['Text', 'Image', 'Video']
 
   return (
     <>
@@ -73,9 +81,11 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
         <FormGroup>
           <InputLabel>Choose a question format</InputLabel>
           <Select value={itemName} label="Choose a question format" onChange={handleChange}>
-            <MenuItem value={'Text'}>Text</MenuItem>
-            <MenuItem value={'Image'}>Image</MenuItem>
-            <MenuItem value={'Video'}>Video</MenuItem>
+            {menuItems.map((i, index) => (
+              <MenuItem key={index} value={i}>
+                {i}
+              </MenuItem>
+            ))}
           </Select>
           <CustomInput
             label={'Question'}
@@ -104,9 +114,11 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
 type CardsModalType = {
   titleName: string
   id_pack: string
-  id_card?: string
   open: boolean
   hide: () => void
+  id_card?: string
+  cardQuestion?: string
+  cardAnswer?: string
 }
 type FormikErrorType = {
   question?: string

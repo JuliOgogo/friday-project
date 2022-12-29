@@ -161,7 +161,7 @@ export default function Packs() {
                           <IconButton disabled={row.cardsCount === 0}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
-                          <EditPackIcon id_pack={row._id} />
+                          <EditPackIcon id_pack={row._id} packName={row.name} />
                           <DeleteModalIcon titleName={'Delete Pack'} id_pack={row._id} name={row.name} />
                         </div>
                       ) : (
