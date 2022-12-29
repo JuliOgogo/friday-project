@@ -55,6 +55,7 @@ export const CardsModal: FC<CardsModalType> = ({
     },
     onSubmit: (values: ValuesType) => {
       if (titleName === 'Add new card') {
+        formik.resetForm()
         dispatch(addCardTC({ cardsPack_id: id_pack, question: values.question, answer: values.answer }))
         hide()
       } else if (titleName === 'Edit card') {
