@@ -77,19 +77,17 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
           }}
         >
           <FormGroup>
-            <div>
-              <CustomInput
-                label={'Name pack'}
-                error={!!formik.errors.packName && formik.touched.packName}
-                helperText={formik.touched.packName && formik.errors.packName}
-                {...formik.getFieldProps('packName')}
+            <CustomInput
+              label={'Name pack'}
+              error={!!formik.errors.packName && formik.touched.packName}
+              helperText={formik.touched.packName && formik.errors.packName}
+              {...formik.getFieldProps('packName')}
+            />
+            <div className={style.checkboxPrivate}>
+              <FormControlLabel
+                label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
+                control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
               />
-              <div className={style.checkboxPrivate}>
-                <FormControlLabel
-                  label={<Typography className={style.checkboxRemember}>Private pack</Typography>}
-                  control={<Checkbox checked={formik.values.private} {...formik.getFieldProps('private')} />}
-                />
-              </div>
             </div>
             <ButtonModalGroup
               hide={hide}
