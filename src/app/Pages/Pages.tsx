@@ -14,6 +14,7 @@ import { AddNewPack } from '../../features/packs/addNewPack/AddNewPack'
 import Packs from '../../features/packs/Packs/Packs'
 import { Profile } from '../../features/profile/Profile'
 import { useAppSelector } from '../store'
+import { Learn } from '../../features/learn/Learn'
 
 function Pages() {
   const PrivateRoutes = () => {
@@ -29,6 +30,7 @@ function Pages() {
         <Route path={PATH.PACKS} element={<Packs />} />
         <Route path={PATH.PACK} element={<Cards />} />
         <Route path={PATH.CARD} element={<Card />} />
+        <Route path={PATH.LEARN} element={<Learn />} />
         {/*<Route path={PATH.CARDS} element={<Cards />} />*/}
       </Route>
 
