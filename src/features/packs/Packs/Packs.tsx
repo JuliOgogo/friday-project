@@ -12,7 +12,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
 import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
-import { EditPackIcon } from '../../modals/PacksModal/EditPacksIcon/EditPackIcon'
+import { EditPackIcon } from '../../modals/PacksModal/EditPackIcon/EditPackIcon'
 import { DomainPackType } from '../packs-api'
 import { changeSortPacksAC, fetchPacksTC } from '../packs-reducer'
 import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'

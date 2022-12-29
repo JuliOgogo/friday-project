@@ -7,7 +7,7 @@ import { PacksModal } from '../PacksModal'
 
 import useModal from 'common/hook/useModal'
 
-export const EditPackIcon: FC<EditIconType> = ({ id_pack }) => {
+export const EditPackIcon: FC<EditPackIconType> = ({ id_pack }) => {
   const { isShowing, toggle } = useModal()
 
   return (
@@ -18,6 +18,6 @@ export const EditPackIcon: FC<EditIconType> = ({ id_pack }) => {
   )
 }
 
-type EditIconType = {
+type EditPackIconType = {
   id_pack: string
 }
