@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { IconButton, Rating } from '@mui/material'
+import { Rating } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -12,7 +11,7 @@ import TableRow from '@mui/material/TableRow'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import { userId } from '../../auth/auth-selector'
-import { CardsModal } from '../../modals/CardsModal/CardsModal'
+import { EditCardIcon } from '../../modals/CardsModal/EditCardIcon/EditCardIcon'
 import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
 import { CardStateType, fetchCardsTC } from '../cards-reducer'
 import { cardPageSelector, cardsPageCountSelector, cardsSelector, cardsTotalCountSelector } from '../cards-selector'
@@ -20,7 +19,6 @@ import { CardsHeader } from '../CardsHeader/CardsHeader'
 
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { Column, EnhancedTableHead, Order } from 'common/components/EnhancedTableHead/EnhancedTableHead'
-import useModal from 'common/hook/useModal'
 
 // column names
 
@@ -80,7 +78,6 @@ export const Cards = () => {
   const cardsPageCount = useAppSelector(cardsPageCountSelector)
   const cardPage = useAppSelector(cardPageSelector)
 
-  const { isShowing, toggle } = useModal()
   const { id_pack } = useParams()
 
   // local state
@@ -114,14 +111,9 @@ export const Cards = () => {
     setSearchParams(searchParams)
   }
 
-  // choose card
   const handleClick = (id_pack: string, id_card: string) => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
   }
-
-  // const updateCard = (id_pack: string, id_card: string) => {
-  //   dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
-  // }
 
   let URLParams = useMemo(
     () => ({
@@ -165,16 +157,7 @@ export const Cards = () => {
                     {row.user_id === userIdLogin ? (
                       <TableCell align="left">
                         <div>
-                          <IconButton onClick={toggle}>
-                            <EditOutlinedIcon fontSize={'small'} />
-                            <CardsModal
-                              titleName={'Edit card'}
-                              id_pack={row.cardsPack_id}
-                              id_card={row._id}
-                              open={isShowing}
-                              hide={toggle}
-                            />
-                          </IconButton>
+                          <EditCardIcon id_pack={row.cardsPack_id} id_card={row._id} />
                           <DeleteModalIcon
                             titleName={'Delete Card'}
                             id_pack={row.cardsPack_id}
