@@ -50,6 +50,7 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack 
         <IconButton>
           <CloseIcon fontSize={'large'} onClick={hide} />
         </IconButton>
+        <hr />
         <FormGroup>
           <div>
             <CustomInput

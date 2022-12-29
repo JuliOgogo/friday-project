@@ -5,6 +5,7 @@ import { FormGroup, Select, MenuItem, SelectChangeEvent, IconButton } from '@mui
 import InputLabel from '@mui/material/InputLabel'
 import { useFormik } from 'formik'
 
+import { CardType } from '../../cards/cards-api'
 import { addCardTC, updateCardTC } from '../../cards/cards-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
@@ -26,7 +27,7 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
       question: '',
       answer: '',
     },
-    validate: (values: { question: string; answer: string }) => {
+    validate: (values: ValuesType) => {
       const errors: FormikErrorType = {}
 
       if (!values.question) {
@@ -43,7 +44,7 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
 
       return errors
     },
-    onSubmit: (values: { question: string; answer: string }) => {
+    onSubmit: (values: ValuesType) => {
       if (titleName === 'Add new card') {
         dispatch(addCardTC({ cardsPack_id: id_pack, question: values.question, answer: values.answer }))
         hide()
@@ -68,6 +69,7 @@ export const CardsModal: FC<CardsModalType> = ({ titleName, id_pack, id_card, op
         <IconButton>
           <CloseIcon fontSize={'large'} onClick={hide} />
         </IconButton>
+        <hr />
         <FormGroup>
           <InputLabel>Choose a question format</InputLabel>
           <Select value={itemName} label="Choose a question format" onChange={handleChange}>
@@ -110,3 +112,4 @@ type FormikErrorType = {
   question?: string
   answer?: string
 }
+type ValuesType = Pick<CardType, 'question' | 'answer'>
