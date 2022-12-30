@@ -11,7 +11,7 @@ import { Column } from '../../../common/components/EnhancedTableHead/EnhancedTab
 import { PaginationTable } from '../../../common/components/PaginationTable/PaginationTable'
 import { HeadTablePacks } from '../HeadTablePacks/HeadTablePacks'
 import { fetchPacksTC } from '../packs-reducer'
-import { cardPacksTotalCount, packCount, packPage, packSelector } from '../packs-selector'
+import { cardPacksTotalCount, packCount, packPage, packSelector, sortPacks } from '../packs-selector'
 import { PacksHeader } from '../PacksHeader/PacksHeader'
 import { PacksTableBody } from '../PacksTableBody/PacksTableBody'
 

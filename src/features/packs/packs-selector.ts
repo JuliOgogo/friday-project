@@ -18,5 +18,3 @@ export const maxCardsNumber = (state: AppRootStateType) => state.packs.maxCardsC
 //sortPacks
 
 export const sortPacks = (state: AppRootStateType) => state.packs.sortPacks
-
-export const userIdPack = (state: AppRootStateType) => state.packs.user_id
