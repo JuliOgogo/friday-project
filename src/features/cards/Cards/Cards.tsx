@@ -155,51 +155,51 @@ export const Cards = () => {
         <TableContainer sx={{ maxHeight: 840 }}>
           <Table stickyHeader aria-label="sticky table">
             <HeadTablePacks columns={columnsCards} packsCards={rows.length} />
-            <CardsTableBody Cards={rows} />
-            {/*<TableBody>*/}
-            {/*  {rows.map((row, index) => {*/}
-            {/*    const labelId = `enhanced-table-checkbox-${index}`*/}
+            {/*<CardsTableBody Cards={rows} />*/}
+            <TableBody>
+              {rows.map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`
 
-            {/*    return (*/}
-            {/*      <TableRow hover tabIndex={-1} key={row._id}>*/}
-            {/*        <TableCell id={labelId} scope="row" onClick={() => handleClick(row.cardsPack_id, row._id)}>*/}
-            {/*          {row.question}*/}
-            {/*        </TableCell>*/}
-            {/*        <TableCell align="left">{row.answer}</TableCell>*/}
-            {/*        <TableCell align="left">{new Date(row.updated).toLocaleDateString()}</TableCell>*/}
-            {/*        <TableCell align="left">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>*/}
-            {/*        {row.user_id === userIdLogin ? (*/}
-            {/*          <TableCell align="left">*/}
-            {/*            <div>*/}
-            {/*              <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>*/}
-            {/*                <EditOutlinedIcon fontSize={'small'} />*/}
-            {/*              </IconButton>*/}
-            {/*              <IconButton onClick={() => deleteCard(row.cardsPack_id, row._id)}>*/}
-            {/*                <DeleteOutlinedIcon fontSize={'small'} />*/}
-            {/*              </IconButton>*/}
-            {/*            </div>*/}
-            {/*          </TableCell>*/}
-            {/*        ) : (*/}
-            {/*          <TableCell align="right"></TableCell>*/}
-            {/*        )}*/}
-            {/*      </TableRow>*/}
-            {/*    )*/}
-            {/*  })}*/}
-            {/*</TableBody>*/}
+                return (
+                  <TableRow hover tabIndex={-1} key={row._id}>
+                    <TableCell id={labelId} scope="row" onClick={() => handleClick(row.cardsPack_id, row._id)}>
+                      {row.question}
+                    </TableCell>
+                    <TableCell align="left">{row.answer}</TableCell>
+                    <TableCell align="left">{new Date(row.updated).toLocaleDateString()}</TableCell>
+                    <TableCell align="left">{<Rating name="read-only" value={row.grade} readOnly />}</TableCell>
+                    {row.user_id === userIdLogin ? (
+                      <TableCell align="left">
+                        <div>
+                          <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
+                            <EditOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                          <IconButton onClick={() => deleteCard(row.cardsPack_id, row._id)}>
+                            <DeleteOutlinedIcon fontSize={'small'} />
+                          </IconButton>
+                        </div>
+                      </TableCell>
+                    ) : (
+                      <TableCell align="right"></TableCell>
+                    )}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
           </Table>
         </TableContainer>
       </Paper>
       <div>
-        {/*<TablePagination*/}
-        {/*  rowsPerPageOptions={[5, 10, 25]}*/}
-        {/*  component="div"*/}
-        {/*  count={cardsTotalCount}*/}
-        {/*  rowsPerPage={cardsPageCount}*/}
-        {/*  page={cardPage ? cardPage - 1 : 0}*/}
-        {/*  onPageChange={handleChangePage}*/}
-        {/*  onRowsPerPageChange={handleChangeRowsPerPage}*/}
-        {/*/>*/}
-        <PaginationTable pageCount={cardsPageCount} totalCount={cardsTotalCount} page={cardPage} />
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={cardsTotalCount}
+          rowsPerPage={cardsPageCount}
+          page={cardPage ? cardPage - 1 : 0}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+        {/*<PaginationTable pageCount={cardsPageCount} totalCount={cardsTotalCount} page={cardPage} />*/}
       </div>
     </div>
   )
