@@ -1,34 +1,26 @@
 import React from 'react'
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { IconButton, Rating } from '@mui/material'
+import { Rating } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { useAppSelector } from '../../../app/store'
 import { userId } from '../../auth/auth-selector'
-import { CardStateType, deleteCardTC, updateCardTC } from '../cards-reducer'
+import { EditCardIcon } from '../../modals/CardsModal/EditCardIcon/EditCardIcon'
+import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
+import { CardStateType } from '../cards-reducer'
+
 type CardsTableBodyType = {
   Cards: CardStateType[]
 }
 export const CardsTableBody = (props: CardsTableBodyType) => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const userIdLogin = useAppSelector(userId)
-  // choose card
+
   const handleClick = (id_pack: string, id_card: string) => {
     navigate(`/packs/pack/${id_pack}/card/${id_card}`)
-  }
-
-  // delete and update card
-  const deleteCard = (id_pack: string, id_card: string) => {
-    dispatch(deleteCardTC(id_pack, id_card))
-  }
-  const updateCard = (id_pack: string, id_card: string) => {
-    dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
 
   return (
@@ -47,12 +39,18 @@ export const CardsTableBody = (props: CardsTableBodyType) => {
             {row.user_id === userIdLogin ? (
               <TableCell align="left">
                 <div>
-                  <IconButton onClick={() => updateCard(row.cardsPack_id, row._id)}>
-                    <EditOutlinedIcon fontSize={'small'} />
-                  </IconButton>
-                  <IconButton onClick={() => deleteCard(row.cardsPack_id, row._id)}>
-                    <DeleteOutlinedIcon fontSize={'small'} />
-                  </IconButton>
+                  <EditCardIcon
+                    id_pack={row.cardsPack_id}
+                    id_card={row._id}
+                    cardQuestion={row.question}
+                    cardAnswer={row.answer}
+                  />
+                  <DeleteModalIcon
+                    titleName={'Delete Card'}
+                    id_pack={row.cardsPack_id}
+                    id_card={row._id}
+                    name={row.question}
+                  />
                 </div>
               </TableCell>
             ) : (

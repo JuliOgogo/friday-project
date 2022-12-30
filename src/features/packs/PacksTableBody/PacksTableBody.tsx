@@ -1,7 +1,5 @@
 import React from 'react'
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { IconButton, styled, tableCellClasses } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
@@ -11,8 +9,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import useModal from '../../../common/hook/useModal'
+import { PATH } from '../../../common/routes/pathRoutesList'
 import { userId } from '../../auth/auth-selector'
-import { PacksModal } from '../../modals/PacksModal/PacksModal'
+import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
+import { EditPackIcon } from '../../modals/PacksModal/EditPackIcon/EditPackIcon'
 import { DomainPackType } from '../packs-api'
 import { deletePackTC } from '../packs-reducer'
 
@@ -22,9 +22,7 @@ type PacksTableBodyType = {
 
 export const PacksTableBody = (props: PacksTableBodyType) => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const userIdLogin = useAppSelector(userId)
-  const { isShowing, toggle } = useModal()
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -36,12 +34,9 @@ export const PacksTableBody = (props: PacksTableBodyType) => {
       fontFamily: 'Montserrat',
     },
   }))
+
   const handleClick = (id_pack: string) => {
     navigate(`/packs/${id_pack}`)
-  }
-  // DELETE AND UPDATE PACK
-  const deletePack = (_id: string) => {
-    dispatch(deletePackTC(_id))
   }
 
   return (
@@ -66,16 +61,11 @@ export const PacksTableBody = (props: PacksTableBodyType) => {
             <StyledTableCell align="left">
               {row.user_id === userIdLogin ? (
                 <div>
-                  <IconButton disabled={row.cardsCount === 0}>
+                  <IconButton disabled={row.cardsCount === 0} href={`#${PATH.LEARN}`}>
                     <SchoolOutlinedIcon fontSize={'small'} />
                   </IconButton>
-                  <IconButton onClick={toggle}>
-                    <EditOutlinedIcon fontSize={'small'} />
-                    <PacksModal titleName={'Edit pack'} open={isShowing} hide={toggle} id_pack={row._id} />
-                  </IconButton>
-                  <IconButton onClick={() => deletePack(row._id)}>
-                    <DeleteOutlinedIcon fontSize={'small'} />
-                  </IconButton>
+                  <EditPackIcon id_pack={row._id} packName={row.name} />
+                  <DeleteModalIcon titleName={'Delete Pack'} id_pack={row._id} name={row.name} />
                 </div>
               ) : (
                 <div>

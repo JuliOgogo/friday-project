@@ -5,11 +5,11 @@ import { useSearchParams } from 'react-router-dom'
 import { Column, EnhancedTableHead, Order } from '../../../common/components/EnhancedTableHead/EnhancedTableHead'
 import { CardStateType } from '../cards-reducer'
 
-type HeadTablePacksType = {
+type HeadTableCardsType = {
   columns: Column[]
   packsCards: number
 }
-export const HeadTablePacks = (props: HeadTablePacksType) => {
+export const HeadTableCards = (props: HeadTableCardsType) => {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof CardStateType | ''>('')
   const [searchParams, setSearchParams] = useSearchParams()
