@@ -69,7 +69,7 @@ export const PacksTableBody = (props: PacksTableBodyType) => {
                 </div>
               ) : (
                 <div>
-                  <IconButton disabled={row.cardsCount === 0}>
+                  <IconButton disabled={row.cardsCount === 0} onClick={() => handleLearnClick(row._id)}>
                     <SchoolOutlinedIcon fontSize={'small'} />
                   </IconButton>
                 </div>
