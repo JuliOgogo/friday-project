@@ -61,15 +61,6 @@ export default function Packs() {
     dispatch(fetchPacksTC(URLParam))
   }, [URLParam])
 
-  const handleClick = (id_pack: string) => {
-    navigate(`/packs/${id_pack}`)
-  }
-
-  /*const handleLearnClick = (id_pack: string) => {
-    navigate(`/packs/pack/${id_pack}/learn`)
-  }*/
-  /*onClick={() => handleLearnClick(row._id)}*/
-
   return (
     <div>
       <PacksHeader />
