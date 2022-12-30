@@ -19,7 +19,7 @@ export const Search = (props: SearchType) => {
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const packNameSearch = e.currentTarget.value
 
     setValue(packNameSearch)
@@ -29,6 +29,7 @@ export const Search = (props: SearchType) => {
     }
     if (!value) {
       searchParams.delete(searchParamName)
+      setSearchParams(searchParams)
     }
   }
 
@@ -41,12 +42,11 @@ export const Search = (props: SearchType) => {
   }, [])
 
   useEffect(() => {
-    if (value) {
-      searchParams.set(searchParamName, value)
+    if (debouncedValue) {
+      searchParams.set(searchParamName, debouncedValue)
       setSearchParams(searchParams)
     }
-
-    if (!debouncedValue) {
+    if (debouncedValue === '') {
       searchParams.delete(searchParamName)
       setSearchParams(searchParams)
     }

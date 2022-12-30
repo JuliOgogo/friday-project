@@ -9,7 +9,7 @@ import s from './ResetFiltersButton.module.css'
 export const ResetFiltersButton = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const handleRequestReset = () => {
-    setSearchParams({})
+    setSearchParams({ page: '1' })
   }
 
   return (

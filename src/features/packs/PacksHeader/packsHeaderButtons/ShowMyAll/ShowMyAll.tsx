@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -16,6 +16,13 @@ export const ShowMyAll = () => {
   const [isMyPack, setIsMyPack] = useState<boolean>()
   const [isAllPack, setIsAllPack] = useState<boolean>()
 
+  useEffect(() => {
+    if (searchParams.get('user_id')) {
+      setIsMyPack(true)
+    } else {
+      setIsMyPack(false)
+    }
+  }, [])
   const onChangeHandlerMyPacks = () => {
     setSearchParams({ user_id: userIdPack })
     setIsMyPack(true)
@@ -26,12 +33,6 @@ export const ShowMyAll = () => {
     setIsAllPack(true)
     setIsMyPack(false)
   }
-
-  useEffect(() => {
-    if (searchParams.get('user_id')) {
-      setIsMyPack(true)
-    }
-  }, [])
 
   return (
     <div className={s2.wrapper}>
