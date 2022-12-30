@@ -32,8 +32,11 @@ export const HeadTablePacks = (props: HeadTablePacksType) => {
     if (orderParam) {
       setOrderBy(orderParam.substring(1) as keyof DomainPackType)
       setOrder(Number(orderParam.at(0)) ? 'asc' : 'desc')
+    } else {
+      setOrderBy('')
+      setOrder('asc')
     }
-  }, [])
+  }, [searchParams])
 
   return (
     <EnhancedTableHead

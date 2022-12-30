@@ -26,9 +26,9 @@ export const Search = (props: SearchType) => {
 
     setValue(packNameSearch)
 
-    if (searchParams.get('page')) {
-      searchParams.set('page', (1).toString())
-    }
+    // if (searchParams.get('page')) {
+    //   searchParams.set('page', (1).toString())
+    // }
     if (!value) {
       searchParams.delete(searchParamName)
       setSearchParams(searchParams)
@@ -46,6 +46,7 @@ export const Search = (props: SearchType) => {
   useEffect(() => {
     if (debouncedValue) {
       searchParams.set(searchParamName, debouncedValue)
+      searchParams.set('page', (1).toString())
       setSearchParams(searchParams)
     }
 
