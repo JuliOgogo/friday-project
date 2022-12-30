@@ -27,15 +27,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
     case cards_SET_CARDS:
       return {
         ...action.cards,
-        cards: action.cards.cards.map(({ user_id, cardsPack_id, _id, updated, question, answer, grade }) => ({
-          user_id,
-          cardsPack_id,
-          _id,
-          answer,
-          question,
-          grade,
-          updated,
-        })),
+        cards: action.cards.cards,
       }
     case cards_CHANGE_PAGE_COUNT:
       return { ...state, pageCount: action.pageCount }
@@ -117,7 +109,7 @@ export type CardsActionsType =
   | ReturnType<typeof changeCardsPageCountAC>
   | ReturnType<typeof changeCardsPageAC>
 
-export type CardStateType = Omit<CardType, 'shots' | 'created'>
+export type CardStateType = CardType
 
 // constants
 const cards_SET_CARDS = 'cards/SET_CARDS'

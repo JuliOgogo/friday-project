@@ -7,6 +7,7 @@ import { deleteCardTC } from '../../cards/cards-reducer'
 import { deletePackTC } from '../../packs/packs-reducer'
 import { BaseModal } from '../BaseModal/BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
+import s from '../Modal.module.css'
 
 import { useAppDispatch } from 'app/store'
 import { Title } from 'common/components/Title/Title'
@@ -29,31 +30,14 @@ export const DeleteModal: FC<DeleteModalType> = ({ titleName, open, name, hide, 
   return (
     <>
       <BaseModal open={open}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
+        <div className={s.head}>
           <Title text={titleName} />
-          <IconButton
-            style={{
-              backgroundColor: 'transparent',
-              boxShadow: 'none',
-            }}
-          >
-            <CloseIcon fontSize={'large'} onClick={hide} />
+          <IconButton onClick={hide} className={s.iconButton}>
+            <CloseIcon fontSize={'large'} />
           </IconButton>
         </div>
         <hr />
-        <p
-          style={{
-            fontFamily: 'Montserrat, sans-serif',
-          }}
-        >
-          {`Do you really want to remove '${name}'? ${message}`}{' '}
-        </p>
+        <p className={s.label}>{`Do you really want to remove '${name}'? ${message}`} </p>
         <ButtonModalGroup hide={hide} isDelete={true} onClickHandler={deleteHandler} />
       </BaseModal>
     </>
