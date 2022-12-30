@@ -124,13 +124,21 @@ export const Cards = () => {
   const updateCard = (id_pack: string, id_card: string) => {
     dispatch(updateCardTC(id_pack, { _id: id_card ? id_card : '', question: 'Updated' }))
   }
-
+  // let URLParam = useMemo(() => {
+  //   const paramsSearch: any = { cardsPack_id: 'id_pack' }
+  //
+  //   searchParams.forEach((key, value) => {
+  //     paramsSearch[value] = key
+  //   })
+  //
+  //   return paramsSearch
+  // }, [searchParams])
   let URLParams = useMemo(
     () => ({
       cardsPack_id: id_pack ? id_pack : '',
-      page: Number(searchParams.get('page')),
-      pageCount: Number(searchParams.get('pageCount')),
-      sortCards: searchParams.get('sortCards') || '',
+      page: Number(searchParams.get('page')) || undefined,
+      pageCount: Number(searchParams.get('pageCount')) || undefined,
+      sortCards: searchParams.get('sortCards') || undefined,
       cardQuestion: searchParams.get('cardQuestion') || undefined,
     }),
     [searchParams]
