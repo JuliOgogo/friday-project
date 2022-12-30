@@ -16,9 +16,6 @@ export function PaginationTable(props: PaginationTable) {
   const totalCount = props.totalCount
 
   const [searchParams, setSearchParams] = useSearchParams()
-  //  const packCountState = useAppSelector(packCount)
-  // const cardPacksTotal = useAppSelector(cardPacksTotalCount)
-  // const pageState = useAppSelector(packPage)
 
   const handleChangePage = (event: unknown, page: number) => {
     const newPage = page + 1
@@ -38,17 +35,13 @@ export function PaginationTable(props: PaginationTable) {
       const pageParams = Number(searchParams.get('page'))
 
       setPage(pageParams)
-    } else {
-      setPage(page)
     }
     if (searchParams.get('pageCount')) {
       const pageCountParam = Number(searchParams.get('pageCount'))
 
       setRowPerPage(pageCountParam)
-    } else {
-      setRowPerPage(rowPerPageState)
     }
-  }, [searchParams, rowPerPageState, page])
+  }, [searchParams])
 
   return (
     <TablePagination

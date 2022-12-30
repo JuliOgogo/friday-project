@@ -2,17 +2,18 @@ import React from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch } from '../../../../../app/store'
 import resetFiltersIcon from '../../../../../assets/images/filter-remove.svg'
-import { fetchPacksTC } from '../../../packs-reducer'
 
 import s from './ResetFiltersButton.module.css'
+type ResetFiltersButtonType = {
+  isFilterStatus: (isFilter: boolean) => void
+}
 
-export const ResetFiltersButton = () => {
-  const dispatch = useAppDispatch()
+export const ResetFiltersButton = (props: ResetFiltersButtonType) => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const handleRequestReset = (event: React.MouseEvent<unknown>) => {
-    setSearchParams(searchParams)
+  const handleRequestReset = () => {
+    setSearchParams({ page: '1' })
+    props.isFilterStatus(true)
   }
 
   return (

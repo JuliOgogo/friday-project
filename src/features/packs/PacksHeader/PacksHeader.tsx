@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { AddPackModal } from '../../modals/PacksModal/AddPackModal/AddPackModal'
 
@@ -10,6 +10,12 @@ import { ShowMyAll } from './packsHeaderButtons/ShowMyAll/ShowMyAll'
 import { Search } from 'common/components/Search/Search'
 
 export const PacksHeader = () => {
+  const [noFilter, setNoFilter] = useState<boolean>(false)
+
+  const noFilterStatus = (isFilter: boolean) => {
+    setNoFilter(isFilter)
+  }
+
   return (
     <div className={s.packsHeader}>
       <div className={s.titleAndButton}>
@@ -17,10 +23,10 @@ export const PacksHeader = () => {
         <AddPackModal />
       </div>
       <div className={s.settingsWrapper}>
-        <Search />
-        <ShowMyAll />
+        <Search searchParamName={'packName'} noFilterStatus={noFilter} isFilterStatus={noFilterStatus} />
+        <ShowMyAll noFilterStatus={noFilter} />
         <CardsNumber />
-        <ResetFiltersButton />
+        <ResetFiltersButton isFilterStatus={noFilterStatus} />
       </div>
     </div>
   )

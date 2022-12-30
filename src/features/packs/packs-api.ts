@@ -36,7 +36,6 @@ export type PacksType = {
   page: number // выбранная страница
   pageCount: number
   sortPacks: string
-  user_id: string
 }
 export type DomainPackType = Pick<PackType, 'name' | 'cardsCount' | 'updated' | 'user_name' | 'user_id' | '_id'>
 export type PackType = {

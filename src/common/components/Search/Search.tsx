@@ -9,27 +9,56 @@ import { useSearchParams } from 'react-router-dom'
 import s from '../../../features/packs/PacksHeader/packsHeaderButtons/commonStyles.module.css'
 import useDebounce from '../../hook/useDebounce'
 
-export const Search = () => {
-  const [value, setValue] = useState<string>('')
-  const debouncedValue = useDebounce<string>(value, 1000)
+type SearchType = {
+  searchParamName: string
+  noFilterStatus?: boolean
+  isFilterStatus: (isFilter: boolean) => void
+}
+export const Search = (props: SearchType) => {
+  let { searchParamName, isFilterStatus, noFilterStatus } = props
+  const [value, setValue] = useState<string>()
+  const debouncedValue = useDebounce<string>(value!, 1000)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const packNameSearch = e.currentTarget.value
 
     setValue(packNameSearch)
+
+    // if (searchParams.get('page')) {
+    //   searchParams.set('page', (1).toString())
+    // }
+    if (!value) {
+      searchParams.delete(searchParamName)
+      setSearchParams(searchParams)
+    }
   }
 
   useEffect(() => {
-    if (debouncedValue) {
-      searchParams.set('packName', debouncedValue)
-      setSearchParams(searchParams)
-    }
-    if (searchParams.get('packName')) {
-      const pageNameSearch = String(searchParams.get('packName'))
+    if (searchParams.get(searchParamName)) {
+      const pageNameSearch = String(searchParams.get(searchParamName))
 
       setValue(pageNameSearch)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (debouncedValue) {
+      searchParams.set(searchParamName, debouncedValue)
+      searchParams.set('page', (1).toString())
+      setSearchParams(searchParams)
+    }
+
+    if (noFilterStatus) {
+      setValue('')
+      isFilterStatus(false)
+      searchParams.delete(searchParamName)
+      setSearchParams(searchParams)
+    }
+    if (debouncedValue === '') {
+      searchParams.delete(searchParamName)
+      setSearchParams(searchParams)
     }
   }, [searchParams, debouncedValue])
 
