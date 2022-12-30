@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Button from '@mui/material/Button'
 
@@ -13,7 +13,14 @@ import { Search } from 'common/components/Search/Search'
 import useModal from 'common/hook/useModal'
 
 export const PacksHeader = () => {
+  const [noFilter, setNoFilter] = useState<boolean>(false)
   const { isShowing, toggle } = useModal()
+
+  const noFilterStatus = (isFilter: boolean) => {
+    setNoFilter(isFilter)
+  }
+
+  console.log(noFilter)
 
   return (
     <div className={s.packsHeader}>
@@ -29,10 +36,10 @@ export const PacksHeader = () => {
         <PacksModal titleName={'Add new pack'} open={isShowing} hide={toggle} />
       </div>
       <div className={s.settingsWrapper}>
-        <Search searchParamName={'packName'} />
-        <ShowMyAll />
+        <Search searchParamName={'packName'} noFilterStatus={noFilter} isFilterStatus={noFilterStatus} />
+        <ShowMyAll noFilterStatus={noFilter} />
         <CardsNumber />
-        <ResetFiltersButton />
+        <ResetFiltersButton isFilterStatus={noFilterStatus} />
       </div>
     </div>
   )

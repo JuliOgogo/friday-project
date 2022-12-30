@@ -11,9 +11,11 @@ import useDebounce from '../../hook/useDebounce'
 
 type SearchType = {
   searchParamName: string
+  noFilterStatus?: boolean
+  isFilterStatus: (isFilter: boolean) => void
 }
 export const Search = (props: SearchType) => {
-  let { searchParamName } = props
+  let { searchParamName, isFilterStatus, noFilterStatus } = props
   const [value, setValue] = useState<string>()
   const debouncedValue = useDebounce<string>(value!, 1000)
 
@@ -44,6 +46,13 @@ export const Search = (props: SearchType) => {
   useEffect(() => {
     if (debouncedValue) {
       searchParams.set(searchParamName, debouncedValue)
+      setSearchParams(searchParams)
+    }
+
+    if (noFilterStatus) {
+      setValue('')
+      isFilterStatus(false)
+      searchParams.delete(searchParamName)
       setSearchParams(searchParams)
     }
     if (debouncedValue === '') {

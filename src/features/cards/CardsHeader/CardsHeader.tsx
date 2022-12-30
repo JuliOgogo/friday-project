@@ -12,7 +12,7 @@ export const CardsHeader = () => {
       <BackToPacksList />
       <HeaderTitle />
       <div className={s.settingsWrapper}>
-        <Search searchParamName={'cardQuestion'} />
+        <Search searchParamName={'cardQuestion'} isFilterStatus={() => {}} />
       </div>
     </div>
   )

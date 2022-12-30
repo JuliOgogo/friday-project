@@ -12,7 +12,7 @@ import s from './CardsNumber.module.css'
 export const CardsNumber = () => {
   const minValue = useAppSelector(minCardsNumber)
   const maxValue = useAppSelector(maxCardsNumber)
-  const [value, setValue] = useState<number[]>([minValue, maxValue])
+  const [value, setValue] = useState<number[]>([minValue || 0, maxValue || 1])
 
   const [searchParams, setSearchParams] = useSearchParams()
 

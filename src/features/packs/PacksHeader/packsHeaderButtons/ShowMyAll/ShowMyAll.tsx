@@ -10,7 +10,11 @@ import s2 from '../commonStyles.module.css'
 
 import s from './ShowMyAll.module.css'
 
-export const ShowMyAll = () => {
+type showMyAllType = {
+  noFilterStatus: boolean
+}
+
+export const ShowMyAll = (props: showMyAllType) => {
   const userIdPack = useAppSelector(userId)
   const [searchParams, setSearchParams] = useSearchParams()
   const [isMyPack, setIsMyPack] = useState<boolean>()
@@ -22,7 +26,12 @@ export const ShowMyAll = () => {
     } else {
       setIsMyPack(false)
     }
-  }, [])
+    if (props.noFilterStatus) {
+      setIsMyPack(false)
+      setIsAllPack(false)
+    }
+  }, [props.noFilterStatus])
+
   const onChangeHandlerMyPacks = () => {
     setSearchParams({ user_id: userIdPack })
     setIsMyPack(true)
