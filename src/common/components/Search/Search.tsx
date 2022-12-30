@@ -50,7 +50,7 @@ export const Search = (props: SearchType) => {
       searchParams.delete(searchParamName)
       setSearchParams(searchParams)
     }
-  }, [debouncedValue])
+  }, [searchParams, debouncedValue])
 
   return (
     <div className={s.wrapper}>

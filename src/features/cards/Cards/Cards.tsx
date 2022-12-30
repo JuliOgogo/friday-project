@@ -129,6 +129,7 @@ export const Cards = () => {
       page: Number(searchParams.get('page')),
       pageCount: Number(searchParams.get('pageCount')),
       sortCards: searchParams.get('sortCards') || '',
+      cardQuestion: searchParams.get('cardQuestion') || undefined,
     }),
     [searchParams]
   )
