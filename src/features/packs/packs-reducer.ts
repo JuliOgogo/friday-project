@@ -20,13 +20,14 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
     case packs_SET_PACKS:
       return {
         ...action.packs,
-        cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id }) => ({
+        cardPacks: action.packs.cardPacks.map(({ _id, name, user_name, updated, cardsCount, user_id, shots }) => ({
           _id,
           name,
           cardsCount,
           updated,
           user_name,
           user_id,
+          shots,
         })),
       }
     case packs_CHANGE_PAGE:

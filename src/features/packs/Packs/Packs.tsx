@@ -10,7 +10,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { PATH } from '../../../common/routes/pathRoutesList'
 import { userId } from '../../auth/auth-selector'
 import { DeleteModalIcon } from '../../modals/DeleteModal/DeleteModalIcon/DeleteModalIcon'
 import { EditPackIcon } from '../../modals/PacksModal/EditPackIcon/EditPackIcon'
@@ -124,6 +123,10 @@ export default function Packs() {
     navigate(`/packs/${id_pack}`)
   }
 
+  const handleLearnClick = (id_pack: string) => {
+    navigate(`/packs/pack/${id_pack}/learn`)
+  }
+
   return (
     <div>
       <PacksHeader />
@@ -153,13 +156,12 @@ export default function Packs() {
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell align="left">{row.cardsCount}</StyledTableCell>
-                    {/*/ new Date(updated).toLocaleDateString()*/}
                     <StyledTableCell align="left">{new Date(row.updated).toLocaleDateString()}</StyledTableCell>
                     <StyledTableCell align="left">{row.user_name}</StyledTableCell>
                     <StyledTableCell align="left">
                       {row.user_id === userIdLogin ? (
                         <div>
-                          <IconButton disabled={row.cardsCount === 0} href={`#${PATH.LEARN}`}>
+                          <IconButton disabled={row.cardsCount === 0} onClick={() => handleLearnClick(row._id)}>
                             <SchoolOutlinedIcon fontSize={'small'} />
                           </IconButton>
                           <EditPackIcon id_pack={row._id} packName={row.name} />
