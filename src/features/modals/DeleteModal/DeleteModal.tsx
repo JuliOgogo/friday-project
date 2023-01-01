@@ -19,9 +19,7 @@ export const DeleteModal: FC<DeleteModalType> = ({ titleName, open, name, hide, 
       hide()
     }
   }
-  let message: string
-
-  titleName === 'Delete Pack' ? (message = 'All cards will be deleted') : (message = 'Card will be deleted')
+  const message = titleName === 'Delete Pack' ? 'All cards will be deleted' : 'Card will be deleted'
 
   return (
     <>
