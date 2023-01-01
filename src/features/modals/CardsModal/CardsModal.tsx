@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import { FormGroup, Select, MenuItem, SelectChangeEvent, IconButton } from '@mui/material'
+import { FormGroup, Select, MenuItem, SelectChangeEvent } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel'
 import { useFormik } from 'formik'
 
@@ -13,7 +12,6 @@ import s from '../Modal.module.css'
 
 import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
-import { Title } from 'common/components/Title/Title'
 
 export const CardsModal: FC<CardsModalType> = ({
   titleName,
@@ -74,14 +72,7 @@ export const CardsModal: FC<CardsModalType> = ({
 
   return (
     <>
-      <BaseModal open={open}>
-        <div className={s.head}>
-          <Title text={titleName} />
-          <IconButton onClick={hide} className={s.iconButton}>
-            <CloseIcon fontSize={'large'} />
-          </IconButton>
-        </div>
-        <hr />
+      <BaseModal open={open} titleName={titleName} hide={hide}>
         <FormGroup>
           <InputLabel className={s.label}>Choose a question format</InputLabel>
           <Select value={itemName} label="Choose a question format" onChange={handleChange}>

@@ -1,7 +1,13 @@
 import React, { FC } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
+import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
+
+import s from '../Modal.module.css'
+
+import { Title } from 'common/components/Title/Title'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -17,7 +23,7 @@ const style = {
   boxSizing: 'border - box',
 }
 
-export const BaseModal: FC<BaseModalType> = ({ children, open }) => {
+export const BaseModal: FC<BaseModalType> = ({ children, open, titleName, hide }) => {
   return (
     <Modal open={open}>
       <Box
@@ -26,6 +32,13 @@ export const BaseModal: FC<BaseModalType> = ({ children, open }) => {
         }}
         sx={style}
       >
+        <div className={s.head}>
+          <Title text={titleName} />
+          <IconButton onClick={hide} className={s.iconButton}>
+            <CloseIcon fontSize={'large'} />
+          </IconButton>
+        </div>
+        <hr />
         {children}
       </Box>
     </Modal>
@@ -35,4 +48,6 @@ export const BaseModal: FC<BaseModalType> = ({ children, open }) => {
 type BaseModalType = {
   children: React.ReactNode
   open: boolean
+  titleName: string
+  hide: () => void
 }

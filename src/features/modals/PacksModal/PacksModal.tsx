@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import { Checkbox, FormControlLabel, FormGroup, IconButton, Typography } from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 
 import { createPackTC, updatePackTC } from '../../packs/packs-reducer'
@@ -11,7 +10,6 @@ import s from '../Modal.module.css'
 
 import { useAppDispatch } from 'app/store'
 import { CustomInput } from 'common/components/CustomInput/CustomInput'
-import { Title } from 'common/components/Title/Title'
 
 export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack, packName }) => {
   const dispatch = useAppDispatch()
@@ -46,14 +44,7 @@ export const PacksModal: FC<PacksModalType> = ({ titleName, open, hide, id_pack,
 
   return (
     <>
-      <BaseModal open={open}>
-        <div className={s.head}>
-          <Title text={titleName} />
-          <IconButton onClick={hide} className={s.iconButton}>
-            <CloseIcon fontSize={'large'} style={{ width: '30px' }} />
-          </IconButton>
-        </div>
-        <hr />
+      <BaseModal open={open} titleName={titleName} hide={hide}>
         <div className={s.body}>
           <FormGroup>
             <CustomInput
