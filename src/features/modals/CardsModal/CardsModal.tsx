@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 
 import { CardType } from '../../cards/cards-api'
 import { addCardTC, updateCardTC } from '../../cards/cards-reducer'
-import { BaseModal } from '../BaseModal/BaseModal'
+import { BaseModal } from '../BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
 import s from '../Modal.module.css'
 

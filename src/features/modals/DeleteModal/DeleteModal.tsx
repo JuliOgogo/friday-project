@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { deleteCardTC } from '../../cards/cards-reducer'
 import { deletePackTC } from '../../packs/packs-reducer'
-import { BaseModal } from '../BaseModal/BaseModal'
+import { BaseModal } from '../BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
 import s from '../Modal.module.css'
 

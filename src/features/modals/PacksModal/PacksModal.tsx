@@ -4,7 +4,7 @@ import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material
 import { useFormik } from 'formik'
 
 import { createPackTC, updatePackTC } from '../../packs/packs-reducer'
-import { BaseModal } from '../BaseModal/BaseModal'
+import { BaseModal } from '../BaseModal'
 import { ButtonModalGroup } from '../ButtonModalGroup'
 import s from '../Modal.module.css'
 

@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
-import s from '../Modal.module.css'
+import s from './Modal.module.css'
 
 import { Title } from 'common/components/Title/Title'
 
